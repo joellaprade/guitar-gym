@@ -2,12 +2,11 @@ import BackArrow from '@/reusable/components/BackArrow';
 
 const Create = () => {
   return (
-    <div className="flex flex-col justify-between h-full">
+    <>
       <BackArrow link="/exercises" />
-
-      <div className="flex flex-grow flex-col justify-evenly relative">
-        <h1>Crear Ejercicio</h1>
-        <form className="flex flex-col gap-5">
+      <div className="vertical-container">
+        <h1 className="mt-24">Crear Ejercicio</h1>
+        <form className="flex flex-col gap-5 my-auto">
           <div>
             <label>Titulo</label>
             <input type="text" />
@@ -29,9 +28,9 @@ const Create = () => {
             <input type="text" />
           </div>
         </form>
+        <button className="big main mb-4">Guardar</button>
       </div>
-      <button className="big main mb-3.5">Guardar</button>
-    </div>
+    </>
   );
 };
 

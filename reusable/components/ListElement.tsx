@@ -5,11 +5,11 @@ import { Trash } from 'lucide-react';
 type Props = {
   title: string;
   subtitle: string;
-  btn: React.ReactNode;
-  id: string;
+  action: React.ReactNode;
+  deleteFunc: string;
 };
 
-const ListElement = ({ title, subtitle, btn, id }: Props) => {
+const ListElement = ({ title, subtitle, action, deleteFunc }: Props) => {
   const handleScroll = (e: React.UIEvent<HTMLDivElement>) => {
     const target = e.currentTarget;
     if (target.scrollLeft > 0) {
@@ -26,7 +26,7 @@ const ListElement = ({ title, subtitle, btn, id }: Props) => {
       </div>
 
       <div className="absolute right-0 inset-y-0 aspect-square flex justify-center items-center">
-        {btn}
+        {action}
       </div>
       <div className="absolute right-0 translate-x-[101%] inset-y-0 aspect-square flex justify-center items-center bg-[#FF6E6E]  ">
         <Trash className="text-white stroke-2" />
