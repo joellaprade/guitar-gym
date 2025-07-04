@@ -1,17 +1,15 @@
 import NavBtn from '@/reusable/components/NavBtn';
 
-const Home = () => {
+const Page = () => {
   return (
-    <div className="flex h-full flex-col justify-evenly">
-      <h1>Bienvenido</h1>
-      <div className="flex flex-col gap-5">
-        <NavBtn text="Practicar" href="/practice" className="big main" />
-        <NavBtn text="Rutinas" href="/workouts" className="big secondary" />
-        <NavBtn text="Ejercicios" href="/exercises" className="big secondary" />
-        <NavBtn text="Ajustes" href="/" className="big secondary" />
+    <div>
+      <h1 className="mt-48">Bienvenido</h1>
+      <div className="absolute-center flex flex-col gap-4 w-full px-8">
+        <NavBtn href="/sign-up" className="big main" text="Crear Cuenta" />
+        <NavBtn href="/login" className="big secondary" text="Ingresar" />
       </div>
     </div>
   );
 };
 
-export default Home;
+export default Page;
