@@ -3,11 +3,12 @@
 @plugin "tailwind-scrollbar";
 
 body {
-  @apply bg-dark-gray px-6 h-screen;
+  @apply bg-dark-gray px-8 h-screen;
 }
 
 @theme {
   --color-dark-gray: #181818;
+  --color-gray: #323232;
   --color-white: #e7e7e7;
   --font-poppins: 'Poppins', 'sans-serif';
 }
@@ -20,6 +21,7 @@ body {
     @apply text-xl text-white text-center font-semibold font-poppins;
   }
   h3 {
+    @apply text-sm text-white text-center font-semibold font-poppins;
   }
   span {
     @apply text-white font-poppins text-[10px];
@@ -64,11 +66,24 @@ body {
   .list-element {
     @apply scroll-smooth border-b-2 border-[#ffffff80] flex justify-between relative w-full overflow-scroll scrollbar-none;
   }
+
+  .metronome {
+    @apply flex flex-col items-center gap-4 w-full absolute top-[50%] left-[50%] -translate-[50%];
+  }
+  .play-btn {
+    @apply flex justify-center items-center bg-white max-w-[225px] w-[85%] aspect-square rounded-full;
+  }
 }
 
 @layer utilities {
   .vertical-container {
     @apply h-full flex flex-col relative;
+  }
+  .absolute-center {
+    @apply absolute top-[50%] left-[50%] -translate-[50%];
+  }
+  .flex-center {
+    @apply flex justify-center items-center;
   }
 }
 

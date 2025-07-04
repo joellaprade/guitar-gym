@@ -25,10 +25,8 @@ const ListElement = ({ title, subtitle, action, deleteFunc }: Props) => {
         <span className="subtitle">{subtitle}</span>
       </div>
 
-      <div className="absolute right-0 inset-y-0 aspect-square flex justify-center items-center">
-        {action}
-      </div>
-      <div className="absolute right-0 translate-x-[101%] inset-y-0 aspect-square flex justify-center items-center bg-[#FF6E6E]  ">
+      <div className="absolute right-0 inset-y-0 aspect-square flex-center">{action}</div>
+      <div className="absolute right-0 translate-x-[101%] inset-y-0 aspect-square flex-center bg-[#FF6E6E]  ">
         <Trash className="text-white stroke-2" />
       </div>
     </div>
