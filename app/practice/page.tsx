@@ -6,7 +6,7 @@ const Exercises = () => {
   const PlayBtn = <Play className="text-white stroke-2 fill-white rounded-full" />;
   return (
     <>
-      <BackArrow link={'/'} />
+      <BackArrow link={'/home'} />
       <div className="vertical-container">
         <h1 className="mt-24">Selecciona Una Rutina</h1>
         <div className="mt-24 mb-24 element-list">

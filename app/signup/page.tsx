@@ -1,6 +1,7 @@
 'use client';
 
 import signUp from '@/reusable/actions/signUp';
+import BackArrow from '@/reusable/components/BackArrow';
 import useFetchServerAction from '@/reusable/hooks/useFetchServerAction';
 import { useEffect, useState } from 'react';
 
@@ -44,6 +45,7 @@ const SignUp = () => {
 
   return (
     <div className="vertical-container">
+      <BackArrow link={'/'} />
       <h1 className="mt-24">Crear Cuenta</h1>
       <form
         action={(formData: FormData) => {

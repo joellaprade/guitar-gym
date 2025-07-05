@@ -1,10 +1,11 @@
+import BackArrow from '@/reusable/components/BackArrow';
 import InfoBtn from '@/reusable/components/InfoBtn';
 import Play from '@/reusable/components/ui/Play';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 
 const Playlist = () => {
   return (
-    <div className="flex justify-between items-center bg-gray absolute bottom-4 w-full p-2 rounded-lg">
+    <div className="flex justify-between items-center bg-gray absolute bottom-4 p-2 rounded-lg inset-x-4">
       <div className="flex flex-col items-start">
         <span className="font-bold opacity-50 leading-tight">Up Next</span>
         <h3 className="leading-tight">Hybrid Picking</h3>
@@ -38,6 +39,7 @@ const Metronome = () => {
 const PracticePage = () => {
   return (
     <div className="vertical-container">
+      <BackArrow link={'/practice'} />
       <h1 className="relative mt-24 w-fit inline mx-auto">
         Alt. Picking <InfoBtn className="-right-[16px]" />
       </h1>

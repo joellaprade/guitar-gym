@@ -77,13 +77,19 @@ body {
 
 @layer utilities {
   .vertical-container {
-    @apply h-full flex flex-col relative;
+    @apply h-full flex flex-col;
   }
   .absolute-center {
     @apply absolute top-[50%] left-[50%] -translate-[50%];
   }
   .flex-center {
     @apply flex justify-center items-center;
+  }
+  .error {
+    @apply text-red-400;
+  }
+  .link {
+    @apply font-semibold text-white underline;
   }
 }
 

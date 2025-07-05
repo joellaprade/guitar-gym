@@ -57,7 +57,7 @@ const Workouts = () => {
             deleteFunc={'e'}
           />
         </div>
-        <NavBtn text="Crear Rutina" href="/workouts/create" className="big main mt-12 mb-4" />
+        <NavBtn text="Crear Rutina" href="/workouts/create" className="big main mt-12 mb-8" />
       </div>
     </>
   );
