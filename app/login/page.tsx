@@ -11,7 +11,7 @@ export default function Page() {
   const [password, setPassword] = useState('');
   const [isValid, setIsValid] = useState(false);
 
-  const { data, loading, error, fetchData, setError } = useFetchServerAction(login);
+  const { data, loading, error, runAction, setError } = useFetchServerAction(login);
 
   const checkIsValid = () => {
     if (!username || !password) {
@@ -38,7 +38,7 @@ export default function Page() {
       <form
         className="vertical-container justify-center gap-4 w-full"
         action={(formData: FormData) => {
-          fetchData(formData);
+          runAction(formData);
         }}
       >
         <input

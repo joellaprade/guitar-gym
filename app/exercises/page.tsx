@@ -1,3 +1,4 @@
+import { getExercices } from '@/reusable/actions/getExercices';
 import BackArrow from '@/reusable/components/BackArrow';
 import ListElement from '@/reusable/components/ListElement';
 import NavBtn from '@/reusable/components/NavBtn';
@@ -6,6 +7,10 @@ import { Pencil } from 'lucide-react';
 
 const Exercises = () => {
   const PencilBtn = <Pencil className="text-white stroke-2" />;
+
+  //todo: usar PPR en esta seccion
+  getExercices();
+
   return (
     <div className="vertical-container">
       <BackArrow link={'/home'} />

@@ -15,7 +15,7 @@ const SignUp = () => {
     confirmPassword: '',
   });
 
-  const { data, loading, error, fetchData } = useFetchServerAction(signUp);
+  const { data, loading, error, runAction } = useFetchServerAction(signUp);
 
   const updateData = (fData: string, field: string) => {
     setFData((prevState) => ({ ...prevState, [field]: fData }));
@@ -49,7 +49,7 @@ const SignUp = () => {
       <h1 className="mt-24">Crear Cuenta</h1>
       <form
         action={(formData: FormData) => {
-          fetchData(formData);
+          runAction(formData);
         }}
         className="vertical-container justify-center gap-4"
       >

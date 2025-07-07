@@ -9,7 +9,7 @@ export default function useFetchServerAction<T>(
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const fetchData = async (formData: FormData) => {
+  const runAction = async (formData: FormData) => {
     setLoading(true);
     await new Promise((r) => setTimeout(r, 1));
     try {
@@ -23,5 +23,5 @@ export default function useFetchServerAction<T>(
     }
   };
 
-  return { data, loading, error, fetchData, setError };
+  return { data, loading, error, runAction, setError };
 }
