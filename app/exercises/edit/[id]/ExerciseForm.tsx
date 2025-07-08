@@ -1,17 +1,21 @@
 'use client';
 
-import { saveExercice } from '@/reusable/actions/saveExercice';
+import { updateExercise } from '@/reusable/actions/exercises/updateExercise';
 import useFetchServerAction from '@/reusable/hooks/useFetchServerAction';
+import { Exercise } from '@/reusable/models/Exercise';
+import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
-const ExerciceForm = () => {
-  const [title, setTitle] = useState('Ejercicio');
-  const [bpm, setBpm] = useState(120);
-  const [timeSignature, setTimeSignature] = useState('4 / 4');
-  const [measures, setMeasures] = useState(32);
-  const [keywords, setKeywords] = useState<string[]>(['']);
+const ExerciseForm = ({ data }: { data: string }) => {
+  const router = useRouter();
+  const parsedData = JSON.parse(data) as Exercise;
+  const [title, setTitle] = useState(parsedData.title);
+  const [bpm, setBpm] = useState(parsedData.bpm);
+  const [timeSignature, setTimeSignature] = useState(parsedData.timeSignature);
+  const [measures, setMeasures] = useState(parsedData.measures);
+  const [keywords, setKeywords] = useState<string[]>(parsedData.keywords);
 
-  const { data, loading, error, runAction, setError } = useFetchServerAction(saveExercice);
+  const { data: _data, loading, runAction } = useFetchServerAction(updateExercise);
 
   const handleFocus = (e: React.FocusEvent<HTMLInputElement>) => {
     e.target.select();
@@ -28,15 +32,31 @@ const ExerciceForm = () => {
     setKeywords((prevState) => ['', ...prevState]);
   };
 
+  useEffect(() => {
+    if (_data) router.push('/exercises');
+  }, [_data]);
+
   return (
     <form
       className="flex flex-col flex-grow overflow-y-scroll scrollbar-none px-1 pb-1"
-      action={(formData: FormData) => {
+      // action={(formData: FormData) => {
+      //   runAction(formData);
+      // }}
+      onSubmit={async (e) => {
+        e.preventDefault();
+        const formData = new FormData(e.currentTarget);
         runAction(formData);
       }}
     >
       <div className="my-auto">
         <div>
+          <input
+            readOnly
+            className="hidden"
+            type="text"
+            name="id"
+            value={parsedData._id.toString()}
+          />
           <label>Title</label>
           <input
             name="title"
@@ -123,4 +143,4 @@ const ExerciceForm = () => {
   );
 };
 
-export default ExerciceForm;
+export default ExerciseForm;

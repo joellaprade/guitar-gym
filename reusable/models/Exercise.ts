@@ -1,6 +1,6 @@
 import { Schema, model, models, InferSchemaType, Types } from 'mongoose';
 
-const exerciceSchema = new Schema({
+const exerciseSchema = new Schema({
   title: { type: String, required: true },
   bpm: { type: Number, required: true },
   timeSignature: { type: String, required: true },
@@ -9,9 +9,9 @@ const exerciceSchema = new Schema({
   userId: { type: Types.ObjectId, required: true, ref: 'User' },
 });
 
-export const Exercice = models.Exercice || model('Exercice', exerciceSchema);
+export const Exercise = models.Exercise || model('Exercise', exerciseSchema);
 
-export type Exercice = InferSchemaType<typeof exerciceSchema> & {
+export type Exercise = InferSchemaType<typeof exerciseSchema> & {
   _id: Types.ObjectId;
   save: () => Promise<void>;
 };

@@ -1,15 +1,13 @@
 'use client';
 
-import { Trash } from 'lucide-react';
-
 type Props = {
   title: string;
   subtitle: string;
-  action: React.ReactNode;
-  deleteFunc: string;
+  actionElement: React.ReactNode;
+  deleteElement: React.ReactNode;
 };
 
-const ListElement = ({ title, subtitle, action, deleteFunc }: Props) => {
+const ListElement = ({ title, subtitle, actionElement, deleteElement }: Props) => {
   const handleScroll = (e: React.UIEvent<HTMLDivElement>) => {
     const target = e.currentTarget;
     if (target.scrollLeft > 0) {
@@ -18,6 +16,7 @@ const ListElement = ({ title, subtitle, action, deleteFunc }: Props) => {
       target.scrollLeft = target.clientHeight;
     }
   };
+
   return (
     <div onClick={handleScroll} className="list-element">
       <div className="py-6 flex flex-col">
@@ -25,9 +24,9 @@ const ListElement = ({ title, subtitle, action, deleteFunc }: Props) => {
         <span className="subtitle">{subtitle}</span>
       </div>
 
-      <div className="absolute right-0 inset-y-0 aspect-square flex-center">{action}</div>
-      <div className="absolute right-0 translate-x-[101%] inset-y-0 aspect-square flex-center bg-[#FF6E6E]  ">
-        <Trash className="text-white stroke-2" />
+      <div className="absolute right-0 inset-y-0 aspect-square flex-center">{actionElement}</div>
+      <div className="absolute right-0 translate-x-[101%] inset-y-0 aspect-square flex-center bg-[#FF6E6E]">
+        {deleteElement}
       </div>
     </div>
   );

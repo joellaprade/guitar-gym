@@ -1,9 +1,9 @@
 'use server';
 
 import { cookies } from 'next/headers';
-import db from '../lib/db';
-import { getFormValues } from '../lib/utils';
-import { Exercice } from '../models/Exercice';
+import db from '../../lib/db';
+import { getFormValues } from '../../lib/utils';
+import { Exercise } from '../../models/Exercise';
 import { Types } from 'mongoose';
 
 type FormValues = {
@@ -14,22 +14,22 @@ type FormValues = {
   keywords: string[];
 };
 
-export const saveExercice = async (formData: FormData) => {
+export const saveExercise = async (formData: FormData) => {
   try {
     await db();
 
-    const exercice = getFormValues<FormValues>(formData);
+    const exercise = getFormValues<FormValues>(formData);
     const cookieStore = await cookies();
     const userIdCookie = cookieStore.get('userId')?.value;
     const userId = new Types.ObjectId(userIdCookie);
 
     if (!userId) return;
 
-    await Exercice.create({ ...exercice, userId });
+    await Exercise.create({ ...exercise, userId });
 
     return true;
   } catch (e) {
     console.error(e);
-    return 'Error agregando el ejercicio.';
+    return false;
   }
 };

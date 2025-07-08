@@ -4,6 +4,7 @@ const nextConfig: NextConfig = {
   experimental: {
     ppr: 'incremental',
   },
+  reactStrictMode: false,
 };
 
 export default nextConfig;

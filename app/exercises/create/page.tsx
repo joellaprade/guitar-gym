@@ -1,5 +1,5 @@
 import BackArrow from '@/reusable/components/BackArrow';
-import ExerciceForm from './ExerciceForm';
+import ExerciseForm from './ExerciseForm';
 
 const Create = () => {
   return (
@@ -7,7 +7,7 @@ const Create = () => {
       <BackArrow link="/exercises" />
       <div className="vertical-container">
         <h1 className="mt-24 mb-8">Crear Ejercicio</h1>
-        <ExerciceForm />
+        <ExerciseForm />
       </div>
     </>
   );

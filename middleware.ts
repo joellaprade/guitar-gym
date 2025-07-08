@@ -1,6 +1,8 @@
 import { NextResponse, NextRequest } from 'next/server';
 
 export async function middleware(req: NextRequest) {
+  console.log('MIDDLEWARE triggered:', req.nextUrl.pathname);
+
   const result = await fetch(`${req.nextUrl.origin}/api/validate-session`, {
     headers: {
       cookie: req.headers.get('cookie') || '',
@@ -24,5 +26,5 @@ export async function middleware(req: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/((?!_next/|api/|assets/|favicon).*)'],
+  matcher: ['/((?!_next/|api/|assets/|.well-known/|favicon).*)'],
 };
