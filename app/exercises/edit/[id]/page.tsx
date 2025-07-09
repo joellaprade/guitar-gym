@@ -2,7 +2,7 @@ import BackArrow from '@/reusable/components/BackArrow';
 import ExerciseForm from './ExerciseForm';
 import { Suspense } from 'react';
 import { getExercises } from '@/reusable/actions/exercises/getExercises';
-import { Skeleton } from '@/reusable/components/ui/skeleton';
+import ListSkeleton from '@/reusable/components/ListSkeleton';
 
 type Props = {
   params: Promise<{
@@ -23,17 +23,7 @@ const Edit = ({ params }: Props) => {
       <BackArrow link="/exercises" />
       <div className="vertical-container">
         <h1 className="mt-24 mb-8">Editar Ejercicio</h1>
-        <Suspense
-          fallback={
-            <div className="mt-12 element-list flex flex-col gap-4">
-              <Skeleton className="w-full h-20 bg-gray" />
-              <Skeleton className="w-full h-20 bg-gray" />
-              <Skeleton className="w-full h-20 bg-gray" />
-              <Skeleton className="w-full h-20 bg-gray" />
-              <Skeleton className="w-full h-20 bg-gray" />
-            </div>
-          }
-        >
+        <Suspense fallback={<ListSkeleton />}>
           <FetchWrapper params={params} />
         </Suspense>
       </div>

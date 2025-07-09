@@ -48,7 +48,9 @@ const SignUp = () => {
       <BackArrow link={'/'} />
       <h1 className="mt-24">Crear Cuenta</h1>
       <form
-        action={(formData: FormData) => {
+        onSubmit={async (e) => {
+          e.preventDefault();
+          const formData = new FormData(e.currentTarget);
           runAction(formData);
         }}
         className="vertical-container justify-center gap-4"

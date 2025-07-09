@@ -37,7 +37,9 @@ export default function Page() {
       <h1 className="mt-24">Ingresar</h1>
       <form
         className="vertical-container justify-center gap-4 w-full"
-        action={(formData: FormData) => {
+        onSubmit={(e) => {
+          e.preventDefault();
+          const formData = new FormData(e.currentTarget);
           runAction(formData);
         }}
       >

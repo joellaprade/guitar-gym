@@ -5,9 +5,28 @@ import { Exercise } from '@/reusable/models/Exercise';
 import { Pencil } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { Trash } from 'lucide-react';
+import { deleteExercise } from '@/reusable/actions/exercises/deleteExercise';
+import { Dispatch, SetStateAction } from 'react';
 
-const DeleteBtn = ({ id }: { id: string }) => {
-  return <Trash className="text-white stroke-2" />;
+const DeleteBtn = ({
+  id,
+  setResult,
+}: {
+  id: string;
+  setResult: Dispatch<SetStateAction<Exercise[]>>;
+}) => {
+  const handleDelete = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.stopPropagation();
+    deleteExercise(id);
+    setResult((prevState) => {
+      prevState.forEach((a) => {
+        console.log(a._id.toString(), id, a._id.toString() !== id);
+      });
+      prevState = prevState.filter((p) => p._id.toString() !== id);
+      return [...prevState];
+    });
+  };
+  return <Trash onClick={handleDelete} className="text-white stroke-2 cursor-pointer" />;
 };
 
 type Props = { id: string };
@@ -25,15 +44,21 @@ const EditBtn = ({ id }: Props) => {
   );
 };
 
-const ExerciseList = ({ exercises }: { exercises: Exercise[] }) => {
+const ExerciseList = ({
+  result,
+  setResult,
+}: {
+  result: Exercise[];
+  setResult: Dispatch<SetStateAction<Exercise[]>>;
+}) => {
   return (
     <div className="mt-12 element-list">
-      {exercises.map(({ title, bpm, _id }: Exercise, i: number) => (
+      {result.map(({ title, bpm, _id }: Exercise, i: number) => (
         <ListElement
           title={title}
           subtitle={`${bpm}bpm`}
           actionElement={<EditBtn id={_id.toString()} />}
-          deleteElement={<DeleteBtn id={_id.toString()} />}
+          deleteElement={<DeleteBtn id={_id.toString()} setResult={setResult} />}
           key={i}
         />
       ))}

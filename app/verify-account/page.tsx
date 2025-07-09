@@ -6,7 +6,7 @@ import useFetchServerAction from '@/reusable/hooks/useFetchServerAction';
 import { useEffect } from 'react';
 
 const Page = () => {
-  const { data, loading, fetchData } = useFetchServerAction(verifyMail);
+  const { data, loading, runAction } = useFetchServerAction(verifyMail);
 
   useEffect(() => {
     if (data) window.location.href = '/home';

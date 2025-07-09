@@ -3,12 +3,7 @@ import { NextResponse, NextRequest } from 'next/server';
 export async function middleware(req: NextRequest) {
   console.log('MIDDLEWARE triggered:', req.nextUrl.pathname);
 
-  const result = await fetch(`${req.nextUrl.origin}/api/validate-session`, {
-    headers: {
-      cookie: req.headers.get('cookie') || '',
-    },
-  });
-  const { isValidSession } = await result.json();
+  const cookie = req.headers.get('cookie');
   const { pathname } = req.nextUrl;
   const unprotectedRoutes = [
     '/',
@@ -19,6 +14,14 @@ export async function middleware(req: NextRequest) {
     '/change-password/request',
   ];
   const isProtectedRoute = !unprotectedRoutes.includes(pathname);
+
+  if (!cookie && isProtectedRoute) return NextResponse.redirect(new URL('/', req.url));
+
+  // const result = await fetch(`${req.nextUrl.origin}/api/validate-session`, {
+  //   headers: { cookie: cookie || '' },
+  // });
+  // const { isValidSession } = await result.json();
+  const isValidSession = true;
 
   if (!isValidSession && isProtectedRoute) return NextResponse.redirect(new URL('/', req.url));
 

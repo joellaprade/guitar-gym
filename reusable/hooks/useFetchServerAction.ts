@@ -11,7 +11,7 @@ export default function useFetchServerAction<T>(
 
   const runAction = async (formData: FormData) => {
     setLoading(true);
-    await new Promise((r) => setTimeout(r, 1));
+    // await new Promise((r) => setTimeout(r, 1));
     try {
       const res = await serverAction(formData);
       setData(res);

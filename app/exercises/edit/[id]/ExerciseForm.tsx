@@ -24,6 +24,7 @@ const ExerciseForm = ({ data }: { data: string }) => {
   const handleKeywords = (e: React.ChangeEvent<HTMLInputElement>, i: number) => {
     setKeywords((prevState) => {
       prevState[i] = e.target.value;
+      if (e.target.value === '' && prevState.length > 1) prevState.splice(i, 1);
       return [...prevState];
     });
   };
@@ -39,9 +40,6 @@ const ExerciseForm = ({ data }: { data: string }) => {
   return (
     <form
       className="flex flex-col flex-grow overflow-y-scroll scrollbar-none px-1 pb-1"
-      // action={(formData: FormData) => {
-      //   runAction(formData);
-      // }}
       onSubmit={async (e) => {
         e.preventDefault();
         const formData = new FormData(e.currentTarget);
