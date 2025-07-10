@@ -8,7 +8,9 @@ import { useEffect, useState } from 'react';
 
 const ExerciseForm = ({ data }: { data: string }) => {
   const router = useRouter();
+
   const parsedData = JSON.parse(data) as Exercise;
+
   const [title, setTitle] = useState(parsedData.title);
   const [bpm, setBpm] = useState(parsedData.bpm);
   const [timeSignature, setTimeSignature] = useState(parsedData.timeSignature);
@@ -16,6 +18,8 @@ const ExerciseForm = ({ data }: { data: string }) => {
   const [keywords, setKeywords] = useState<string[]>(parsedData.keywords);
 
   const { data: _data, loading, runAction } = useFetchServerAction(updateExercise);
+
+  // FUNCTIONS
 
   const handleFocus = (e: React.FocusEvent<HTMLInputElement>) => {
     e.target.select();

@@ -17,11 +17,10 @@ export async function middleware(req: NextRequest) {
 
   if (!cookie && isProtectedRoute) return NextResponse.redirect(new URL('/', req.url));
 
-  // const result = await fetch(`${req.nextUrl.origin}/api/validate-session`, {
-  //   headers: { cookie: cookie || '' },
-  // });
-  // const { isValidSession } = await result.json();
-  const isValidSession = true;
+  const result = await fetch(`${req.nextUrl.origin}/api/validate-session`, {
+    headers: { cookie: cookie || '' },
+  });
+  const { isValidSession } = await result.json();
 
   if (!isValidSession && isProtectedRoute) return NextResponse.redirect(new URL('/', req.url));
 

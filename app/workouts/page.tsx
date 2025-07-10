@@ -1,62 +1,26 @@
 import BackArrow from '@/reusable/components/BackArrow';
-import ListElement from '@/reusable/components/ListElement';
+import ListSkeleton from '@/reusable/components/ListSkeleton';
 import NavBtn from '@/reusable/components/NavBtn';
-import SearchField from '@/reusable/components/SearchField';
 import { Pencil } from 'lucide-react';
+import { Suspense } from 'react';
+import ClientWrapper from './ClientWrapper';
+
+const FetchWrapper = async () => {
+  // const workouts = (await getWorkouts()) || [];
+  const workouts: any[] = [];
+
+  return <ClientWrapper _workouts={JSON.stringify(workouts)} />;
+};
 
 const Workouts = () => {
-  const PencilBtn = <Pencil className="text-white stroke-2" />;
   return (
     <>
-      <BackArrow link={'/'} />
+      <BackArrow link={'/home'} />
       <div className="vertical-container">
         <h1 className="mt-24">Rutinas</h1>
-        <SearchField className="mt-8" placeholder="Buscar Rutina" />
-
-        <div className="element-list mt-12">
-          <ListElement
-            title={'Alt. Picking'}
-            subtitle={'140bpm'}
-            action={PencilBtn}
-            deleteFunc={'e'}
-          />
-          <ListElement
-            title={'Alt. Picking'}
-            subtitle={'140bpm'}
-            action={PencilBtn}
-            deleteFunc={'e'}
-          />
-          <ListElement
-            title={'Alt. Picking'}
-            subtitle={'140bpm'}
-            action={PencilBtn}
-            deleteFunc={'e'}
-          />
-          <ListElement
-            title={'Alt. Picking'}
-            subtitle={'140bpm'}
-            action={PencilBtn}
-            deleteFunc={'e'}
-          />
-          <ListElement
-            title={'Alt. Picking'}
-            subtitle={'140bpm'}
-            action={PencilBtn}
-            deleteFunc={'e'}
-          />
-          <ListElement
-            title={'Alt. Picking'}
-            subtitle={'140bpm'}
-            action={PencilBtn}
-            deleteFunc={'e'}
-          />
-          <ListElement
-            title={'Alt. Picking'}
-            subtitle={'140bpm'}
-            action={PencilBtn}
-            deleteFunc={'e'}
-          />
-        </div>
+        <Suspense fallback={<ListSkeleton />}>
+          <FetchWrapper />
+        </Suspense>
         <NavBtn text="Crear Rutina" href="/workouts/create" className="big main mt-12 mb-8" />
       </div>
     </>
@@ -64,3 +28,14 @@ const Workouts = () => {
 };
 
 export default Workouts;
+
+// <SearchField className="mt-8" placeholder="Buscar Rutina" />
+
+// <div className="element-list mt-12">
+//   <ListElement
+//     title={'Alt. Picking'}
+//     subtitle={'140bpm'}
+//     action={PencilBtn}
+//     deleteFunc={'e'}
+//   />
+// </div>

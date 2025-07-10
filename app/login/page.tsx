@@ -28,7 +28,7 @@ export default function Page() {
       setError(data);
       return;
     }
-    if (data) window.location.href = '/';
+    if (data) window.location.href = '/home';
   }, [data]);
 
   return (

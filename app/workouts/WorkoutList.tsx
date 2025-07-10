@@ -8,13 +8,30 @@ import { Trash } from 'lucide-react';
 import { deleteExercise } from '@/reusable/actions/exercises/deleteExercise';
 import { Dispatch, SetStateAction } from 'react';
 
-type EditProps = { id: string };
-type DeleteProps = {
+const DeleteBtn = ({
+  id,
+  setResult,
+}: {
   id: string;
   setResult: Dispatch<SetStateAction<Exercise[]>>;
+}) => {
+  const handleDelete = (e: React.MouseEvent<SVGSVGElement>) => {
+    e.stopPropagation();
+    deleteExercise(id);
+    setResult((prevState) => {
+      prevState.forEach((a) => {
+        console.log(a._id.toString(), id, a._id.toString() !== id);
+      });
+      prevState = prevState.filter((p) => p._id.toString() !== id);
+      return [...prevState];
+    });
+  };
+  return <Trash onClick={handleDelete} className="text-white stroke-2 cursor-pointer" />;
 };
 
-const EditBtn = ({ id }: EditProps) => {
+type Props = { id: string };
+
+const EditBtn = ({ id }: Props) => {
   const router = useRouter();
   return (
     <Pencil
@@ -27,19 +44,7 @@ const EditBtn = ({ id }: EditProps) => {
   );
 };
 
-const DeleteBtn = ({ id, setResult }: DeleteProps) => {
-  const handleDelete = (e: React.MouseEvent<SVGSVGElement>) => {
-    e.stopPropagation();
-    deleteExercise(id);
-    setResult((prevState) => {
-      prevState = prevState.filter((p) => p._id.toString() !== id);
-      return [...prevState];
-    });
-  };
-  return <Trash onClick={handleDelete} className="text-white stroke-2 cursor-pointer" />;
-};
-
-const ExerciseList = ({
+const WorkoutList = ({
   result,
   setResult,
 }: {
@@ -61,4 +66,4 @@ const ExerciseList = ({
   );
 };
 
-export default ExerciseList;
+export default WorkoutList;
