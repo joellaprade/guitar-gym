@@ -2,13 +2,14 @@
 
 type Props = {
   title: string;
-  subtitle: string;
-  actionElement: React.ReactNode;
-  deleteElement: React.ReactNode;
+  subtitle?: string;
+  actionElement?: React.ReactNode;
+  deleteElement?: React.ReactNode;
 };
 
 const ListElement = ({ title, subtitle, actionElement, deleteElement }: Props) => {
   const handleScroll = (e: React.UIEvent<HTMLDivElement>) => {
+    if (!deleteElement) return;
     const target = e.currentTarget;
     if (target.scrollLeft > 0) {
       target.scrollLeft = 0;
