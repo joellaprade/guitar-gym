@@ -1,72 +1,82 @@
 'use client';
 
-import { Dispatch, SetStateAction, useRef } from 'react';
-import { GripVertical, Trash } from 'lucide-react';
+import { Dispatch, SetStateAction, useRef, useState } from 'react';
+import { GripVertical } from 'lucide-react';
 import { Exercise } from '@/reusable/models/Exercise';
-import { BreakType } from '@/reusable/types/BreakType';
+import { Break } from '@/reusable/models/Break';
 import ListElement from '@/reusable/components/ListElement';
+import DeleteBtn from '@/reusable/components/ui/DeleteBtn';
+import { useDragItem } from '@/reusable/hooks/useDragItem';
 
-type GripProps = {
+const GripBtn = ({
+  id,
+  setSelectedId,
+}: {
   id: string;
-  setData: Dispatch<SetStateAction<(Exercise | BreakType)[]>>;
-};
-type DeleteProps = {
-  id: string;
-  setData: Dispatch<SetStateAction<(Exercise | BreakType)[]>>;
-};
-type WorkoutListProps = {
-  workoutExercises: (Exercise | BreakType)[];
-  setWorkoutExercises: Dispatch<SetStateAction<(Exercise | BreakType)[]>>;
-};
-
-const GripBtn = ({ id, setData }: GripProps) => {
+  setSelectedId: Dispatch<SetStateAction<string | null>>;
+}) => {
   const gripRef = useRef<SVGSVGElement>(null);
-
-  const handleMouseDown = () => {};
 
   return (
     <GripVertical
       ref={gripRef}
-      onMouseDown={handleMouseDown}
+      onMouseDown={(e) => {
+        e.stopPropagation();
+        setSelectedId(id);
+      }}
+      onTouchStart={(e) => {
+        e.stopPropagation();
+        setSelectedId(id);
+      }}
+      onTouchEnd={() => setSelectedId(null)}
+      onMouseUp={() => setSelectedId(null)}
       className="text-white cursor-pointer"
     />
   );
 };
-const DeleteBtn = ({ id, setData }: DeleteProps) => {
-  const handleDelete = (e: React.MouseEvent<SVGSVGElement>) => {
-    e.stopPropagation();
+
+type Props = {
+  workoutExercises: (Exercise | Break)[];
+  setWorkoutExercises: Dispatch<SetStateAction<(Exercise | Break)[]>>;
+};
+const WorkoutList = ({ workoutExercises, setWorkoutExercises }: Props) => {
+  const [selectedId, setSelectedId] = useState<string | null>(null);
+
+  const handleDelete = (event: React.MouseEvent<SVGSVGElement>, id: string) => {
+    event.stopPropagation();
     // deleteExercise(id); QUITAR DE WORKOUT, NO DB
-    setData((prevState) => {
-      prevState = prevState.filter((p) => p._id.toString() !== id);
+    setWorkoutExercises((prevState) => {
+      prevState = prevState.filter((p) => p.id !== id);
       return [...prevState];
     });
   };
+  useDragItem(selectedId, workoutExercises, setWorkoutExercises, setSelectedId);
 
-  return <Trash onClick={handleDelete} className="text-white stroke-2 cursor-pointer" />;
-};
-
-const WorkoutList = ({ workoutExercises, setWorkoutExercises }: WorkoutListProps) => {
   return workoutExercises.map((e, i) => {
     if (e.title === 'Break') {
-      let _e = e as BreakType;
-      return (
-        <ListElement
-          title={_e.title}
-          subtitle={`${_e.duration}`}
-          actionElement={<GripBtn id={_e._id.toString()} setData={setWorkoutExercises} />}
-          deleteElement={<DeleteBtn id={_e._id.toString()} setData={setWorkoutExercises} />}
-          key={i}
-        />
-      );
-    } else {
-      let _e = e as Exercise;
+      e = e as Break;
       return (
         <ListElement
           title={e.title}
-          subtitle={`${_e.bpm}bpm`}
-          actionElement={<GripBtn id={e._id.toString()} setData={setWorkoutExercises} />}
-          deleteElement={<DeleteBtn id={_e._id.toString()} setData={setWorkoutExercises} />}
+          subtitle={`${e.duration}`}
+          actionElement={<GripBtn id={e.id} setSelectedId={setSelectedId} />}
+          deleteElement={<DeleteBtn onMouseDown={(event) => handleDelete(event, e.id)} />}
+          id={e.id}
           key={i}
+          className={`${selectedId && e.id !== selectedId && 'opacity-50'}`}
+        />
+      );
+    } else {
+      e = e as Exercise;
+      return (
+        <ListElement
+          title={e.title}
+          subtitle={`${e.bpm}bpm`}
+          actionElement={<GripBtn id={e.id} setSelectedId={setSelectedId} />}
+          deleteElement={<DeleteBtn onMouseDown={(event) => handleDelete(event, e.id)} />}
+          id={e.id}
+          key={i}
+          className={`${selectedId && e.id !== selectedId && 'opacity-50'}`}
         />
       );
     }

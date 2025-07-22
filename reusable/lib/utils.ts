@@ -1,5 +1,8 @@
 import { clsx, type ClassValue } from 'clsx';
+import { Query } from 'mongoose';
 import { twMerge } from 'tailwind-merge';
+import { Exercise } from '../models/Exercise';
+import { Break } from '../models/Break';
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -61,4 +64,69 @@ export const multiFetch = async <T>(
     console.error(e);
     return {} as T;
   }
+};
+
+export const handleSearch = <T extends { title: string; keywords: string[] }>(
+  search: string,
+  items: T[]
+) => {
+  const lSearch = search.toLowerCase();
+
+  if (lSearch === '') return items;
+
+  return items.filter(
+    (item) =>
+      item.title.toLowerCase().includes(lSearch) ||
+      item.keywords.some((kw) => kw.toLowerCase().includes(lSearch))
+  );
+};
+
+export const getXYAllDevices = (e: MouseEvent | TouchEvent) => {
+  let clientX: number, clientY: number;
+
+  if ('touches' in e && e.touches.length > 0) {
+    clientX = e.touches[0].clientX;
+    clientY = e.touches[0].clientY;
+  } else if ('clientX' in e) {
+    clientX = e.clientX;
+    clientY = e.clientY;
+  } else {
+    throw new Error('Dispositivo no apto para scroll');
+  }
+
+  return { clientX, clientY };
+};
+
+export const docToObj = async <T>(query: Query<any, any, any, any>) => {
+  const leanQuery = await query.lean();
+
+  if (Array.isArray(leanQuery)) {
+    return leanQuery.map((item: any) => {
+      const id = item._id.toString();
+      delete item._id;
+
+      let obj = { ...item, id } as T;
+      return obj;
+    }) as T;
+  } else {
+    const id = leanQuery._id.toString();
+    delete leanQuery._id;
+
+    return { ...leanQuery, id } as T;
+  }
+};
+
+export const selectOnFocus = (e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  e.target.select();
+};
+
+export const formatWorkoutToDB = (workoutExercises: (Exercise | Break)[]) => {
+  let formatedExercises: (string | Break)[] = [];
+
+  formatedExercises = workoutExercises.map((e) => {
+    if (e.isExercise) return e.id as string;
+    else return e as Break;
+  });
+
+  return formatedExercises;
 };

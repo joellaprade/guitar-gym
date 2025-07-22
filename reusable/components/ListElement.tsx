@@ -5,9 +5,20 @@ type Props = {
   subtitle?: string;
   actionElement?: React.ReactNode;
   deleteElement?: React.ReactNode;
+  id?: string;
+  i?: number;
+  className?: string;
 };
 
-const ListElement = ({ title, subtitle, actionElement, deleteElement }: Props) => {
+const ListElement = ({
+  title,
+  subtitle,
+  actionElement,
+  deleteElement,
+  id,
+  i,
+  className,
+}: Props) => {
   const handleScroll = (e: React.UIEvent<HTMLDivElement>) => {
     if (!deleteElement) return;
     const target = e.currentTarget;
@@ -19,7 +30,7 @@ const ListElement = ({ title, subtitle, actionElement, deleteElement }: Props) =
   };
 
   return (
-    <div onClick={handleScroll} className="list-element">
+    <div className={`${className} list-element`} data-i={i} data-id={id} onMouseDown={handleScroll}>
       <div className="py-6 flex flex-col">
         <h2 className="text-start leading-tight">{title}</h2>
         <span className="subtitle">{subtitle}</span>

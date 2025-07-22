@@ -1,13 +1,10 @@
+import { Break } from '@/reusable/models/Break';
 import { Exercise } from '@/reusable/models/Exercise';
-import { BreakType } from '@/reusable/types/BreakType';
+
 import { Plus } from 'lucide-react';
 import { Dispatch, SetStateAction, useState } from 'react';
 
-const BreakOptions = ({
-  setData,
-}: {
-  setData: Dispatch<SetStateAction<(BreakType | Exercise)[]>>;
-}) => {
+const BreakOptions = ({ setData }: { setData: Dispatch<SetStateAction<(Break | Exercise)[]>> }) => {
   const [breakTime, setBreakTime] = useState<number>(0);
   const [showBreakInput, setShowBreakInput] = useState(false);
 
@@ -16,10 +13,11 @@ const BreakOptions = ({
   };
 
   const handleAddBreak = (duration: number) => {
-    const userBreak = {
+    const userBreak: Break = {
       title: 'Break',
       duration,
-      _id: Date.now().toString(),
+      id: Date.now().toString(),
+      isExercise: false,
     };
     setData((prevState) => [...prevState, userBreak]);
   };
@@ -37,6 +35,7 @@ const BreakOptions = ({
         placeholder="Segundos"
       />
       <button
+        type="button"
         onClick={() => {
           if (!showBreakInput) setShowBreakInput(true);
           else {

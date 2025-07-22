@@ -1,4 +1,4 @@
-import { Schema, model, models, InferSchemaType, Types } from 'mongoose';
+import { Schema, model, models, InferSchemaType, Types, HydratedDocument } from 'mongoose';
 
 const userSchema = new Schema({
   name: { type: String, required: true },
@@ -8,9 +8,7 @@ const userSchema = new Schema({
   active: { type: Boolean, default: false },
 });
 
-export const User = models.User || model('User', userSchema);
+export type User = InferSchemaType<typeof userSchema> & { id: string };
 
-export type User = InferSchemaType<typeof userSchema> & {
-  _id: Types.ObjectId;
-  save: () => Promise<void>;
-};
+export const DBUser = models.User || model('User', userSchema);
+export type DBUser = HydratedDocument<User>;

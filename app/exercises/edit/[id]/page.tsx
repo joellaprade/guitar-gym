@@ -1,5 +1,5 @@
 import BackArrow from '@/reusable/components/BackArrow';
-import ExerciseForm from './ExerciseForm';
+import ExerciseForm from '../../ExerciseForm';
 import { Suspense } from 'react';
 import { getExercises } from '@/reusable/actions/exercises/getExercises';
 import ListSkeleton from '@/reusable/components/ListSkeleton';
@@ -14,7 +14,7 @@ const FetchWrapper = async ({ params }: Props) => {
   const { id } = await params;
   const exercise = (await getExercises(id))[0];
 
-  return <ExerciseForm data={JSON.stringify(exercise)} />;
+  return <ExerciseForm exercise={exercise} />;
 };
 
 const Edit = ({ params }: Props) => {

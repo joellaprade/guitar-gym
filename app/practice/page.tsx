@@ -13,14 +13,14 @@ const Exercises = () => {
           <ListElement
             title={'Alt. Picking'}
             subtitle={'140bpm'}
-            action={PlayBtn}
-            deleteFunc={'e'}
+            actionElement={PlayBtn}
+            deleteElement={'e'}
           />
           <ListElement
             title={'Alt. Picking'}
             subtitle={'140bpm'}
-            action={PlayBtn}
-            deleteFunc={'e'}
+            actionElement={PlayBtn}
+            deleteElement={'e'}
           />
         </div>
       </div>

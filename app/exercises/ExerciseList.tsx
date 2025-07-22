@@ -2,42 +2,11 @@
 
 import ListElement from '@/reusable/components/ListElement';
 import { Exercise } from '@/reusable/models/Exercise';
-import { Pencil } from 'lucide-react';
 import { useRouter } from 'next/navigation';
-import { Trash } from 'lucide-react';
 import { deleteExercise } from '@/reusable/actions/exercises/deleteExercise';
 import { Dispatch, SetStateAction } from 'react';
-
-type EditProps = { id: string };
-type DeleteProps = {
-  id: string;
-  setResult: Dispatch<SetStateAction<Exercise[]>>;
-};
-
-const EditBtn = ({ id }: EditProps) => {
-  const router = useRouter();
-  return (
-    <Pencil
-      onClick={(e: React.MouseEvent<SVGElement>) => {
-        e.stopPropagation();
-        router.push(`exercises/edit/${id}`);
-      }}
-      className="text-white stroke-2 cursor-pointer"
-    />
-  );
-};
-
-const DeleteBtn = ({ id, setResult }: DeleteProps) => {
-  const handleDelete = (e: React.MouseEvent<SVGSVGElement>) => {
-    e.stopPropagation();
-    deleteExercise(id);
-    setResult((prevState) => {
-      prevState = prevState.filter((p) => p._id.toString() !== id);
-      return [...prevState];
-    });
-  };
-  return <Trash onClick={handleDelete} className="text-white stroke-2 cursor-pointer" />;
-};
+import EditBtn from '@/reusable/components/ui/EditBtn';
+import DeleteBtn from '@/reusable/components/ui/DeleteBtn';
 
 const ExerciseList = ({
   result,
@@ -46,14 +15,29 @@ const ExerciseList = ({
   result: Exercise[];
   setResult: Dispatch<SetStateAction<Exercise[]>>;
 }) => {
+  const router = useRouter();
+
+  const handleEdit = (e: React.MouseEvent<SVGElement>, id: string) => {
+    e.stopPropagation();
+    router.push(`exercises/edit/${id}`);
+  };
+  const handleDelete = (e: React.MouseEvent<SVGSVGElement>, id: string) => {
+    e.stopPropagation();
+    deleteExercise(id);
+    setResult((prevState) => {
+      prevState = prevState.filter((p) => p.id !== id);
+      return [...prevState];
+    });
+  };
+
   return (
     <div className="mt-12 element-list">
-      {result.map(({ title, bpm, _id }: Exercise, i: number) => (
+      {result.map(({ title, bpm, id }: Exercise, i: number) => (
         <ListElement
           title={title}
           subtitle={`${bpm}bpm`}
-          actionElement={<EditBtn id={_id.toString()} />}
-          deleteElement={<DeleteBtn id={_id.toString()} setResult={setResult} />}
+          actionElement={<EditBtn onMouseDown={(e) => handleEdit(e, id)} />}
+          deleteElement={<DeleteBtn onMouseDown={(e) => handleDelete(e, id)} />}
           key={i}
         />
       ))}

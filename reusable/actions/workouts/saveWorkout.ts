@@ -3,29 +3,28 @@
 import { cookies } from 'next/headers';
 import db from '../../lib/db';
 import { getFormValues } from '../../lib/utils';
-import { DBExercise } from '../../models/Exercise';
 import { Types } from 'mongoose';
+import { DBWorkout } from '@/reusable/models/Workout';
 
 type FormValues = {
   title: string;
-  bpm: number;
-  timeSignature: string;
-  measures: number;
-  description: string;
-  keywords: string[];
+  workoutExercises: string;
 };
 
-export const saveExercise = async (formData: FormData) => {
+export const saveWorkout = async (formData: FormData) => {
   try {
     await db();
 
-    const exercise = getFormValues<FormValues>(formData);
+    console.log(formData);
+
+    const workout = getFormValues<FormValues>(formData);
+    console.log(workout);
     const cookieStore = await cookies();
     const userIdCookie = cookieStore.get('userId')?.value;
     if (!userIdCookie) return;
 
     const userId = new Types.ObjectId(userIdCookie);
-    await DBExercise.create({ ...exercise, userId });
+    await DBWorkout.create({ ...workout, userId });
 
     return true;
   } catch (e) {

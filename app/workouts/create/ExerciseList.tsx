@@ -2,40 +2,34 @@
 
 import ListElement from '@/reusable/components/ListElement';
 import { Exercise } from '@/reusable/models/Exercise';
-import { BreakType } from '@/reusable/types/BreakType';
-import { PlusIcon } from 'lucide-react';
+import { Break } from '@/reusable/models/Break';
 import { Dispatch, RefObject, SetStateAction, useState } from 'react';
 import WorkoutList from './WorkoutList';
+import AddBtn from '@/reusable/components/ui/AddBtn';
 
-type AddProps = {
-  exercise: Exercise;
-  setData: Dispatch<SetStateAction<(Exercise | BreakType)[]>>;
-};
 type Props = {
-  data: string;
+  exercises: Exercise[];
   searchRef: RefObject<HTMLInputElement | null>;
   isFocused: boolean;
-  workoutExercises: (Exercise | BreakType)[];
-  setWorkoutExercises: Dispatch<SetStateAction<(Exercise | BreakType)[]>>;
+  workoutExercises: (Exercise | Break)[];
+  setWorkoutExercises: Dispatch<SetStateAction<(Exercise | Break)[]>>;
 };
 
-const AddBtn = ({ exercise, setData }: AddProps) => {
-  const handleAdd = (e: React.MouseEvent<SVGSVGElement>) => {
-    e.stopPropagation();
-    setData((prevState) => [...prevState, exercise]);
-  };
-
-  return <PlusIcon onMouseDown={handleAdd} className="text-white cursor-pointer" />;
-};
 const ExerciseList = ({
-  data,
+  exercises,
   searchRef,
   isFocused,
   setWorkoutExercises,
   workoutExercises,
 }: Props) => {
-  const parsedData = JSON.parse(data) as Exercise[];
-  const [userExercises, setUserExercises] = useState<Exercise[]>(parsedData);
+  const [userExercises, setUserExercises] = useState<Exercise[]>(exercises);
+
+  const handleAdd = (event: React.MouseEvent<SVGSVGElement>, id: string) => {
+    event.stopPropagation();
+    const exercise = userExercises.find((e) => e.id === id);
+    if (!exercise) return;
+    setWorkoutExercises((prevState) => [...prevState, exercise]);
+  };
 
   const handleClick = () => {
     searchRef.current?.focus();
@@ -51,7 +45,7 @@ const ExerciseList = ({
           <ListElement
             title={e.title}
             subtitle={`${e.bpm}bpm`}
-            actionElement={<AddBtn exercise={e} setData={setWorkoutExercises} />}
+            actionElement={<AddBtn onMouseDown={(event) => handleAdd(event, e.id)} />}
             key={i}
           />
         ))

@@ -1,7 +1,6 @@
 import BackArrow from '@/reusable/components/BackArrow';
 import ListSkeleton from '@/reusable/components/ListSkeleton';
 import NavBtn from '@/reusable/components/NavBtn';
-import { Pencil } from 'lucide-react';
 import { Suspense } from 'react';
 import ClientWrapper from './ClientWrapper';
 
@@ -28,14 +27,3 @@ const Workouts = () => {
 };
 
 export default Workouts;
-
-// <SearchField className="mt-8" placeholder="Buscar Rutina" />
-
-// <div className="element-list mt-12">
-//   <ListElement
-//     title={'Alt. Picking'}
-//     subtitle={'140bpm'}
-//     action={PencilBtn}
-//     deleteFunc={'e'}
-//   />
-// </div>

@@ -12,7 +12,7 @@ type Props = {
 
 const SearchField = ({ ref, setIsFocused, setSearch, className, placeholder }: Props) => {
   return (
-    <form className={`relative ${className}`}>
+    <div className={`relative ${className}`}>
       <input
         ref={ref && ref}
         onChange={(e) => setSearch(e.target.value)}
@@ -25,7 +25,7 @@ const SearchField = ({ ref, setIsFocused, setSearch, className, placeholder }: P
       <div className="aspect-square h-full absolute top-0 right-0 flex items-center justify-center">
         <Search className="text-[#919191] w-4 h-4 stroke-3" />
       </div>
-    </form>
+    </div>
   );
 };
 

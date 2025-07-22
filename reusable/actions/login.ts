@@ -1,10 +1,10 @@
-"use server";
+'use server';
 
-import db from "../lib/db";
-import { getFormValues } from "../lib/utils";
-import { User } from "../models/User";
-import bcrypt from "bcrypt";
-import { createSession } from "@/reusable/lib/auth";
+import db from '../lib/db';
+import { getFormValues } from '../lib/utils';
+import { DBUser, User } from '../models/User';
+import bcrypt from 'bcrypt';
+import { createSession } from '@/reusable/lib/auth';
 
 type formValues = {
   username: string;
@@ -17,15 +17,15 @@ export default async function login(formData: FormData): Promise<boolean | strin
 
     const { username, password } = getFormValues<formValues>(formData);
 
-    const user: User | null = await User.findOne({ username });
+    const user: User | null = await DBUser.findOne({ username });
 
     if (user?.active && (await bcrypt.compare(password, user.password))) {
       await createSession(user);
       return true;
     } else {
-      throw new Error("El usuario o contraseña son incorrectos.");
+      throw new Error('El usuario o contraseña son incorrectos.');
     }
   } catch (e) {
-    return "El usuario o contraseña son incorrectos.";
+    return 'El usuario o contraseña son incorrectos.';
   }
 }

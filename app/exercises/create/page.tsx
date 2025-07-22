@@ -1,5 +1,5 @@
 import BackArrow from '@/reusable/components/BackArrow';
-import ExerciseForm from './ExerciseForm';
+import ExerciseForm from '../ExerciseForm';
 
 const Create = () => {
   return (

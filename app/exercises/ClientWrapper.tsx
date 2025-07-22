@@ -4,41 +4,25 @@ import SearchField from '@/reusable/components/SearchField';
 import ExerciseList from './ExerciseList';
 import { Exercise } from '@/reusable/models/Exercise';
 import { useEffect, useState } from 'react';
+import { handleSearch } from '@/reusable/lib/utils';
 
 const ClientWrapper = ({ _exercises }: { _exercises: string }) => {
   const exercises = JSON.parse(_exercises) as Exercise[];
   const [search, setSearch] = useState('');
   const [result, setResult] = useState<Exercise[]>(exercises);
 
-  const handleSearch = () => {
-    let matches: Exercise[] = [];
-    const lSearch = search.toLowerCase();
-
-    if (lSearch === '') {
-      setResult(exercises);
-      return;
-    }
-
-    exercises.forEach((e) => {
-      if (e.title.toLowerCase().includes(lSearch)) matches.push(e);
-      else {
-        for (let k of e.keywords) {
-          if (k.toLowerCase().includes(lSearch)) {
-            matches.push(e);
-            break;
-          }
-        }
-      }
-    });
-
-    setResult(matches);
-  };
-
-  useEffect(handleSearch, [search]);
+  useEffect(() => {
+    setResult(handleSearch(search, exercises));
+  }, [search]);
 
   return (
     <>
-      <SearchField setSearch={setSearch} className="mt-8" placeholder="Buscar Ejercicio" />
+      <SearchField
+        setSearch={setSearch}
+        className="mt-8"
+        placeholder="Buscar Ejercicio"
+        ref={undefined}
+      />
       <ExerciseList result={result} setResult={setResult} />
     </>
   );

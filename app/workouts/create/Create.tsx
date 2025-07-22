@@ -2,23 +2,43 @@
 
 import SearchField from '@/reusable/components/SearchField';
 import { Exercise } from '@/reusable/models/Exercise';
-import { BreakType } from '@/reusable/types/BreakType';
-import { useRef, useState } from 'react';
+import { Break } from '@/reusable/models/Break';
+import { useEffect, useRef, useState } from 'react';
 import BreakOptions from './BreakOptions';
 import ExerciseList from './ExerciseList';
+import useFetchServerAction from '@/reusable/hooks/useFetchServerAction';
+import { saveWorkout } from '@/reusable/actions/workouts/saveWorkout';
+import { useRouter } from 'next/navigation';
+import { formatWorkoutToDB } from '@/reusable/lib/utils';
 
-const Create = ({ data }: { data: string }) => {
+const Create = ({ exercises }: { exercises: Exercise[] }) => {
+  const router = useRouter();
+  const { data, loading, runAction } = useFetchServerAction(saveWorkout);
+
   const [title, setTitle] = useState('');
-  const [workoutExercises, setWorkoutExercises] = useState<(Exercise | BreakType)[]>([]);
+  const [workoutExercises, setWorkoutExercises] = useState<(Exercise | Break)[]>([]);
 
   const [search, setSearch] = useState('');
   const [isFocused, setIsFocused] = useState(false);
+
   const searchRef = useRef<HTMLInputElement>(null);
 
-  // FUNCTIONS
+  const handleSubmitWorkout = () => {
+    const formData = new FormData();
+    const workoutData = formatWorkoutToDB(workoutExercises);
+
+    formData.append('title', title);
+    formData.append('workoutData', JSON.stringify(workoutData));
+
+    runAction(formData);
+  };
+
+  useEffect(() => {
+    if (data) router.push('/exercises');
+  }, [data]);
 
   return (
-    <div className="vertical-container">
+    <form className="vertical-container" onSubmit={handleSubmitWorkout}>
       <input
         value={title}
         onChange={(e) => setTitle(e.target.value)}
@@ -31,11 +51,11 @@ const Create = ({ data }: { data: string }) => {
         setIsFocused={setIsFocused}
         setSearch={setSearch}
         className="mt-8"
-        placeholder="Buscar Ejercicio"
+        placeholder="Agregar Ejercicio"
       />
 
       <ExerciseList
-        data={data}
+        exercises={exercises}
         searchRef={searchRef}
         isFocused={isFocused}
         workoutExercises={workoutExercises}
@@ -46,7 +66,7 @@ const Create = ({ data }: { data: string }) => {
         <BreakOptions setData={setWorkoutExercises} />
         <button className="big main mt-4">Guardar</button>
       </div>
-    </div>
+    </form>
   );
 };
 

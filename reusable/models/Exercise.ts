@@ -1,17 +1,17 @@
-import { Schema, model, models, InferSchemaType, Types } from 'mongoose';
+import { Schema, model, models, InferSchemaType, HydratedDocument } from 'mongoose';
 
 const exerciseSchema = new Schema({
   title: { type: String, required: true },
   bpm: { type: Number, required: true },
   timeSignature: { type: String, required: true },
   measures: { type: Number, required: true },
+  description: { type: String },
   keywords: [{ type: String }],
-  userId: { type: Types.ObjectId, required: true, ref: 'User' },
+  userId: { type: String, required: true },
+  isExercise: { type: Boolean, default: true },
 });
 
-export const Exercise = models.Exercise || model('Exercise', exerciseSchema);
+export type Exercise = InferSchemaType<typeof exerciseSchema> & { id: string };
 
-export type Exercise = InferSchemaType<typeof exerciseSchema> & {
-  _id: Types.ObjectId;
-  save: () => Promise<void>;
-};
+export const DBExercise = models.Exercise || model('Exercise', exerciseSchema);
+export type DBExercise = HydratedDocument<Exercise>;

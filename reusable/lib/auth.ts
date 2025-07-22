@@ -1,5 +1,5 @@
 import { cookies } from 'next/headers';
-import { Session } from '../models/Session';
+import { DBSession } from '../models/Session';
 import { User } from '../models/User';
 import crypto from 'crypto';
 import { cache } from 'react';
@@ -9,12 +9,12 @@ export const createSession = async ({
   name,
   username,
   email,
-  _id: userId,
-}: User): Promise<Session | null> => {
+  id: userId,
+}: User): Promise<DBSession | null> => {
   const cookieStore = await cookies();
   const sessionToken = crypto.randomBytes(8).toString('hex');
 
-  const session = await Session.create({
+  const session = await DBSession.create({
     sessionToken,
     userId,
     user: {
@@ -43,14 +43,14 @@ export const createSession = async ({
   return session;
 };
 
-export const getSession = cache(async (): Promise<Session | null> => {
+export const getSession = cache(async (): Promise<DBSession | null> => {
   try {
     await db();
     const cookieStore = await cookies();
     let sessionToken = cookieStore.get('sessionToken')?.value;
 
     if (sessionToken) {
-      const session = await Session.findOne({ sessionToken });
+      const session = await DBSession.findOne({ sessionToken });
       return session;
     } else return null;
   } catch (e) {
@@ -59,20 +59,20 @@ export const getSession = cache(async (): Promise<Session | null> => {
   }
 });
 
-export const getPlayer = cache(async (): Promise<Player | null> => {
-  try {
-    await db();
-    const cookieStore = await cookies();
-    let userId = cookieStore.get('userId')?.value;
+// export const getPlayer = cache(async (): Promise<Player | null> => {
+//   try {
+//     await db();
+//     const cookieStore = await cookies();
+//     let userId = cookieStore.get('userId')?.value;
 
-    if (userId) {
-      const player: any = await Player.findOne({ userId }).lean<Player | null>();
-      if (!player) return null;
-      player.gameReqs = player.gameReqs.map((req: any) => ({ ...req.sender, gameId: req.gameId }));
-      return player;
-    } else return null;
-  } catch (e) {
-    console.error(e);
-    return null;
-  }
-});
+//     if (userId) {
+//       const player: any = await Player.findOne({ userId }).lean<Player | null>();
+//       if (!player) return null;
+//       player.gameReqs = player.gameReqs.map((req: any) => ({ ...req.sender, gameId: req.gameId }));
+//       return player;
+//     } else return null;
+//   } catch (e) {
+//     console.error(e);
+//     return null;
+//   }
+// });

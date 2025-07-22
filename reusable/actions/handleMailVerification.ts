@@ -1,6 +1,6 @@
 'use server';
 
-import { VerificationCode } from '../models/VerificationCode';
+import { DBVerificationCode } from '../models/VerificationCode';
 import db from '../lib/db';
 import { cookies } from 'next/headers';
 import { sendMail } from './sendMail';
@@ -20,7 +20,7 @@ export const handleMailVerification = async (email: string, userId: string) => {
     const text = `Tu codigo de verificación es: ${code}`;
     await sendMail(email, subject, text);
     await db();
-    await VerificationCode.create({ userId, code });
+    await DBVerificationCode.create({ userId, code });
   } catch (e) {
     console.error(e);
   }

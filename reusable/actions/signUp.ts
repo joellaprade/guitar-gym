@@ -1,7 +1,7 @@
 'use server';
 import bcrypt from 'bcrypt';
 import db from '../lib/db';
-import { User } from '@/reusable/models/User';
+import { DBUser, User } from '@/reusable/models/User';
 import { getFormValues } from '../lib/utils';
 import { handleMailVerification } from './handleMailVerification';
 
@@ -18,14 +18,14 @@ export default async function signUp(formData: FormData): Promise<boolean> {
     const { username, password, name, email } = getFormValues<formData>(formData);
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    const user: User = await User.create({
+    const user: User = await DBUser.create({
       name,
       email,
       username,
       password: hashedPassword,
     });
 
-    await handleMailVerification(email, user._id.toString());
+    await handleMailVerification(email, user.id);
 
     return true;
   } catch (e: any) {

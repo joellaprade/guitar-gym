@@ -16,7 +16,7 @@ const Page = () => {
     <div className="vertical-container">
       <BackArrow link={'/'} />
       <h2 className="mt-48">Introdusca el código que se envió a su correo</h2>
-      <form className="vertical-container justify-center w-full flex-grow" action={fetchData}>
+      <form className="vertical-container justify-center w-full flex-grow" action={runAction}>
         <input className="my-5" name="code" placeholder="Código" type="text" />
         <button
           type={loading ? 'button' : 'submit'}

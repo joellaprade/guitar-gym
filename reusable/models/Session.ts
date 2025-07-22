@@ -1,4 +1,4 @@
-import { Schema, model, models, InferSchemaType, Types } from 'mongoose';
+import { Schema, model, models, InferSchemaType, HydratedDocument } from 'mongoose';
 
 const sessionSchema = new Schema({
   sessionToken: { type: String, required: true, unique: true },
@@ -14,7 +14,7 @@ const sessionSchema = new Schema({
   createdAt: { type: Date, default: Date.now, expires: 86400 },
 });
 
-export const Session = models.Session || model('Session', sessionSchema);
-export type Session = InferSchemaType<typeof sessionSchema> & {
-  _id: Types.ObjectId;
-};
+export type Session = InferSchemaType<typeof sessionSchema> & { id: string };
+
+export const DBSession = models.Session || model('Session', sessionSchema);
+export type DBSession = HydratedDocument<Session>;

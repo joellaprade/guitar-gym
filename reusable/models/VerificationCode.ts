@@ -1,4 +1,4 @@
-import { Schema, model, models, InferSchemaType, Types } from "mongoose";
+import { Schema, model, models, InferSchemaType, Types, HydratedDocument } from 'mongoose';
 
 const VerificationCodeSchema = new Schema({
   userId: { type: String, required: true },
@@ -14,11 +14,8 @@ const VerificationCodeSchema = new Schema({
   },
 });
 
-export const VerificationCode =
-  models.VerificationCode || model("VerificationCode", VerificationCodeSchema);
+export type VerificationCode = InferSchemaType<typeof VerificationCodeSchema> & { id: string };
 
-export type VerificationCode = InferSchemaType<
-  typeof VerificationCodeSchema
-> & {
-  _id: Types.ObjectId;
-};
+export const DBVerificationCode =
+  models.VerificationCode || model('VerificationCode', VerificationCodeSchema);
+export type DBVerificationCode = HydratedDocument<VerificationCode>;

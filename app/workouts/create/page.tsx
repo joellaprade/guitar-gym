@@ -7,10 +7,10 @@ import Create from './Create';
 const FetchWrapper = async () => {
   const exercises = await getExercises();
 
-  return <Create data={JSON.stringify(exercises)} />;
+  return <Create exercises={exercises} />;
 };
 
-const Edit = () => {
+const Page = () => {
   return (
     <>
       <BackArrow link="/workouts" />
@@ -23,4 +23,4 @@ const Edit = () => {
   );
 };
 
-export default Edit;
+export default Page;

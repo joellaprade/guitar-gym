@@ -2,13 +2,14 @@
 
 import db from '../../lib/db';
 import { getFormValues } from '../../lib/utils';
-import { Exercise } from '../../models/Exercise';
+import { DBExercise } from '../../models/Exercise';
 
 type FormValues = {
   title: string;
   bpm: number;
   timeSignature: string;
   measures: number;
+  description: string;
   keywords: string[];
   id: string;
 };
@@ -19,7 +20,8 @@ export const updateExercise = async (formData: FormData) => {
 
     const exercise = getFormValues<FormValues>(formData);
 
-    await Exercise.findByIdAndUpdate(exercise.id, exercise);
+    const temp = await DBExercise.findByIdAndUpdate(exercise.id, exercise);
+    console.log(temp);
 
     return true;
   } catch (e) {

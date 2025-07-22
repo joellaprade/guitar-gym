@@ -3,7 +3,7 @@
 @plugin "tailwind-scrollbar";
 
 body {
-  @apply bg-dark-gray px-8 h-screen;
+  @apply bg-dark-gray px-8 h-[100dvh];
 }
 
 @theme {
@@ -33,13 +33,16 @@ body {
   }
   form {
   }
-  form div {
+  form div.form-item {
     @apply flex flex-col gap-1.5;
   }
   label {
     @apply text-[#ffffff80] font-semibold text-sm;
   }
   input {
+    @apply bg-[#ffffff0d] text-sm text-white rounded-[5px] py-2.5 px-4 placeholder:text-[#ffffff80] font-poppins font-bold;
+  }
+  textarea {
     @apply bg-[#ffffff0d] text-sm text-white rounded-[5px] py-2.5 px-4 placeholder:text-[#ffffff80] font-poppins font-bold;
   }
   .subtitle {
@@ -64,7 +67,7 @@ body {
     @apply overflow-scroll scrollbar-none flex-grow;
   }
   .list-element {
-    @apply scroll-smooth border-b-2 border-[#ffffff80] flex justify-between relative w-full overflow-scroll scrollbar-none;
+    @apply scroll-smooth border-b-2 border-[#ffffff80] flex justify-between relative w-full overflow-scroll scrollbar-none select-none;
   }
 
   .metronome {
