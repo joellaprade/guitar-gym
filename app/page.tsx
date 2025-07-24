@@ -9,6 +9,7 @@ const Page = () => {
       <div className="absolute-center flex flex-col gap-4 w-full px-8">
         <NavBtn href="/signup" className="big main" text="Crear Cuenta" />
         <NavBtn href="/login" className="big secondary" text="Ingresar" />
+        <div>s</div>
       </div>
     </div>
   );
