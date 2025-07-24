@@ -19,9 +19,7 @@ export const updateExercise = async (formData: FormData) => {
     await db();
 
     const exercise = getFormValues<FormValues>(formData);
-
-    const temp = await DBExercise.findByIdAndUpdate(exercise.id, exercise);
-    console.log(temp);
+    await DBExercise.findByIdAndUpdate(exercise.id, exercise);
 
     return true;
   } catch (e) {

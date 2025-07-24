@@ -44,7 +44,6 @@ const WorkoutList = ({ workoutExercises, setWorkoutExercises }: Props) => {
 
   const handleDelete = (event: React.MouseEvent<SVGSVGElement>, id: string) => {
     event.stopPropagation();
-    // deleteExercise(id); QUITAR DE WORKOUT, NO DB
     setWorkoutExercises((prevState) => {
       prevState = prevState.filter((p) => p.id !== id);
       return [...prevState];
@@ -58,7 +57,7 @@ const WorkoutList = ({ workoutExercises, setWorkoutExercises }: Props) => {
       return (
         <ListElement
           title={e.title}
-          subtitle={`${e.duration}`}
+          subtitle={`${e.duration}s`}
           actionElement={<GripBtn id={e.id} setSelectedId={setSelectedId} />}
           deleteElement={<DeleteBtn onMouseDown={(event) => handleDelete(event, e.id)} />}
           id={e.id}

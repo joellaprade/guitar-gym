@@ -23,7 +23,7 @@ const BreakOptions = ({ setData }: { setData: Dispatch<SetStateAction<(Break | E
   };
 
   return (
-    <div className={`flex relative `}>
+    <div className="flex relative mt-12">
       <input
         className={`transition-all duration-1000 ease-in-out ${showBreakInput ? 'flex-grow mr-3' : 'flex-grow-0 p-0'} w-0`}
         value={breakTime}
@@ -33,6 +33,12 @@ const BreakOptions = ({ setData }: { setData: Dispatch<SetStateAction<(Break | E
         onFocus={handleFocus}
         type="number"
         placeholder="Segundos"
+        onKeyDown={(e) => {
+          if (e.key === 'Enter') {
+            e.preventDefault();
+            handleAddBreak(breakTime);
+          }
+        }}
       />
       <button
         type="button"

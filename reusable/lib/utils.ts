@@ -8,17 +8,25 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
-export function getFormValues<T extends Record<string, any>>(formData: FormData): T {
+export function getFormValues<T extends Record<string, any>>(
+  formData: FormData,
+  stringifiedFields?: string[]
+): T {
   const result: Record<string, any> = {};
 
-  for (const [key, value] of formData.entries()) {
+  for (let [key, value] of formData.entries()) {
+    // si tenemos que mandar un array desde el form
     if (key.endsWith('[]')) {
       const cleanKey = key.slice(0, -2);
+      // si hay campos quese deben parse
+      if (stringifiedFields && stringifiedFields.includes(cleanKey))
+        value = JSON.parse(value as string);
       if (!result[cleanKey]) {
         result[cleanKey] = [];
       }
       result[cleanKey].push(value);
     } else {
+      if (stringifiedFields && stringifiedFields.includes(key)) value = JSON.parse(value as string);
       result[key] = value;
     }
   }
@@ -66,7 +74,7 @@ export const multiFetch = async <T>(
   }
 };
 
-export const handleSearch = <T extends { title: string; keywords: string[] }>(
+export const handleSearch = <T extends { title: string; keywords?: string[] }>(
   search: string,
   items: T[]
 ) => {
@@ -77,7 +85,7 @@ export const handleSearch = <T extends { title: string; keywords: string[] }>(
   return items.filter(
     (item) =>
       item.title.toLowerCase().includes(lSearch) ||
-      item.keywords.some((kw) => kw.toLowerCase().includes(lSearch))
+      item.keywords?.some((kw) => kw.toLowerCase().includes(lSearch))
   );
 };
 

@@ -3,12 +3,12 @@ import ListSkeleton from '@/reusable/components/ListSkeleton';
 import NavBtn from '@/reusable/components/NavBtn';
 import { Suspense } from 'react';
 import ClientWrapper from './ClientWrapper';
+import { getWorkouts } from '@/reusable/actions/workouts/getWorkouts';
 
 const FetchWrapper = async () => {
-  // const workouts = (await getWorkouts()) || [];
-  const workouts: any[] = [];
+  const workouts = (await getWorkouts()) || [];
 
-  return <ClientWrapper _workouts={JSON.stringify(workouts)} />;
+  return <ClientWrapper workouts={workouts} />;
 };
 
 const Workouts = () => {

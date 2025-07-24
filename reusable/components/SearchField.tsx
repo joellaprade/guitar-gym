@@ -1,16 +1,28 @@
 import { Search } from 'lucide-react';
-import { Dispatch, Ref, SetStateAction } from 'react';
+import { Dispatch, Ref, SetStateAction, useEffect, useState } from 'react';
+import { handleSearch } from '../lib/utils';
 
-type Props = {
+type Props<T extends { title: string; keywords?: string[] }> = {
   ref: Ref<HTMLInputElement> | undefined;
-
   setIsFocused?: Dispatch<SetStateAction<boolean>>;
-  setSearch: Dispatch<SetStateAction<string>>;
   className: string;
   placeholder: string;
+  values: T[];
+  setter: Dispatch<SetStateAction<T[]>>;
 };
 
-const SearchField = ({ ref, setIsFocused, setSearch, className, placeholder }: Props) => {
+const SearchField = <T extends { title: string; keywords?: string[] }>({
+  ref,
+  setIsFocused,
+  className,
+  placeholder,
+  values,
+  setter,
+}: Props<T>) => {
+  const [search, setSearch] = useState('');
+
+  useEffect(() => setter(handleSearch(search, values)), [search]);
+
   return (
     <div className={`relative ${className}`}>
       <input

@@ -2,12 +2,12 @@ import BackArrow from '@/reusable/components/BackArrow';
 import { Suspense } from 'react';
 import { getExercises } from '@/reusable/actions/exercises/getExercises';
 import ListSkeleton from '@/reusable/components/ListSkeleton';
-import Create from './Create';
+import WorkoutForm from './WorkoutForm';
 
 const FetchWrapper = async () => {
   const exercises = await getExercises();
 
-  return <Create exercises={exercises} />;
+  return <WorkoutForm exercises={exercises} />;
 };
 
 const Page = () => {
@@ -24,3 +24,5 @@ const Page = () => {
 };
 
 export default Page;
+
+// hacer edit
