@@ -5,6 +5,8 @@ import { Suspense } from 'react';
 import WorkoutList from './WorkoutList';
 import { getWorkouts } from '@/reusable/actions/workouts/getWorkouts';
 
+export const dynamic = 'force-static';
+
 const FetchWrapper = async () => {
   const workouts = (await getWorkouts()) || [];
 

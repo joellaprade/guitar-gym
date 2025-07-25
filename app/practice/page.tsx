@@ -1,27 +1,27 @@
 import BackArrow from '@/reusable/components/BackArrow';
-import ListElement from '@/reusable/components/ListElement';
-import { Play } from 'lucide-react';
+import { getWorkouts } from '@/reusable/actions/workouts/getWorkouts';
+import { Suspense } from 'react';
+import WorkoutList from './WorkoutList';
+import ListSkeleton from '@/reusable/components/ListSkeleton';
+
+export const dynamic = 'force-static';
+
+const FetchWrapper = async () => {
+  const workouts = await getWorkouts();
+
+  return <WorkoutList workouts={workouts} />;
+};
 
 const Exercises = () => {
-  const PlayBtn = <Play className="text-white stroke-2 fill-white rounded-full" />;
   return (
     <>
       <BackArrow link={'/home'} />
       <div className="vertical-container">
         <h1 className="mt-24">Selecciona Una Rutina</h1>
         <div className="mt-24 mb-24 element-list">
-          <ListElement
-            title={'Alt. Picking'}
-            subtitle={'140bpm'}
-            actionElement={PlayBtn}
-            deleteElement={'e'}
-          />
-          <ListElement
-            title={'Alt. Picking'}
-            subtitle={'140bpm'}
-            actionElement={PlayBtn}
-            deleteElement={'e'}
-          />
+          <Suspense fallback={<ListSkeleton />}>
+            <FetchWrapper />
+          </Suspense>
         </div>
       </div>
     </>

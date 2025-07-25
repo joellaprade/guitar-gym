@@ -1,7 +1,6 @@
 'use client';
-
-import { Trash } from 'lucide-react';
 import { MouseEventHandler } from 'react';
+import Play from './Play';
 
 export default ({
   onMouseDown,
@@ -10,10 +9,5 @@ export default ({
   onMouseDown?: MouseEventHandler<SVGSVGElement>;
   className?: string;
 }) => {
-  return (
-    <Trash
-      onMouseDown={onMouseDown}
-      className={`text-white stroke-2 cursor-pointer ${className}`}
-    />
-  );
+  return <Play onMouseDown={onMouseDown} className={`text-white cursor-pointer ${className}`} />;
 };

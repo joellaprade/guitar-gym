@@ -12,7 +12,7 @@ type Props = {
 const FetchWrapper = async ({ params }: Props) => {
   const { id } = await params;
   const exercises = await getExercises();
-  const workout = (await getWorkouts(id))[0];
+  const [workout] = await getWorkouts(id);
 
   return <WorkoutForm workout={workout} exercises={exercises} />;
 };

@@ -42,10 +42,10 @@ type Props = {
 const WorkoutList = ({ workoutExercises, setWorkoutExercises }: Props) => {
   const [selectedId, setSelectedId] = useState<string | null>(null);
 
-  const handleDelete = (event: React.MouseEvent<SVGSVGElement>, id: string) => {
+  const handleDelete = (event: React.MouseEvent<SVGSVGElement>, index: number) => {
     event.stopPropagation();
     setWorkoutExercises((prevState) => {
-      prevState = prevState.filter((p) => p.id !== id);
+      prevState = prevState.filter((p, i) => i !== index);
       return [...prevState];
     });
   };
@@ -59,7 +59,7 @@ const WorkoutList = ({ workoutExercises, setWorkoutExercises }: Props) => {
           title={e.title}
           subtitle={`${e.duration}s`}
           actionElement={<GripBtn id={e.id} setSelectedId={setSelectedId} />}
-          deleteElement={<DeleteBtn onMouseDown={(event) => handleDelete(event, e.id)} />}
+          deleteElement={<DeleteBtn onMouseDown={(event) => handleDelete(event, i)} />}
           id={e.id}
           key={i}
           className={`${selectedId && e.id !== selectedId && 'opacity-50'}`}
@@ -72,7 +72,7 @@ const WorkoutList = ({ workoutExercises, setWorkoutExercises }: Props) => {
           title={e.title}
           subtitle={`${e.bpm}bpm`}
           actionElement={<GripBtn id={e.id} setSelectedId={setSelectedId} />}
-          deleteElement={<DeleteBtn onMouseDown={(event) => handleDelete(event, e.id)} />}
+          deleteElement={<DeleteBtn onMouseDown={(event) => handleDelete(event, i)} />}
           id={e.id}
           key={i}
           className={`${selectedId && e.id !== selectedId && 'opacity-50'}`}

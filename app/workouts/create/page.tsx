@@ -4,6 +4,8 @@ import { getExercises } from '@/reusable/actions/exercises/getExercises';
 import ListSkeleton from '@/reusable/components/ListSkeleton';
 import WorkoutForm from '../(form)/WorkoutForm';
 
+export const dynamic = 'force-static';
+
 const FetchWrapper = async () => {
   const exercises = await getExercises();
 

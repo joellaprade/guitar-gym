@@ -2,7 +2,7 @@ import ListElement from '@/reusable/components/ListElement';
 import AddBtn from '@/reusable/components/ui/AddBtn';
 import { Break } from '@/reusable/models/Break';
 import { Exercise } from '@/reusable/models/Exercise';
-import { Dispatch, SetStateAction, useEffect, useState } from 'react';
+import { Dispatch, SetStateAction } from 'react';
 
 type Props = {
   exercises: Exercise[];
