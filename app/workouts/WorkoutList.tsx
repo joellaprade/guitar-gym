@@ -28,7 +28,7 @@ const WorkoutList = ({ workoutsProp }: { workoutsProp: Workout[] }) => {
   return (
     <>
       <SearchField
-        values={workouts}
+        values={workoutsProp}
         setter={setWorkouts}
         className="mt-8"
         placeholder="Buscar Rutina"

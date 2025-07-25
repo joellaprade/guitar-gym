@@ -2,13 +2,13 @@ import BackArrow from '@/reusable/components/BackArrow';
 import NavBtn from '@/reusable/components/NavBtn';
 import { Suspense } from 'react';
 import { getExercises } from '@/reusable/actions/exercises/getExercises';
-import ClientWrapper from './ClientWrapper';
+import ExerciseList from './ExerciseList';
 import ListSkeleton from '@/reusable/components/ListSkeleton';
 
 const FetchWrapper = async () => {
   const exercises = (await getExercises()) || [];
 
-  return <ClientWrapper _exercises={JSON.stringify(exercises)} />;
+  return <ExerciseList exercisesProp={exercises} />;
 };
 
 const Exercises = () => {

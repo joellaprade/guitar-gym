@@ -64,7 +64,7 @@ const WorkoutForm = ({ exercises, workout }: Props) => {
         className="bg-transparent text-4xl text-center mt-24"
       />
       <SearchField<Exercise>
-        values={userExercises}
+        values={exercises}
         setter={setUserExercises}
         ref={searchRef}
         setIsFocused={setIsFocused}

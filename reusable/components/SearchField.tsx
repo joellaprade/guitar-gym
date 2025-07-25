@@ -21,6 +21,7 @@ const SearchField = <T extends { title: string; keywords?: string[] }>({
 }: Props<T>) => {
   const [search, setSearch] = useState('');
 
+  console.log(values);
   useEffect(() => setter(handleSearch(search, values)), [search]);
 
   return (

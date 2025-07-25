@@ -51,6 +51,7 @@ export const handleSearch = <T extends { title: string; keywords?: string[] }>(
 ) => {
   const lSearch = search.toLowerCase();
 
+  console.log(lSearch === '', items);
   if (lSearch === '') return items;
 
   return items.filter(
