@@ -1,39 +1,11 @@
 import { clsx, type ClassValue } from 'clsx';
-import { Query } from 'mongoose';
 import { twMerge } from 'tailwind-merge';
-import { Exercise } from '../models/Exercise';
+import type { Exercise } from '../models/Exercise';
 import { Break } from '../models/Break';
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
-
-export function getFormValues<T extends Record<string, any>>(
-  formData: FormData,
-  stringifiedFields?: string[]
-): T {
-  const result: Record<string, any> = {};
-
-  for (let [key, value] of formData.entries()) {
-    // si tenemos que mandar un array desde el form
-    if (key.endsWith('[]')) {
-      const cleanKey = key.slice(0, -2);
-      // si hay campos quese deben parse
-      if (stringifiedFields && stringifiedFields.includes(cleanKey))
-        value = JSON.parse(value as string);
-      if (!result[cleanKey]) {
-        result[cleanKey] = [];
-      }
-      result[cleanKey].push(value);
-    } else {
-      if (stringifiedFields && stringifiedFields.includes(key)) value = JSON.parse(value as string);
-      result[key] = value;
-    }
-  }
-
-  return result as T;
-}
-
 export const multiFetch = async <T>(
   server: 'express' | 'nextjs',
   url: string,
@@ -73,7 +45,6 @@ export const multiFetch = async <T>(
     return {} as T;
   }
 };
-
 export const handleSearch = <T extends { title: string; keywords?: string[] }>(
   search: string,
   items: T[]
@@ -88,7 +59,6 @@ export const handleSearch = <T extends { title: string; keywords?: string[] }>(
       item.keywords?.some((kw) => kw.toLowerCase().includes(lSearch))
   );
 };
-
 export const getXYAllDevices = (e: MouseEvent | TouchEvent) => {
   let clientX: number, clientY: number;
 
@@ -104,30 +74,9 @@ export const getXYAllDevices = (e: MouseEvent | TouchEvent) => {
 
   return { clientX, clientY };
 };
-
-export const docToObj = async <T>(query: Query<any, any, any, any>) => {
-  const leanQuery = await query.lean();
-
-  if (Array.isArray(leanQuery)) {
-    return leanQuery.map((item: any) => {
-      const id = item._id.toString();
-      delete item._id;
-
-      let obj = { ...item, id } as T;
-      return obj;
-    }) as T;
-  } else {
-    const id = leanQuery._id.toString();
-    delete leanQuery._id;
-
-    return { ...leanQuery, id } as T;
-  }
-};
-
 export const selectOnFocus = (e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement>) => {
   e.target.select();
 };
-
 export const formatWorkoutToDB = (workoutExercises: (Exercise | Break)[]) => {
   let formatedExercises: (string | Break)[] = [];
 

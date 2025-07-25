@@ -2,7 +2,7 @@
 import bcrypt from 'bcrypt';
 import db from '../lib/db';
 import { DBUser, User } from '@/reusable/models/User';
-import { getFormValues } from '../lib/utils';
+import { getFormValues } from '../lib/serverUtils';
 import { handleMailVerification } from './handleMailVerification';
 
 type formData = {

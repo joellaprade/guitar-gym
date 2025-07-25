@@ -2,21 +2,28 @@ import BackArrow from '@/reusable/components/BackArrow';
 import { Suspense } from 'react';
 import { getExercises } from '@/reusable/actions/exercises/getExercises';
 import ListSkeleton from '@/reusable/components/ListSkeleton';
-import WorkoutForm from '../(form)/WorkoutForm';
+import WorkoutForm from '../../(form)/WorkoutForm';
+import { getWorkouts } from '@/reusable/actions/workouts/getWorkouts';
 
-const FetchWrapper = async () => {
-  const exercises = await getExercises();
-
-  return <WorkoutForm exercises={exercises} />;
+type Props = {
+  params: Promise<{ id: string }>;
 };
 
-const Page = () => {
+const FetchWrapper = async ({ params }: Props) => {
+  const { id } = await params;
+  const exercises = await getExercises();
+  const workout = (await getWorkouts(id))[0];
+
+  return <WorkoutForm workout={workout} exercises={exercises} />;
+};
+
+const Page = ({ params }: Props) => {
   return (
     <>
       <BackArrow link="/workouts" />
       <div className="vertical-container">
         <Suspense fallback={<ListSkeleton />}>
-          <FetchWrapper />
+          <FetchWrapper params={params} />
         </Suspense>
       </div>
     </>

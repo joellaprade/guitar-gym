@@ -4,7 +4,7 @@ import { cookies } from 'next/headers';
 import { DBVerificationCode } from '../models/VerificationCode';
 import { DBUser } from '../models/User';
 import { createSession } from '../lib/auth';
-import { getFormValues } from '../lib/utils';
+import { getFormValues } from '../lib/serverUtils';
 
 type formData = {
   code: string;

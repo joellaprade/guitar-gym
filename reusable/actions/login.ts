@@ -1,7 +1,7 @@
 'use server';
 
 import db from '../lib/db';
-import { getFormValues } from '../lib/utils';
+import { getFormValues } from '../lib/serverUtils';
 import { DBUser, User } from '../models/User';
 import bcrypt from 'bcrypt';
 import { createSession } from '@/reusable/lib/auth';

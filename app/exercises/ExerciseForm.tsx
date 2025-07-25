@@ -6,7 +6,7 @@ import useFetchServerAction from '@/reusable/hooks/useFetchServerAction';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import KeywordsField from './KeywordsField';
-import { selectOnFocus } from '@/reusable/lib/utils';
+import { selectOnFocus } from '@/reusable/lib/clientUtils';
 import { Exercise } from '@/reusable/models/Exercise';
 
 const ExerciseForm = ({ exercise }: { exercise?: Exercise }) => {

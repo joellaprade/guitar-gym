@@ -9,15 +9,25 @@ import ExerciseList from './ExerciseList';
 import useFetchServerAction from '@/reusable/hooks/useFetchServerAction';
 import { saveWorkout } from '@/reusable/actions/workouts/saveWorkout';
 import { useRouter } from 'next/navigation';
-import { formatWorkoutToDB } from '@/reusable/lib/utils';
+import { formatWorkoutToDB } from '@/reusable/lib/clientUtils';
+import { Workout } from '@/reusable/models/Workout';
+import { updateWorkout } from '@/reusable/actions/workouts/updateWorkout';
 
-const WorkoutForm = ({ exercises }: { exercises: Exercise[] }) => {
+type Props = {
+  exercises: Exercise[];
+  workout?: Workout;
+};
+
+const WorkoutForm = ({ exercises, workout }: Props) => {
+  const isEdit = workout !== undefined;
   const router = useRouter();
   const searchRef = useRef<HTMLInputElement>(null);
-  const { data, loading, runAction } = useFetchServerAction(saveWorkout);
+  const { data, loading, runAction } = useFetchServerAction(isEdit ? updateWorkout : saveWorkout);
 
-  const [title, setTitle] = useState('');
-  const [workoutExercises, setWorkoutExercises] = useState<(Exercise | Break)[]>([]);
+  const [title, setTitle] = useState(workout?.title || '');
+  const [workoutExercises, setWorkoutExercises] = useState<(Exercise | Break)[]>(
+    workout?.exercises || []
+  );
   const [userExercises, setUserExercises] = useState<Exercise[]>(exercises);
 
   const [isFocused, setIsFocused] = useState(false);
@@ -30,6 +40,7 @@ const WorkoutForm = ({ exercises }: { exercises: Exercise[] }) => {
 
     formData.append('title', title);
     formData.append('exercises', JSON.stringify(workoutData));
+    if (workout) formData.append('id', workout.id);
 
     runAction(formData);
   };
@@ -75,7 +86,7 @@ const WorkoutForm = ({ exercises }: { exercises: Exercise[] }) => {
           type={`${isValid && !loading ? 'submit' : 'button'}`}
           className={`big main mt-4 ${isValid && !loading ? '' : 'opacity-50'}`}
         >
-          {loading ? 'Enviando...' : 'Guardar'}
+          {loading ? 'Enviando...' : isEdit ? 'Actualizar' : 'Guardar'}
         </button>
       </div>
     </form>

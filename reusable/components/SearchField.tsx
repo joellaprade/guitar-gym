@@ -1,6 +1,6 @@
 import { Search } from 'lucide-react';
 import { Dispatch, Ref, SetStateAction, useEffect, useState } from 'react';
-import { handleSearch } from '../lib/utils';
+import { handleSearch } from '../lib/clientUtils';
 
 type Props<T extends { title: string; keywords?: string[] }> = {
   ref: Ref<HTMLInputElement> | undefined;

@@ -3,7 +3,7 @@
 import { cookies } from 'next/headers';
 import db from '../../lib/db';
 import { DBExercise, Exercise } from '../../models/Exercise';
-import { docToObj } from '@/reusable/lib/utils';
+import { docToObj } from '@/reusable/lib/serverUtils';
 
 export const getExercises = async (id?: string) => {
   try {

@@ -2,7 +2,7 @@
 
 import { cookies } from 'next/headers';
 import db from '../../lib/db';
-import { docToObj } from '@/reusable/lib/utils';
+import { docToObj, populateWorkoutExercises } from '@/reusable/lib/serverUtils';
 import { DBWorkout, Workout } from '@/reusable/models/Workout';
 
 export const getWorkouts = async (id?: string) => {
@@ -12,8 +12,9 @@ export const getWorkouts = async (id?: string) => {
 
     if (id) {
       const query = DBWorkout.findById(id);
-      const workout = await docToObj<Workout>(query);
+      let workout = await docToObj<Workout>(query);
       if (!workout) throw new Error('No se pudo obtener la rutina');
+      workout = await populateWorkoutExercises(workout);
       workouts.push(workout);
     } else {
       const cookieStore = await cookies();

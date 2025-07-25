@@ -1,7 +1,7 @@
 'use client';
 
 import { Dispatch, SetStateAction, useEffect } from 'react';
-import { getXYAllDevices } from '../lib/utils';
+import { getXYAllDevices } from '../lib/clientUtils';
 import { Exercise } from '../models/Exercise';
 import { Break } from '@/reusable/models/Break';
 export const useDragItem = (

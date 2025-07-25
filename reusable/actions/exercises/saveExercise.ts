@@ -2,7 +2,7 @@
 
 import { cookies } from 'next/headers';
 import db from '../../lib/db';
-import { getFormValues } from '../../lib/utils';
+import { getFormValues } from '../../lib/serverUtils';
 import { DBExercise } from '../../models/Exercise';
 import { Types } from 'mongoose';
 

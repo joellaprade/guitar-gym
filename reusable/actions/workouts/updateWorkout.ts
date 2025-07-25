@@ -1,25 +1,21 @@
 'use server';
 
-import { cookies } from 'next/headers';
 import db from '../../lib/db';
 import { getFormValues } from '../../lib/serverUtils';
-import { DBWorkout } from '@/reusable/models/Workout';
+import { DBWorkout, Workout } from '../../models/Workout';
 
 type FormValues = {
   title: string;
   exercises: string;
+  id: string;
 };
 
-export const saveWorkout = async (formData: FormData) => {
+export const updateWorkout = async (formData: FormData) => {
   try {
     await db();
 
-    const cookieStore = await cookies();
-    const userId = cookieStore.get('userId')?.value;
-    if (!userId) return;
-
     const workout = getFormValues<FormValues>(formData, ['exercises']);
-    await DBWorkout.create({ ...workout, userId });
+    await DBWorkout.findByIdAndUpdate(workout.id, workout);
 
     return true;
   } catch (e) {

@@ -1,6 +1,6 @@
 'use client';
 
-import { selectOnFocus } from '@/reusable/lib/utils';
+import { selectOnFocus } from '@/reusable/lib/clientUtils';
 import { useState } from 'react';
 
 const KeywordsField = ({ keywordsProp }: { keywordsProp?: string[] }) => {
