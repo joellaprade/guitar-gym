@@ -10,6 +10,8 @@ export const dynamic = 'force-static';
 const FetchWrapper = async () => {
   const exercises = (await getExercises()) || [];
 
+  console.log('Fetched exercises:', exercises);
+
   return <ExerciseList exercisesProp={exercises} />;
 };
 
