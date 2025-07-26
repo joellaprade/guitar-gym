@@ -6,6 +6,7 @@ import { docToObj, populateWorkoutExercises } from '@/reusable/lib/serverUtils';
 import { DBWorkout, Workout } from '@/reusable/models/Workout';
 
 export const getWorkouts = async (id?: string) => {
+  const cookieStore = await cookies();
   try {
     await db();
     let workouts: Workout[] = [];
@@ -17,7 +18,6 @@ export const getWorkouts = async (id?: string) => {
       workout = await populateWorkoutExercises(workout);
       workouts.push(workout);
     } else {
-      const cookieStore = await cookies();
       const userId = cookieStore.get('userId')?.value;
       const query = DBWorkout.find({ userId });
       workouts = await docToObj<Workout[]>(query);

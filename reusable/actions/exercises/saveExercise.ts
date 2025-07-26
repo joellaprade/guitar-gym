@@ -16,11 +16,11 @@ type FormValues = {
 };
 
 export const saveExercise = async (formData: FormData) => {
+  const cookieStore = await cookies();
   try {
     await db();
 
     const exercise = getFormValues<FormValues>(formData);
-    const cookieStore = await cookies();
     const userIdCookie = cookieStore.get('userId')?.value;
     if (!userIdCookie) return;
 

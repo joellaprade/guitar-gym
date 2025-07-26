@@ -1,7 +1,6 @@
 import { NextResponse, NextRequest } from 'next/server';
 
 export async function middleware(req: NextRequest) {
-  console.log('Running middleware...');
   const cookie = req.headers.get('cookie');
   const { pathname } = req.nextUrl;
   const unprotectedRoutes = [

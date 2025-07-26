@@ -4,7 +4,6 @@ import db from '@/reusable/lib/db';
 import { cookies } from 'next/headers';
 
 export async function GET() {
-  console.log('Validating session...');
   await db();
   const cookieStore = await cookies();
   const sessionToken = cookieStore.get('sessionToken')?.value;

@@ -4,7 +4,7 @@ import { Suspense } from 'react';
 import WorkoutList from './WorkoutList';
 import ListSkeleton from '@/reusable/components/ListSkeleton';
 
-export const dynamic = 'force-static';
+export const experimental_ppr = true;
 
 const FetchWrapper = async () => {
   const workouts = await getWorkouts();

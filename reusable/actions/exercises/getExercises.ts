@@ -6,6 +6,7 @@ import { DBExercise, Exercise } from '../../models/Exercise';
 import { docToObj } from '@/reusable/lib/serverUtils';
 
 export const getExercises = async (id?: string) => {
+  const cookieStore = await cookies();
   try {
     await db();
     let exercises: Exercise[] = [];
@@ -18,7 +19,6 @@ export const getExercises = async (id?: string) => {
       exercises.push(exercise);
     } else {
       console.log('RAN exercises !id');
-      const cookieStore = await cookies();
 
       console.log(cookieStore.getAll());
       const userId = cookieStore.get('userId')?.value;

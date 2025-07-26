@@ -1,7 +1,5 @@
 import NavBtn from '@/reusable/components/NavBtn';
 
-export const experimental_ppr = true;
-
 const Page = () => {
   return (
     <div>
