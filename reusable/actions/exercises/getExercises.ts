@@ -19,6 +19,7 @@ export const getExercises = async (id?: string) => {
     } else {
       console.log('RAN exercises !id');
       const cookieStore = await cookies();
+
       console.log(cookieStore.getAll());
       const userId = cookieStore.get('userId')?.value;
       const query = DBExercise.find({ userId });
