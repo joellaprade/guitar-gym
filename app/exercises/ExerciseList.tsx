@@ -10,6 +10,7 @@ import EditBtn from '@/reusable/components/ui/EditBtn';
 import DeleteBtn from '@/reusable/components/ui/DeleteBtn';
 
 const ExerciseList = ({ exercisesProp }: { exercisesProp: Exercise[] }) => {
+  console.log('ExerciseList', exercisesProp);
   const [exercises, setExercises] = useState<Exercise[]>(exercisesProp);
   const router = useRouter();
 
