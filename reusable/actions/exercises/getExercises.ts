@@ -10,7 +10,6 @@ export const getExercises = async (id?: string) => {
     await db();
     let exercises: Exercise[] = [];
     console.log('RAN exercises');
-    console.warn('RAN exercises');
     if (id) {
       const query = DBExercise.findById(id);
       const exercise = await docToObj<Exercise>(query);
@@ -19,7 +18,6 @@ export const getExercises = async (id?: string) => {
       exercises.push(exercise);
     } else {
       console.log('RAN exercises !id');
-      console.warn('RAN exercises !id');
       const cookieStore = await cookies();
       console.log(cookieStore.getAll());
       const userId = cookieStore.get('userId')?.value;
