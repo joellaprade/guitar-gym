@@ -9,7 +9,7 @@ export const getExercises = async (id?: string) => {
   const cookieStore = await cookies();
   try {
     await db();
-    let exercises: Exercise[] = [];
+    let exercises: Exercise[] | null = [];
     if (id) {
       const query = DBExercise.findById(id);
       const exercise = await docToObj<Exercise>(query);
