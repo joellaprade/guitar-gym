@@ -37,9 +37,11 @@ const ListElement = ({
       </div>
 
       <div className="absolute right-0 inset-y-0 aspect-square flex-center">{actionElement}</div>
-      <div className="absolute right-0 translate-x-[101%] inset-y-0 aspect-square flex-center bg-[#FF6E6E]">
-        {deleteElement}
-      </div>
+      {deleteElement && (
+        <div className="absolute right-0 translate-x-[101%] inset-y-0 aspect-square flex-center bg-[#FF6E6E]">
+          {deleteElement}
+        </div>
+      )}
     </div>
   );
 };

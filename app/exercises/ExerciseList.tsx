@@ -29,21 +29,30 @@ const ExerciseList = ({ exercisesProp }: { exercisesProp: Exercise[] }) => {
     <>
       <SearchField
         className="mt-8"
-        placeholder="Buscar Ejercicio"
+        placeholder="Search Exercises"
         ref={undefined}
         values={exercisesProp}
         setter={setExercises}
       />
       <div className="mt-12 element-list">
-        {exercises.map(({ title, bpm, id }: Exercise, i: number) => (
-          <ListElement
-            title={title}
-            subtitle={`${bpm}bpm`}
-            actionElement={<EditBtn onMouseDown={(e) => handleEdit(e, id)} />}
-            deleteElement={<DeleteBtn onMouseDown={(e) => handleDelete(e, id)} />}
-            key={i}
-          />
-        ))}
+        {exercises.length > 0 ? (
+          exercises.map(({ title, bpm, id }: Exercise, i: number) => (
+            <ListElement
+              title={title}
+              subtitle={`${bpm}bpm`}
+              actionElement={<EditBtn onMouseDown={(e) => handleEdit(e, id)} />}
+              deleteElement={<DeleteBtn onMouseDown={(e) => handleDelete(e, id)} />}
+              key={i}
+            />
+          ))
+        ) : (
+          <div className="text-center flex flex-center flex-col gap-4 h-full">
+            <h3>You have not created any exercises yet!</h3>
+            <button className="small main" onMouseDown={(e) => router.push('/exercises/create')}>
+              Create Exercise
+            </button>
+          </div>
+        )}
       </div>
     </>
   );

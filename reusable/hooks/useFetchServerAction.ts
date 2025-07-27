@@ -2,17 +2,19 @@
 
 import { useState } from 'react';
 
-export default function useFetchServerAction<T>(
-  serverAction: (formData: FormData) => Promise<T> // Make sure the function signature matches
-) {
+type ServerAction<T> = (() => Promise<T>) | ((formData: FormData) => Promise<T>);
+
+export default function useFetchServerAction<T>(serverAction: ServerAction<T>) {
   const [data, setData] = useState<T | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const runAction = async (formData: FormData) => {
+  const runAction = async (formData?: FormData) => {
     setLoading(true);
     try {
-      const res = await serverAction(formData);
+      const res = formData
+        ? await (serverAction as (formData: FormData) => Promise<T>)(formData)
+        : await (serverAction as () => Promise<T>)();
       setData(res);
     } catch (e: any) {
       if (e.message == 'NEXT_REDIRECT') return;

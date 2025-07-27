@@ -11,19 +11,32 @@ type Props = {
 
 const WorkoutList = ({ workouts }: Props) => {
   const router = useRouter();
-  return workouts.map((workout) => (
-    <ListElement
-      key={workout.id}
-      title={workout.title}
-      subtitle={`${workout.exercises.length} exercises`}
-      actionElement={
-        <PlayBtn
-          onMouseDown={() => router.push(`practice/${workout.id}`)}
-          className="text-white stroke-2 fill-white w-5 h-5"
+  return workouts.length > 0 ? (
+    workouts.map((workout) => {
+      const isValid = workout.exercises.length > 0;
+
+      return (
+        <ListElement
+          key={workout.id}
+          title={workout.title}
+          subtitle={`${workout.exercises.length} exercises`}
+          actionElement={
+            <PlayBtn
+              onMouseDown={() => isValid && router.push(`practice/${workout.id}`)}
+              className={`text-white stroke-2 fill-white w-5 h-5 ${isValid ? '' : 'opacity-50'}`}
+            />
+          }
         />
-      }
-    />
-  ));
+      );
+    })
+  ) : (
+    <div className="text-center flex flex-center flex-col gap-4 h-full">
+      <h3>You have not created a workout yet!</h3>
+      <button className="small main" onClick={() => router.push('/workouts/create')}>
+        Create Workout
+      </button>
+    </div>
+  );
 };
 
 export default WorkoutList;

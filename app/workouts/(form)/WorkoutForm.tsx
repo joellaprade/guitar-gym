@@ -60,7 +60,7 @@ const WorkoutForm = ({ exercises, workout }: Props) => {
         value={title}
         onChange={(e) => setTitle(e.target.value)}
         type="text"
-        placeholder="Título Rutina"
+        placeholder="Workout Title"
         className="bg-transparent text-4xl text-center mt-24"
       />
       <SearchField<Exercise>
@@ -69,7 +69,7 @@ const WorkoutForm = ({ exercises, workout }: Props) => {
         ref={searchRef}
         setIsFocused={setIsFocused}
         className="mt-8"
-        placeholder="Agregar Ejercicio"
+        placeholder="Add Exercise"
       />
 
       <ExerciseList
@@ -80,13 +80,13 @@ const WorkoutForm = ({ exercises, workout }: Props) => {
         setWorkoutExercises={setWorkoutExercises}
       />
 
-      <div className="mt-12 mb-8">
+      <div className="mb-8">
         <BreakOptions setData={setWorkoutExercises} />
         <button
           type={`${isValid && !loading ? 'submit' : 'button'}`}
           className={`big main mt-4 ${isValid && !loading ? '' : 'opacity-50'}`}
         >
-          {loading ? 'Enviando...' : isEdit ? 'Actualizar' : 'Guardar'}
+          {loading ? 'Sending...' : isEdit ? 'Save' : 'Save'}
         </button>
       </div>
     </form>

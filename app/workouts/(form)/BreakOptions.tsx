@@ -32,7 +32,7 @@ const BreakOptions = ({ setData }: { setData: Dispatch<SetStateAction<(Break | E
         }}
         onFocus={handleFocus}
         type="number"
-        placeholder="Segundos"
+        placeholder="Seconds"
         onKeyDown={(e) => {
           if (e.key === 'Enter') {
             e.preventDefault();
@@ -56,7 +56,7 @@ const BreakOptions = ({ setData }: { setData: Dispatch<SetStateAction<(Break | E
         <span
           className={`transition-all duration-300 text-white text-sm absolute ${showBreakInput ? 'opacity-0' : 'opacity-100'}`}
         >
-          Agregar descanzo
+          Add Break
         </span>
       </button>
     </div>

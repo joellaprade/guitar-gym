@@ -18,11 +18,11 @@ const Workouts = () => {
     <>
       <BackArrow link={'/home'} />
       <div className="vertical-container">
-        <h1 className="mt-24">Rutinas</h1>
+        <h1 className="mt-24">Workouts</h1>
         <Suspense fallback={<ListSkeleton />}>
           <FetchWrapper />
         </Suspense>
-        <NavBtn text="Crear Rutina" href="/workouts/create" className="big main mt-12 mb-8" />
+        <NavBtn text="Create Workout" href="/workouts/create" className="big main mt-12 mb-8" />
       </div>
     </>
   );

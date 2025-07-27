@@ -31,19 +31,28 @@ const WorkoutList = ({ workoutsProp }: { workoutsProp: Workout[] }) => {
         values={workoutsProp}
         setter={setWorkouts}
         className="mt-8"
-        placeholder="Buscar Rutina"
+        placeholder="Search Workout"
         ref={undefined}
       />
       <div className="mt-12 element-list">
-        {workouts.map(({ title, exercises, id }: Workout, i: number) => (
-          <ListElement
-            title={title}
-            subtitle={`${exercises.length} exercises`}
-            actionElement={<EditBtn onMouseDown={(e) => handleEdit(e, id)} />}
-            deleteElement={<DeleteBtn onMouseDown={(e) => handleDelete(e, id)} />}
-            key={i}
-          />
-        ))}
+        {workouts.length > 0 ? (
+          workouts.map(({ title, exercises, id }: Workout, i: number) => (
+            <ListElement
+              title={title}
+              subtitle={`${exercises.length} exercises`}
+              actionElement={<EditBtn onMouseDown={(e) => handleEdit(e, id)} />}
+              deleteElement={<DeleteBtn onMouseDown={(e) => handleDelete(e, id)} />}
+              key={i}
+            />
+          ))
+        ) : (
+          <div className="text-center flex flex-center flex-col gap-4 h-full">
+            <h3>You have not created a workout yet!</h3>
+            <button className="small main" onClick={() => router.push('/workouts/create')}>
+              Create Workout
+            </button>
+          </div>
+        )}
       </div>
     </>
   );

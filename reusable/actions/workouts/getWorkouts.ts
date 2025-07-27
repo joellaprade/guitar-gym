@@ -20,7 +20,7 @@ export const getWorkouts = async (id?: string) => {
     } else {
       const userId = cookieStore.get('userId')?.value;
       const query = DBWorkout.find({ userId });
-      workouts = await docToObj<Workout[]>(query);
+      workouts = (await docToObj<Workout[]>(query)) ?? [];
     }
 
     if (!workouts) throw new Error('No se pudieron obtener las rutinas');

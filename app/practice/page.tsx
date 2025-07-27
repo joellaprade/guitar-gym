@@ -17,7 +17,7 @@ const Exercises = () => {
     <>
       <BackArrow link={'/home'} />
       <div className="vertical-container">
-        <h1 className="mt-24">Selecciona Una Rutina</h1>
+        <h1 className="mt-24">Choose a Workout</h1>
         <div className="mt-24 mb-24 element-list">
           <Suspense fallback={<ListSkeleton />}>
             <FetchWrapper />

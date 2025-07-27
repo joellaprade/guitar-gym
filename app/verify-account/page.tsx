@@ -15,14 +15,14 @@ const Page = () => {
   return (
     <div className="vertical-container">
       <BackArrow link={'/'} />
-      <h2 className="mt-48">Introdusca el código que se envió a su correo</h2>
+      <h2 className="mt-48">Write down the code sent to your email </h2>
       <form className="vertical-container justify-center w-full flex-grow" action={runAction}>
         <input className="my-5" name="code" placeholder="Código" type="text" />
         <button
           type={loading ? 'button' : 'submit'}
           className={`${loading ? 'opacity-50' : ''} big main`}
         >
-          {loading ? 'Enviando...' : 'Enviar'}
+          {loading ? 'Sending...' : 'Send'}
         </button>
       </form>
     </div>

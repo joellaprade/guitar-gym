@@ -46,7 +46,7 @@ const SignUp = () => {
   return (
     <div className="vertical-container">
       <BackArrow link={'/'} />
-      <h1 className="mt-24">Crear Cuenta</h1>
+      <h1 className="mt-24">Create Account</h1>
       <form
         onSubmit={async (e) => {
           e.preventDefault();
@@ -62,7 +62,7 @@ const SignUp = () => {
           }}
           name="name"
           type="text"
-          placeholder="Nombre"
+          placeholder="Your Name"
         />
         <input
           value={fData.email}
@@ -71,7 +71,7 @@ const SignUp = () => {
           }}
           name="email"
           type="email"
-          placeholder="Correo Electrónico"
+          placeholder="Email"
         />
         <input
           value={fData.username}
@@ -80,7 +80,7 @@ const SignUp = () => {
           }}
           name="username"
           type="text"
-          placeholder="Usuario"
+          placeholder="Username"
         />
         <input
           value={fData.password}
@@ -89,7 +89,7 @@ const SignUp = () => {
           }}
           name="password"
           type="password"
-          placeholder="Contraseña"
+          placeholder="Password"
         />
         <input
           value={fData.confirmPassword}
@@ -97,14 +97,14 @@ const SignUp = () => {
             updateData(e.target.value, 'confirmPassword');
           }}
           type="password"
-          placeholder="Confirmar Contraseña"
+          placeholder="Confirm Password"
         />
         <span className={`${!error && 'hidden'} error`}>{error}</span>{' '}
         <button
           type={`${isValid && !loading ? 'submit' : 'button'}`}
           className={`big main mt-4 ${isValid && !loading ? '' : 'opacity-50'}`}
         >
-          {loading ? 'Enviando...' : 'Crear Cuenta'}
+          {loading ? 'Sending...' : 'Create Account'}
         </button>
       </form>
     </div>

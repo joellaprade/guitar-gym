@@ -10,8 +10,6 @@ export const experimental_ppr = true;
 const FetchWrapper = async () => {
   const exercises = (await getExercises()) || [];
 
-  console.log('Fetched exercises:', exercises);
-
   return <ExerciseList exercisesProp={exercises} />;
 };
 
@@ -19,11 +17,11 @@ const Exercises = () => {
   return (
     <div className="vertical-container">
       <BackArrow link={'/home'} />
-      <h1 className="mt-24">Ejercicios</h1>
+      <h1 className="mt-24">Exercises</h1>
       <Suspense fallback={<ListSkeleton />}>
         <FetchWrapper />
       </Suspense>
-      <NavBtn text="Crear Ejercicio" href="/exercises/create" className="big main mt-12 mb-8" />
+      <NavBtn text="Create Exercise" href="/exercises/create" className="big main mt-12 mb-8" />
     </div>
   );
 };

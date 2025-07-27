@@ -10,7 +10,6 @@ export const getExercises = async (id?: string) => {
   try {
     await db();
     let exercises: Exercise[] = [];
-    console.log('RAN exercises');
     if (id) {
       const query = DBExercise.findById(id);
       const exercise = await docToObj<Exercise>(query);
@@ -18,13 +17,9 @@ export const getExercises = async (id?: string) => {
 
       exercises.push(exercise);
     } else {
-      console.log('RAN exercises !id');
-
-      console.log(cookieStore.getAll());
       const userId = cookieStore.get('userId')?.value;
       const query = DBExercise.find({ userId });
       exercises = await docToObj<Exercise[]>(query);
-      console.log(exercises);
     }
 
     if (!exercises) throw new Error('No se pudieron obtener los ejercicios');

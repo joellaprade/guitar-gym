@@ -13,7 +13,7 @@ const ExerciseForm = ({ exercise }: { exercise?: Exercise }) => {
   const router = useRouter();
   const isEdit = exercise != undefined;
 
-  const [title, setTitle] = useState(exercise?.title || 'Ejercicio');
+  const [title, setTitle] = useState(exercise?.title || 'Exercise');
   const [bpm, setBpm] = useState(exercise?.bpm || 120);
   const [timeSignature, setTimeSignature] = useState(exercise?.timeSignature || '4 / 4');
   const [measures, setMeasures] = useState(exercise?.measures || 32);
@@ -94,7 +94,7 @@ const ExerciseForm = ({ exercise }: { exercise?: Exercise }) => {
         type={`${loading ? 'button' : 'submit'}`}
         className={`big main mt-4 mb-8 ${loading ? 'opacity-50' : ''}`}
       >
-        {loading ? 'Esperando...' : 'Guardar'}
+        {loading ? 'Sending...' : 'Save'}
       </button>
     </form>
   );

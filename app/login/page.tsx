@@ -34,7 +34,7 @@ export default function Page() {
   return (
     <div className="vertical-container">
       <BackArrow link={'/'} />
-      <h1 className="mt-24">Ingresar</h1>
+      <h1 className="mt-24">Login</h1>
       <form
         className="vertical-container justify-center gap-4 w-full"
         onSubmit={(e) => {
@@ -47,25 +47,25 @@ export default function Page() {
           value={username}
           onChange={(e) => setUsername(e.target.value.toLowerCase())}
           type="text"
-          placeholder="Nombre de Usuario"
+          placeholder="Username"
           name="username"
         />
         <input
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           type="password"
-          placeholder="Contraseña"
+          placeholder="Password"
           name="password"
         />
         <span className={`${!error && 'hidden'} error`}>{error}</span>{' '}
         <Link className="link text-center" href={'/change-password/request'}>
-          Olvidé mi Contraseña
+          Forgot Password?
         </Link>
         <button
           type={`${isValid && !loading ? 'submit' : 'button'}`}
           className={`big main mt-6 ${isValid && !loading ? '' : 'opacity-50'}`}
         >
-          {loading ? 'Enviando...' : 'Ingresar'}
+          {loading ? 'Sending...' : 'Login'}
         </button>
       </form>
     </div>

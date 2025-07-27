@@ -24,18 +24,17 @@ const ExerciseList = ({
   const handleClick = () => {
     searchRef.current?.focus();
   };
-
   return (
     <div className="element-list mt-12 relative">
       <span className="absolute font-semibold">
-        {isFocused ? 'Tus Ejercicios:' : 'Ejercicios de Esta Rutina:'}
+        {isFocused ? 'Your Exercises:' : "Workout's Exercises:"}
       </span>
       {isFocused ? (
         <UserExercisesList exercises={exercises} setWorkoutExercises={setWorkoutExercises} />
       ) : workoutExercises.length === 0 ? (
         <div className="w-full h-full flex flex-col items-center justify-center gap-4">
           <button onClick={handleClick} className="main small">
-            Agregar Ejercicios
+            Add Your Exercises
           </button>
         </div>
       ) : (
