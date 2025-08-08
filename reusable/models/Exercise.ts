@@ -3,7 +3,7 @@ import { Schema, model, models, InferSchemaType, HydratedDocument } from 'mongoo
 const exerciseSchema = new Schema({
   title: { type: String, required: true },
   bpm: { type: Number, required: true },
-  timeSignature: { type: String, required: true },
+  timeSignature: [{ type: Number, required: true }],
   measures: { type: Number, required: true },
   description: { type: String },
   keywords: [{ type: String }],

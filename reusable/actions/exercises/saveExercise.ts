@@ -9,7 +9,7 @@ import { Types } from 'mongoose';
 type FormValues = {
   title: string;
   bpm: number;
-  timeSignature: string;
+  timeSignature: number[];
   measures: number;
   description: string;
   keywords: string[];
@@ -20,11 +20,14 @@ export const saveExercise = async (formData: FormData) => {
   try {
     await db();
 
-    const exercise = getFormValues<FormValues>(formData);
+    let exercise = getFormValues<FormValues>(formData);
+    exercise.timeSignature = exercise.timeSignature.map((num) => Number(num));
     const userIdCookie = cookieStore.get('userId')?.value;
     if (!userIdCookie) return;
 
     const userId = new Types.ObjectId(userIdCookie);
+    console.log(Array.isArray(exercise.timeSignature));
+    console.log(typeof exercise.timeSignature[0]);
     await DBExercise.create({ ...exercise, userId });
 
     return true;

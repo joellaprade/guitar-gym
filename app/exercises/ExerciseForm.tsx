@@ -15,7 +15,7 @@ const ExerciseForm = ({ exercise }: { exercise?: Exercise }) => {
 
   const [title, setTitle] = useState(exercise?.title || 'Exercise');
   const [bpm, setBpm] = useState(exercise?.bpm || 120);
-  const [timeSignature, setTimeSignature] = useState(exercise?.timeSignature || '4 / 4');
+  const [timeSignature, setTimeSignature] = useState(exercise?.timeSignature || [3, 4]);
   const [measures, setMeasures] = useState(exercise?.measures || 32);
   const [description, setDescription] = useState(exercise?.description || '');
 
@@ -58,13 +58,33 @@ const ExerciseForm = ({ exercise }: { exercise?: Exercise }) => {
         </div>
         <div className=" form-item">
           <label>Time Signature</label>
-          <input
-            name="timeSignature"
-            type="text"
-            value={timeSignature}
-            onChange={(e) => setTimeSignature(e.target.value)}
-            onFocus={selectOnFocus}
-          />
+          <div className="flex gap-3 items-center">
+            <input
+              className="w-12"
+              name="timeSignature[]"
+              type="number"
+              value={timeSignature[0] ? timeSignature[0] : ''}
+              onChange={(e) => {
+                const value = e.target.value ? Number(e.target.value) : 0;
+
+                setTimeSignature([value, timeSignature[1]]);
+              }}
+              onFocus={selectOnFocus}
+            />
+            <span className="text-md">/</span>
+            <input
+              className="w-12"
+              name="timeSignature[]"
+              type="number"
+              value={timeSignature[1] ? timeSignature[1] : ''}
+              onChange={(e) => {
+                const value = e.target.value ? Number(e.target.value) : 0;
+
+                setTimeSignature([timeSignature[0], value]);
+              }}
+              onFocus={selectOnFocus}
+            />
+          </div>
         </div>
         <div className=" form-item">
           <label>Number of Measures</label>
