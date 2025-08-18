@@ -74,7 +74,10 @@ body {
     @apply flex flex-col items-center gap-4 w-full absolute top-[50%] left-[50%] -translate-[50%];
   }
   .play-btn {
-    @apply flex justify-center items-center bg-white max-w-[225px] w-[85%] aspect-square rounded-full;
+    @apply relative flex justify-center items-center  max-w-[225px] w-[85%] aspect-square rounded-full;
+  }
+  .pulse-effect {
+    @apply absolute inset-0 bg-white rounded-full -z-1;
   }
 }
 
@@ -243,6 +246,21 @@ body {
     transform: rotate(360deg);
     transform-origin: 50% 50%;
   }
+}
+
+@theme {
+  @keyframes pulse {
+    0% {
+      transform: scale(1);
+      opacity: 0.75;
+    }
+    100% {
+      transform: scale(1.75);
+      opacity: 0;
+    }
+  }
+
+  --animate-pulse: pulse 1s ease-out;
 }
 
 input[type='number']::-webkit-inner-spin-button,

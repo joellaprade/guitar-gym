@@ -8,7 +8,7 @@ import { useEffect, useState } from 'react';
 import { usePracticeContext } from '../PracticeContext';
 
 const PracticePage = () => {
-  const { currentExercise, currentBeat } = usePracticeContext();
+  const { currentExercise, currentBeat, currentMeassure } = usePracticeContext();
   const [showContainer, setShowContainer] = useState(false);
 
   useEffect(() => {
@@ -24,7 +24,7 @@ const PracticePage = () => {
         {currentExercise.title} <InfoBtn className="-right-[16px]" />
       </h1>
       <h3 className="opacity-50">
-        {currentBeat} / {currentExercise.measures}
+        {currentBeat !== null ? currentMeassure + 1 : 0} / {currentExercise.measures}
       </h3>
       <Metronome />
       <Playlist />

@@ -26,8 +26,6 @@ export const saveExercise = async (formData: FormData) => {
     if (!userIdCookie) return;
 
     const userId = new Types.ObjectId(userIdCookie);
-    console.log(Array.isArray(exercise.timeSignature));
-    console.log(typeof exercise.timeSignature[0]);
     await DBExercise.create({ ...exercise, userId });
 
     return true;

@@ -2,15 +2,16 @@
 
 import { Exercise } from '@/reusable/models/Exercise';
 import { Workout } from '@/reusable/models/Workout';
-import { createContext, useContext, useState } from 'react';
+import { createContext, useContext, useEffect, useState } from 'react';
 
 type ContextType = {
   workout: Workout;
   currentExercise: Exercise;
-  currentBeat: number;
+  currentBeat: number | null;
+  currentMeassure: number;
   currentExerciseIndex: number;
   setCurrentExercise: React.Dispatch<React.SetStateAction<Exercise>>;
-  setCurrentBeat: React.Dispatch<React.SetStateAction<number>>;
+  setCurrentBeat: React.Dispatch<React.SetStateAction<number | null>>;
   setCurrentExerciseIndex: React.Dispatch<React.SetStateAction<number>>;
 };
 
@@ -31,7 +32,14 @@ export const PracticeProvider = ({
 }) => {
   const [currentExerciseIndex, setCurrentExerciseIndex] = useState<number>(0);
   const [currentExercise, setCurrentExercise] = useState<Exercise>(workout.exercises[0]);
-  const [currentBeat, setCurrentBeat] = useState<number>(0);
+  const [currentBeat, setCurrentBeat] = useState<number | null>(null);
+  const [currentMeassure, setCurrentMeasure] = useState(0);
+
+  useEffect(() => {
+    if (currentBeat && currentBeat % currentExercise.timeSignature[0] === 0) {
+      setCurrentMeasure((prev) => prev + 1);
+    }
+  }, [currentBeat]);
 
   return (
     <PracticeContext.Provider
@@ -39,6 +47,7 @@ export const PracticeProvider = ({
         workout,
         currentExercise,
         currentBeat,
+        currentMeassure,
         currentExerciseIndex,
         setCurrentExercise,
         setCurrentBeat,

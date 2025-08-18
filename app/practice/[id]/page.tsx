@@ -3,6 +3,7 @@ import { Suspense } from 'react';
 import Loader from '@/reusable/components/ui/Loader';
 import PracticePage from './PracticePage';
 import { PracticeProvider } from '../PracticeContext';
+import { MetronomeProvider } from '../MetronomeContext';
 
 const FetchWrapper = async ({ params }: { params: Promise<{ id: string }> }) => {
   const { id } = await params;
@@ -10,7 +11,9 @@ const FetchWrapper = async ({ params }: { params: Promise<{ id: string }> }) => 
 
   return (
     <PracticeProvider workout={workout}>
-      <PracticePage />
+      <MetronomeProvider>
+        <PracticePage />
+      </MetronomeProvider>
     </PracticeProvider>
   );
 };
