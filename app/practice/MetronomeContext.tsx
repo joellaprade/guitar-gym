@@ -60,14 +60,13 @@ export const MetronomeProvider = ({ children }: { children: React.ReactNode }) =
     setCurrentExerciseIndex(i);
     setCurrentBeat(null);
 
-    if (metronomeClick) playPauseMetronome();
+    if (isPlaying) toggleMetronome();
   };
   const changeTempo = (count: 1 | -1) => {
     setCurrentExercise((prev) => ({ ...prev, bpm: prev.bpm + count }));
-    if (metronomeClick) {
-      clearInterval(metronomeClick!);
-      const time = 60000 / currentExercise.bpm;
-      setMetronomeClick(setInterval(runBeat, time));
+    if (isPlaying) {
+      toggleMetronome();
+      toggleMetronome();
     }
   };
 
