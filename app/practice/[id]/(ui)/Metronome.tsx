@@ -28,6 +28,7 @@ const Metronome = () => {
     return currentBeat % currentExercise.timeSignature[0];
   };
   const holdChangeTempo = (direction: 1 | -1) => {
+    console.log('e');
     if (isHolding.current) {
       if (fireInterval.current) {
         clearInterval(fireInterval.current);
@@ -41,12 +42,13 @@ const Metronome = () => {
       }
       isHolding.current = false;
       changeTempo(1);
+      changeTempo(-1);
     } else {
       holdTimeout.current = setTimeout(() => {
         fireInterval.current = setInterval(() => {
           changeTempo(direction);
-        }, 100);
-      }, 1000);
+        }, 25);
+      }, 500);
       isHolding.current = true;
     }
   };
@@ -77,9 +79,9 @@ const Metronome = () => {
       </div>
       <div className="flex justify-center items-center w-full">
         <ChevronLeft
-          className="stroke-white stroke-2 h-15 w-15"
-          onMouseDown={() => holdChangeTempo(-1)}
-          onMouseUp={() => holdChangeTempo(-1)}
+          className="stroke-white stroke-2 h-15 w-15 touch-none"
+          onPointerDown={() => holdChangeTempo(-1)}
+          onPointerUp={() => holdChangeTempo(-1)}
         />
         <div
           onClick={toggleMetronome}
@@ -101,9 +103,9 @@ const Metronome = () => {
           ></div>
         </div>
         <ChevronRight
-          className="stroke-white stroke-2 h-15 w-15"
-          onMouseDown={() => holdChangeTempo(1)}
-          onMouseUp={() => holdChangeTempo(1)}
+          className="stroke-white stroke-2 h-15 w-15 touch-none"
+          onPointerDown={() => holdChangeTempo(1)}
+          onPointerUp={() => holdChangeTempo(1)}
         />
       </div>
     </div>

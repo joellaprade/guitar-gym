@@ -4,6 +4,14 @@
 
 body {
   @apply bg-dark-gray px-8 h-[100dvh] overflow-hidden;
+
+  -webkit-user-select: none; /* iOS Safari */
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+
+  -webkit-tap-highlight-color: transparent; /* remove tap highlight */
+  touch-action: none; /* disable scrolling gestures on touch */
 }
 
 @theme {
@@ -96,6 +104,11 @@ body {
   }
   .link {
     @apply font-semibold text-white underline;
+  }
+  .touch-none {
+    -webkit-tap-highlight-color: transparent; /* remove iOS tap highlight */
+    touch-action: none; /* disable default touch gestures like scrolling */
+    user-select: none; /* optional: prevent text selection */
   }
 }
 
