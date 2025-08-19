@@ -1,10 +1,11 @@
 'use client';
 
-import { createContext, useContext, useRef, useState } from 'react';
+import { createContext, useContext, useEffect, useRef, useState } from 'react';
 import { usePracticeContext } from './PracticeContext';
 import { MetronomeSound } from './MetronomeSound';
 
 type ContextType = {
+  color: string;
   isPlaying: boolean;
   changeExercise: (direction: 'next' | 'prev') => void;
   changeTempo: (count: 1 | -1) => void;
@@ -22,15 +23,17 @@ export const useMetronomeContext = () => {
 export const MetronomeProvider = ({ children }: { children: React.ReactNode }) => {
   const {
     workout,
+    currentMeassure,
     currentExercise,
     currentExerciseIndex,
+    setCurrentBeat,
     setCurrentExercise,
     setCurrentExerciseIndex,
-    setCurrentBeat,
   } = usePracticeContext();
 
   const metronomeRef = useRef<MetronomeSound | null>(null);
   const [isPlaying, setIsPlaying] = useState(false);
+  const [color, setColor] = useState('#FFFFFF');
 
   const toggleMetronome = () => {
     if (!metronomeRef.current) {
@@ -40,12 +43,16 @@ export const MetronomeProvider = ({ children }: { children: React.ReactNode }) =
         runBeat
       );
       metronomeRef.current.start();
+      setIsPlaying(true);
     } else {
-      metronomeRef.current.stop();
-      metronomeRef.current = null;
+      if (isPlaying) {
+        metronomeRef.current.stop();
+        setIsPlaying(false);
+      } else {
+        metronomeRef.current.start();
+        setIsPlaying(true);
+      }
     }
-
-    setIsPlaying((prev) => !prev);
   };
   const runBeat = () => {
     setCurrentBeat((prev) => (prev === null ? 0 : prev + 1));
@@ -53,26 +60,36 @@ export const MetronomeProvider = ({ children }: { children: React.ReactNode }) =
   const changeExercise = (direction: 'next' | 'prev') => {
     const totalExercises = workout.exercises.length;
     const i = direction === 'next' ? currentExerciseIndex + 1 : currentExerciseIndex - 1;
+    const nextExercise = workout.exercises[i];
 
     if (i < 0 || i >= totalExercises) return;
 
-    setCurrentExercise(workout.exercises[i]);
+    setCurrentExercise(nextExercise);
     setCurrentExerciseIndex(i);
     setCurrentBeat(null);
+    metronomeRef.current?.setTempo(nextExercise.bpm);
 
     if (isPlaying) toggleMetronome();
   };
   const changeTempo = (count: 1 | -1) => {
     setCurrentExercise((prev) => ({ ...prev, bpm: prev.bpm + count }));
+    // agarrar este ejercicio y agregarlo a workout para POST
     if (isPlaying) {
-      toggleMetronome();
-      toggleMetronome();
+      metronomeRef.current?.setTempo(currentExercise.bpm + count);
     }
   };
+  const setRandomColor = () => {
+    const colors = ['#7FAAEB', '#FF9E66', '#FF73D1'];
+    const randomColor = colors[Math.floor(Math.random() * colors.length)];
+    setColor(randomColor);
+  };
+
+  useEffect(setRandomColor, [currentMeassure]);
 
   return (
     <MetronomeContext.Provider
       value={{
+        color,
         isPlaying,
         changeExercise,
         toggleMetronome,

@@ -8,9 +8,7 @@ export default function MetronomeComponent() {
 
   const toggle = () => {
     if (!metronomeRef.current) {
-      metronomeRef.current = new MetronomeSound(tempo, '/sound/smallClick.wav', () =>
-        console.log('e')
-      );
+      metronomeRef.current = new MetronomeSound(tempo, '/sound/smallClick.wav', () => {});
       metronomeRef.current.start();
     } else {
       metronomeRef.current.stop();

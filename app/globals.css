@@ -259,10 +259,9 @@ body {
       opacity: 0;
     }
   }
-
-  --animate-pulse: pulse 1s ease-out;
 }
-
+.pulse-animation {
+}
 input[type='number']::-webkit-inner-spin-button,
 input[type='number']::-webkit-outer-spin-button {
   -webkit-appearance: none;

@@ -1,4 +1,3 @@
-// utils/metronome.ts
 export class MetronomeSound {
   private audioCtx: AudioContext;
   private nextNoteTime: number = 0;
@@ -36,10 +35,9 @@ export class MetronomeSound {
     source.connect(this.audioCtx.destination);
     source.start(time);
 
-    // Trigger UI exactly when the sound fires
     const delay = (time - this.audioCtx.currentTime) * 1000;
     setTimeout(() => {
-      this.onBeat?.(); // your UI effect
+      this.onBeat();
     }, delay);
   }
 
