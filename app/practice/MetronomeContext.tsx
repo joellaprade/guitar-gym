@@ -74,9 +74,7 @@ export const MetronomeProvider = ({ children }: { children: React.ReactNode }) =
   const changeTempo = (count: 1 | -1) => {
     setCurrentExercise((prev) => ({ ...prev, bpm: prev.bpm + count }));
     // agarrar este ejercicio y agregarlo a workout para POST
-    if (isPlaying) {
-      metronomeRef.current?.setTempo(currentExercise.bpm + count);
-    }
+    if (isPlaying) metronomeRef.current?.setTempo(currentExercise.bpm + count);
   };
   const setRandomColor = () => {
     const colors = ['#7FAAEB', '#FF9E66', '#FF73D1'];

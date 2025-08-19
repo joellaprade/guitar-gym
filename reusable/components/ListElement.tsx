@@ -8,6 +8,7 @@ type Props = {
   id?: string;
   i?: number;
   className?: string;
+  onMouseDown?: (e: React.MouseEvent<HTMLDivElement>) => void;
 };
 
 const ListElement = ({
@@ -18,6 +19,7 @@ const ListElement = ({
   id,
   i,
   className,
+  onMouseDown,
 }: Props) => {
   const handleScroll = (e: React.UIEvent<HTMLDivElement>) => {
     if (!deleteElement) return;
@@ -30,7 +32,12 @@ const ListElement = ({
   };
 
   return (
-    <div className={`${className} list-element`} data-i={i} data-id={id} onMouseDown={handleScroll}>
+    <div
+      className={`${className} list-element`}
+      data-i={i}
+      data-id={id}
+      onMouseDown={deleteElement ? handleScroll : onMouseDown}
+    >
       <div className="py-6 flex flex-col">
         <h2 className="text-start leading-tight">{title}</h2>
         <span className="subtitle">{subtitle}</span>

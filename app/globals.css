@@ -3,7 +3,7 @@
 @plugin "tailwind-scrollbar";
 
 body {
-  @apply bg-dark-gray px-8 h-[100dvh];
+  @apply bg-dark-gray px-8 h-[100dvh] overflow-hidden;
 }
 
 @theme {
@@ -260,8 +260,7 @@ body {
     }
   }
 }
-.pulse-animation {
-}
+
 input[type='number']::-webkit-inner-spin-button,
 input[type='number']::-webkit-outer-spin-button {
   -webkit-appearance: none;

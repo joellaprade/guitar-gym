@@ -20,9 +20,9 @@ const WorkoutList = ({ workouts }: Props) => {
           key={workout.id}
           title={workout.title}
           subtitle={`${workout.exercises.length} exercises`}
+          onMouseDown={() => isValid && router.push(`practice/${workout.id}`)}
           actionElement={
             <PlayBtn
-              onMouseDown={() => isValid && router.push(`practice/${workout.id}`)}
               className={`text-white stroke-2 fill-white w-5 h-5 ${isValid ? '' : 'opacity-50'}`}
             />
           }
