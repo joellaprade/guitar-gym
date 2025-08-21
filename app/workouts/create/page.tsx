@@ -9,7 +9,7 @@ export const experimental_ppr = true;
 const FetchWrapper = async () => {
   const exercises = await getExercises();
 
-  return <WorkoutForm exercises={exercises} />;
+  return <WorkoutForm exercises={exercises.reverse()} />;
 };
 
 const Page = () => {
