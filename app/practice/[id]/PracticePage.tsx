@@ -8,10 +8,12 @@ import { usePracticeContext } from '../PracticeContext';
 import { ChevronLeft } from 'lucide-react';
 import saveWorkout from '@/reusable/actions/practice/saveWorkout';
 import { useRouter } from 'next/navigation';
+import ToolTip from '@/reusable/components/ToolTip';
 
 const PracticePage = () => {
   const { workoutRef, currentExercise, currentBeat, currentMeassure } = usePracticeContext();
   const [showContainer, setShowContainer] = useState(false);
+  const [showToolTip, setShowToolTip] = useState(false);
   const router = useRouter();
 
   const handleLeave = async () => {
@@ -32,7 +34,9 @@ const PracticePage = () => {
         className=" text-white w-10 h-10 cursor-pointer z-1 absolute top-10 left-1"
       />
       <h1 className="relative mt-24 w-fit inline mx-auto">
-        {currentExercise.title} <InfoBtn className="-right-[16px]" />
+        {currentExercise.title}
+        <InfoBtn onClick={() => setShowToolTip((prev) => !prev)} className="-right-[16px]" />
+        {showToolTip && <ToolTip text={currentExercise.description} />}
       </h1>
       <h3 className="opacity-50">
         {currentBeat !== null ? currentMeassure + 1 : 0} / {currentExercise.measures}
