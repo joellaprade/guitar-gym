@@ -7,6 +7,8 @@ import { Break } from '@/reusable/models/Break';
 import ListElement from '@/reusable/components/ListElement';
 import DeleteBtn from '@/reusable/components/ui/DeleteBtn';
 import { useDragItem } from '@/reusable/hooks/useDragItem';
+import { useRouter } from 'next/navigation';
+import EditBtn from '@/reusable/components/ui/EditBtn';
 
 const GripBtn = ({
   id,
@@ -41,7 +43,12 @@ type Props = {
 };
 const WorkoutList = ({ workoutExercises, setWorkoutExercises }: Props) => {
   const [selectedId, setSelectedId] = useState<string | null>(null);
+  const router = useRouter();
 
+  const handleEdit = (e: React.MouseEvent<SVGElement>, id: string) => {
+    e.stopPropagation();
+    router.push(`/exercises/edit/${id}`);
+  };
   const handleDelete = (event: React.MouseEvent<SVGSVGElement>, index: number) => {
     event.stopPropagation();
     setWorkoutExercises((prevState) => {
@@ -71,11 +78,16 @@ const WorkoutList = ({ workoutExercises, setWorkoutExercises }: Props) => {
         <ListElement
           title={e.title}
           subtitle={`${e.bpm}bpm`}
-          actionElement={<GripBtn id={e.id} setSelectedId={setSelectedId} />}
+          actionElement={
+            <>
+              <EditBtn className="mx-5" onMouseDown={(event) => handleEdit(event, e.id)} />
+              <GripBtn id={e.id} setSelectedId={setSelectedId} />
+            </>
+          }
           deleteElement={<DeleteBtn onMouseDown={(event) => handleDelete(event, i)} />}
           id={e.id}
           key={i}
-          className={`${selectedId && e.id !== selectedId && 'opacity-50'}`}
+          className={`${selectedId ? e.id !== selectedId && 'opacity-50' : ''}`}
         />
       );
     }
