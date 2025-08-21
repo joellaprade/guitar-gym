@@ -14,7 +14,7 @@ const FetchWrapper = async ({ params }: Props) => {
   const exercises = await getExercises();
   const [workout] = await getWorkouts(id);
 
-  return <WorkoutForm workout={workout} exercises={exercises.reverse()} />;
+  return <WorkoutForm workout={workout} exercises={exercises} />;
 };
 
 const Page = ({ params }: Props) => {

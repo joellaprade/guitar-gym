@@ -9,3 +9,5 @@ resetear current beat, meassure onExerciseChange
       workoutRef.current.exercises[currentExerciseIndex] = newExercise;
       return newExercise;
     });
+
+se me guardaron mal los exercises. Hacer que se vean reversed pero que esten guardados en orden
