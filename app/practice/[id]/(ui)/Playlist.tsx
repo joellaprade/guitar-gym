@@ -6,7 +6,7 @@ import { useRef } from 'react';
 import { useMetronomeContext } from '../../MetronomeContext';
 
 const Playlist = () => {
-  const { workout, currentExerciseIndex } = usePracticeContext();
+  const { workoutRef, currentExerciseIndex } = usePracticeContext();
   const { changeExercise } = useMetronomeContext();
 
   const startX = useRef(0);
@@ -29,7 +29,7 @@ const Playlist = () => {
       <div className="flex flex-col items-start">
         <span className="font-bold opacity-50 leading-tight">Up Next</span>
         <h3 className="leading-tight">
-          {workout.exercises[currentExerciseIndex + 1]?.title ?? 'Finish'}
+          {workoutRef.current.exercises[currentExerciseIndex + 1]?.title ?? 'Finish'}
         </h3>
       </div>
       <div className="flex-center absolute inset-y-0 right-0 aspect-square ">

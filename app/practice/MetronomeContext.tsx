@@ -22,12 +22,13 @@ export const useMetronomeContext = () => {
 
 export const MetronomeProvider = ({ children }: { children: React.ReactNode }) => {
   const {
-    workout,
+    workoutRef,
     currentMeassure,
     currentExercise,
     currentExerciseIndex,
     setCurrentBeat,
     setCurrentExercise,
+    setCurrentMeasure,
     setCurrentExerciseIndex,
   } = usePracticeContext();
 
@@ -58,6 +59,7 @@ export const MetronomeProvider = ({ children }: { children: React.ReactNode }) =
     setCurrentBeat((prev) => (prev === null ? 0 : prev + 1));
   };
   const changeExercise = (direction: 'next' | 'prev') => {
+    const workout = workoutRef.current;
     const totalExercises = workout.exercises.length;
     const i = direction === 'next' ? currentExerciseIndex + 1 : currentExerciseIndex - 1;
     const nextExercise = workout.exercises[i];
@@ -67,12 +69,17 @@ export const MetronomeProvider = ({ children }: { children: React.ReactNode }) =
     setCurrentExercise(nextExercise);
     setCurrentExerciseIndex(i);
     setCurrentBeat(null);
+    setCurrentMeasure(0);
     metronomeRef.current?.setTempo(nextExercise.bpm);
 
     if (isPlaying) toggleMetronome();
   };
   const changeTempo = (count: 1 | -1) => {
-    setCurrentExercise((prev) => ({ ...prev, bpm: prev.bpm + count }));
+    setCurrentExercise((prev) => {
+      const newExercise = { ...prev, bpm: prev.bpm + count };
+      workoutRef.current.exercises[currentExerciseIndex] = newExercise;
+      return newExercise;
+    });
     // agarrar este ejercicio y agregarlo a workout para POST
     if (isPlaying) metronomeRef.current?.setTempo(currentExercise.bpm + count);
   };
@@ -83,6 +90,12 @@ export const MetronomeProvider = ({ children }: { children: React.ReactNode }) =
   };
 
   useEffect(setRandomColor, [currentMeassure]);
+
+  useEffect(() => {
+    return () => {
+      metronomeRef.current?.stop();
+    };
+  }, []);
 
   return (
     <MetronomeContext.Provider

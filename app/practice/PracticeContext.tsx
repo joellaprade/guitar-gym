@@ -2,16 +2,17 @@
 
 import { Exercise } from '@/reusable/models/Exercise';
 import { Workout } from '@/reusable/models/Workout';
-import { createContext, useContext, useEffect, useState } from 'react';
+import { createContext, useContext, useEffect, useRef, useState } from 'react';
 
 type ContextType = {
-  workout: Workout;
-  currentExercise: Exercise;
+  workoutRef: React.RefObject<Workout>;
   currentBeat: number | null;
   currentMeassure: number;
+  currentExercise: Exercise;
   currentExerciseIndex: number;
-  setCurrentExercise: React.Dispatch<React.SetStateAction<Exercise>>;
   setCurrentBeat: React.Dispatch<React.SetStateAction<number | null>>;
+  setCurrentMeasure: React.Dispatch<React.SetStateAction<number>>;
+  setCurrentExercise: React.Dispatch<React.SetStateAction<Exercise>>;
   setCurrentExerciseIndex: React.Dispatch<React.SetStateAction<number>>;
 };
 
@@ -30,6 +31,7 @@ export const PracticeProvider = ({
   children: React.ReactNode;
   workout: Workout;
 }) => {
+  const workoutRef = useRef(workout);
   const [currentExerciseIndex, setCurrentExerciseIndex] = useState<number>(0);
   const [currentExercise, setCurrentExercise] = useState<Exercise>(workout.exercises[0]);
   const [currentBeat, setCurrentBeat] = useState<number | null>(null);
@@ -44,13 +46,14 @@ export const PracticeProvider = ({
   return (
     <PracticeContext.Provider
       value={{
-        workout,
+        workoutRef,
         currentExercise,
         currentBeat,
         currentMeassure,
         currentExerciseIndex,
-        setCurrentExercise,
         setCurrentBeat,
+        setCurrentMeasure,
+        setCurrentExercise,
         setCurrentExerciseIndex,
       }}
     >

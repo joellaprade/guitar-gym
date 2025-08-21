@@ -1,2 +1,11 @@
 hacer ui mas new-client friendly
 hacer logout
+
+resetear current beat, meassure onExerciseChange
+
+
+    setCurrentExercise((prev) => {
+      const newExercise = { ...prev, bpm: currentExercise.bpm + count };
+      workoutRef.current.exercises[currentExerciseIndex] = newExercise;
+      return newExercise;
+    });

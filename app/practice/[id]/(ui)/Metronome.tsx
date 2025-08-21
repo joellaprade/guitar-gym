@@ -12,7 +12,6 @@ const Metronome = () => {
   const { color, isPlaying, toggleMetronome, changeExercise, changeTempo } = useMetronomeContext();
   const [pulse, setPulse] = useState(true);
 
-  const isHolding = useRef(false);
   const holdTimeout = useRef<NodeJS.Timeout | null>(null);
   const fireInterval = useRef<NodeJS.Timeout | null>(null);
 
@@ -27,30 +26,26 @@ const Metronome = () => {
     if (currentBeat === null) return;
     return currentBeat % currentExercise.timeSignature[0];
   };
-  const holdChangeTempo = (direction: 1 | -1) => {
-    console.log('e');
-    if (isHolding.current) {
-      if (fireInterval.current) {
-        clearInterval(fireInterval.current);
-        fireInterval.current = null;
-      } else {
-        if (holdTimeout.current) {
-          clearTimeout(holdTimeout.current);
-          fireInterval.current = null;
-        }
+  const handleHoldChangeTempo = (direction: 1 | -1) => {
+    holdTimeout.current = setTimeout(() => {
+      fireInterval.current = setInterval(() => {
         changeTempo(direction);
-      }
-      isHolding.current = false;
-      changeTempo(1);
-      changeTempo(-1);
+      }, 25);
+    }, 500);
+  };
+  const handleReleaseChangeTempo = (direction: 1 | -1) => {
+    if (fireInterval.current) {
+      clearInterval(fireInterval.current);
+      fireInterval.current = null;
     } else {
-      holdTimeout.current = setTimeout(() => {
-        fireInterval.current = setInterval(() => {
-          changeTempo(direction);
-        }, 25);
-      }, 500);
-      isHolding.current = true;
+      if (holdTimeout.current) {
+        clearTimeout(holdTimeout.current);
+        fireInterval.current = null;
+      }
+      changeTempo(direction);
     }
+    changeTempo(1);
+    changeTempo(-1);
   };
 
   useEffect(() => {
@@ -80,8 +75,8 @@ const Metronome = () => {
       <div className="flex justify-center items-center w-full">
         <ChevronLeft
           className="stroke-white stroke-2 h-15 w-15 touch-none"
-          onPointerDown={() => holdChangeTempo(-1)}
-          onPointerUp={() => holdChangeTempo(-1)}
+          onPointerDown={() => handleHoldChangeTempo(-1)}
+          onPointerUp={() => handleReleaseChangeTempo(-1)}
         />
         <div
           onClick={toggleMetronome}
@@ -104,8 +99,8 @@ const Metronome = () => {
         </div>
         <ChevronRight
           className="stroke-white stroke-2 h-15 w-15 touch-none"
-          onPointerDown={() => holdChangeTempo(1)}
-          onPointerUp={() => holdChangeTempo(1)}
+          onPointerDown={() => handleHoldChangeTempo(1)}
+          onPointerUp={() => handleReleaseChangeTempo(1)}
         />
       </div>
     </div>
