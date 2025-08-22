@@ -39,8 +39,6 @@ body {
   button {
     @apply font-semibold text-sm text-white rounded-[5px] font-poppins;
   }
-  form {
-  }
   form div.form-item {
     @apply flex flex-col gap-1.5;
   }
@@ -48,10 +46,10 @@ body {
     @apply text-[#ffffff80] font-semibold text-sm;
   }
   input {
-    @apply bg-[#ffffff0d] text-sm text-white rounded-[5px] py-2.5 px-4 placeholder:text-[#ffffff80] font-poppins font-bold;
+    @apply bg-[#ffffff0d] text-[16px] text-white rounded-[5px] py-2.5 px-4 placeholder:text-[#ffffff80] font-poppins font-semibold min-w-[44px];
   }
   textarea {
-    @apply bg-[#ffffff0d] text-sm text-white rounded-[5px] py-2.5 px-4 placeholder:text-[#ffffff80] font-poppins font-bold;
+    @apply bg-[#ffffff0d] text-[16px] text-white rounded-[5px] py-2.5 px-4 placeholder:text-[#ffffff80] font-poppins font-semibold;
   }
   .subtitle {
     @apply opacity-50 leading-tight;

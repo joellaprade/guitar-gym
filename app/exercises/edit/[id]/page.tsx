@@ -22,7 +22,7 @@ const Edit = ({ params }: Props) => {
     <>
       <BackArrow link="/exercises" />
       <div className="vertical-container">
-        <h1 className="mt-24 mb-8">Edit Exercise</h1>
+        <h1 className="mt-12 mb-8">Edit Exercise</h1>
         <Suspense fallback={<ListSkeleton />}>
           <FetchWrapper params={params} />
         </Suspense>

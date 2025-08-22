@@ -60,9 +60,9 @@ const WorkoutForm = ({ exercises, workout }: Props) => {
         onChange={(e) => setTitle(e.target.value)}
         type="text"
         placeholder="Workout Title"
-        className="bg-transparent text-4xl text-center mt-24"
+        className="bg-transparent text-4xl text-center mt-12"
       />
-      <div className="flex mt-8 gap-3">
+      <div className="flex mt-4 gap-3">
         <SearchField<Exercise>
           values={exercises}
           setter={setUserExercises}
