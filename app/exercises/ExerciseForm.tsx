@@ -15,7 +15,7 @@ const ExerciseForm = ({ exercise }: { exercise?: Exercise }) => {
 
   const [title, setTitle] = useState(exercise?.title || 'Exercise');
   const [bpm, setBpm] = useState(exercise?.bpm || 120);
-  const [timeSignature, setTimeSignature] = useState(exercise?.timeSignature || [3, 4]);
+  const [timeSignature, setTimeSignature] = useState(exercise?.timeSignature || [4, 4]);
   const [measures, setMeasures] = useState(exercise?.measures || 32);
   const [description, setDescription] = useState(exercise?.description || '');
 
@@ -38,23 +38,11 @@ const ExerciseForm = ({ exercise }: { exercise?: Exercise }) => {
       <div className="my-auto flex flex-col gap-1.5">
         <div className="form-item">
           <label>Title</label>
-          <input
-            name="title"
-            type="text"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-            onFocus={selectOnFocus}
-          />
+          <input name="title" type="text" value={title} onChange={(e) => setTitle(e.target.value)} onFocus={selectOnFocus} />
         </div>
         <div className=" form-item">
           <label>BPM</label>
-          <input
-            name="bpm"
-            type="number"
-            value={bpm}
-            onChange={(e) => setBpm(Number(e.target.value))}
-            onFocus={selectOnFocus}
-          />
+          <input name="bpm" type="number" value={bpm} onChange={(e) => setBpm(Number(e.target.value))} onFocus={selectOnFocus} />
         </div>
         <div className=" form-item">
           <label>Time Signature</label>
@@ -88,32 +76,18 @@ const ExerciseForm = ({ exercise }: { exercise?: Exercise }) => {
         </div>
         <div className=" form-item">
           <label>Number of Measures</label>
-          <input
-            name="measures"
-            type="number"
-            value={measures}
-            onChange={(e) => setMeasures(Number(e.target.value))}
-            onFocus={selectOnFocus}
-          />
+          <input name="measures" type="number" value={measures} onChange={(e) => setMeasures(Number(e.target.value))} onFocus={selectOnFocus} />
         </div>
         <div className=" form-item">
           <label>Description</label>
-          <textarea
-            name="description"
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-            onFocus={selectOnFocus}
-          />
+          <textarea name="description" value={description} onChange={(e) => setDescription(e.target.value)} onFocus={selectOnFocus} />
         </div>
         <div className="flex flex-col gap-4 form-item">
           <label>Keywords (optional)</label>
           <KeywordsField keywordsProp={exercise?.keywords} />
         </div>
       </div>
-      <button
-        type={`${loading ? 'button' : 'submit'}`}
-        className={`big main mt-4 mb-8 ${loading ? 'opacity-50' : ''}`}
-      >
+      <button type={`${loading ? 'button' : 'submit'}`} className={`big main mt-4 mb-8 ${loading ? 'opacity-50' : ''}`}>
         {loading ? 'Sending...' : 'Save'}
       </button>
     </form>
