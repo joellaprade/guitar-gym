@@ -8,6 +8,7 @@ import { deleteWorkout } from '@/reusable/actions/workouts/deleteWorkout';
 import EditBtn from '@/reusable/components/ui/EditBtn';
 import DeleteBtn from '@/reusable/components/ui/DeleteBtn';
 import { Workout } from '@/reusable/models/Workout';
+import { ArrowLeftRight } from 'lucide-react';
 
 const WorkoutList = ({ workoutsProp }: { workoutsProp: Workout[] }) => {
   const router = useRouter();

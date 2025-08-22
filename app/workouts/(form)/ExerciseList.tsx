@@ -2,7 +2,7 @@
 
 import { Exercise } from '@/reusable/models/Exercise';
 import { Break } from '@/reusable/models/Break';
-import { Dispatch, RefObject, SetStateAction } from 'react';
+import { Dispatch, RefObject, SetStateAction, useEffect } from 'react';
 import WorkoutList from './WorkoutExercisesList';
 import UserExercisesList from './UserExercisesList';
 
@@ -11,26 +11,20 @@ type Props = {
   searchRef: RefObject<HTMLInputElement | null>;
   isFocused: boolean;
   workoutExercises: (Exercise | Break)[];
+  isReversed: boolean;
   setWorkoutExercises: Dispatch<SetStateAction<(Exercise | Break)[]>>;
 };
 
-const ExerciseList = ({
-  exercises,
-  searchRef,
-  isFocused,
-  setWorkoutExercises,
-  workoutExercises,
-}: Props) => {
+const ExerciseList = ({ exercises, searchRef, isFocused, setWorkoutExercises, workoutExercises, isReversed }: Props) => {
   const handleClick = () => {
     searchRef.current?.focus();
   };
+
   return (
     <div className="element-list mt-12 relative">
-      <span className="absolute font-semibold">
-        {isFocused ? 'Your Exercises:' : "Workout's Exercises:"}
-      </span>
+      <span className="absolute font-semibold">{isFocused ? 'Your Exercises:' : "Workout's Exercises:"}</span>
       {isFocused ? (
-        <UserExercisesList exercises={exercises} setWorkoutExercises={setWorkoutExercises} />
+        <UserExercisesList isReversed={isReversed} exercises={exercises} setWorkoutExercises={setWorkoutExercises} />
       ) : workoutExercises.length === 0 ? (
         <div className="w-full h-full flex flex-col items-center justify-center gap-4">
           <button onClick={handleClick} className="main small">
@@ -38,10 +32,7 @@ const ExerciseList = ({
           </button>
         </div>
       ) : (
-        <WorkoutList
-          workoutExercises={workoutExercises}
-          setWorkoutExercises={setWorkoutExercises}
-        />
+        <WorkoutList isReversed={isReversed} workoutExercises={workoutExercises} setWorkoutExercises={setWorkoutExercises} />
       )}
     </div>
   );

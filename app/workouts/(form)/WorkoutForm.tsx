@@ -12,6 +12,7 @@ import { useRouter } from 'next/navigation';
 import { formatWorkoutToDB } from '@/reusable/lib/clientUtils';
 import { Workout } from '@/reusable/models/Workout';
 import { updateWorkout } from '@/reusable/actions/workouts/updateWorkout';
+import { ArrowUpDown } from 'lucide-react';
 
 type Props = {
   exercises: Exercise[];
@@ -25,13 +26,11 @@ const WorkoutForm = ({ exercises, workout }: Props) => {
   const { data, loading, runAction } = useFetchServerAction(isEdit ? updateWorkout : saveWorkout);
 
   const [title, setTitle] = useState(workout?.title || '');
-  const [workoutExercises, setWorkoutExercises] = useState<(Exercise | Break)[]>(
-    workout?.exercises || []
-  );
+  const [workoutExercises, setWorkoutExercises] = useState<(Exercise | Break)[]>(workout?.exercises || []);
   const [userExercises, setUserExercises] = useState<Exercise[]>(exercises);
-
   const [isFocused, setIsFocused] = useState(false);
   const [isValid, setIsValid] = useState(false);
+  const [isReversed, setIsReversed] = useState(false);
 
   const handleSubmitWorkout = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -63,14 +62,17 @@ const WorkoutForm = ({ exercises, workout }: Props) => {
         placeholder="Workout Title"
         className="bg-transparent text-4xl text-center mt-24"
       />
-      <SearchField<Exercise>
-        values={exercises}
-        setter={setUserExercises}
-        ref={searchRef}
-        setIsFocused={setIsFocused}
-        className="mt-8"
-        placeholder="Add Exercise"
-      />
+      <div className="flex mt-8 gap-3">
+        <SearchField<Exercise>
+          values={exercises}
+          setter={setUserExercises}
+          ref={searchRef}
+          setIsFocused={setIsFocused}
+          className="flex-grow"
+          placeholder="Add Exercise"
+        />
+        <ArrowUpDown onClick={() => setIsReversed((prev) => !prev)} className={`stroke-white m-auto rounded-full ${isReversed && 'bg-gray'}`} />
+      </div>
 
       <ExerciseList
         exercises={userExercises}
@@ -78,14 +80,12 @@ const WorkoutForm = ({ exercises, workout }: Props) => {
         isFocused={isFocused}
         workoutExercises={workoutExercises}
         setWorkoutExercises={setWorkoutExercises}
+        isReversed={isReversed}
       />
 
       <div className="mb-8">
         <BreakOptions setData={setWorkoutExercises} />
-        <button
-          type={`${isValid && !loading ? 'submit' : 'button'}`}
-          className={`big main mt-4 ${isValid && !loading ? '' : 'opacity-50'}`}
-        >
+        <button type={`${isValid && !loading ? 'submit' : 'button'}`} className={`big main mt-4 ${isValid && !loading ? '' : 'opacity-50'}`}>
           {loading ? 'Sending...' : isEdit ? 'Save' : 'Save'}
         </button>
       </div>

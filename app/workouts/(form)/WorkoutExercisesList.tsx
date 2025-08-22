@@ -1,6 +1,6 @@
 'use client';
 
-import { Dispatch, SetStateAction, useRef, useState } from 'react';
+import { Dispatch, SetStateAction, useEffect, useRef, useState } from 'react';
 import { GripVertical } from 'lucide-react';
 import { Exercise } from '@/reusable/models/Exercise';
 import { Break } from '@/reusable/models/Break';
@@ -10,13 +10,7 @@ import { useDragItem } from '@/reusable/hooks/useDragItem';
 import { useRouter } from 'next/navigation';
 import EditBtn from '@/reusable/components/ui/EditBtn';
 
-const GripBtn = ({
-  id,
-  setSelectedId,
-}: {
-  id: string;
-  setSelectedId: Dispatch<SetStateAction<string | null>>;
-}) => {
+const GripBtn = ({ id, setSelectedId }: { id: string; setSelectedId: Dispatch<SetStateAction<string | null>> }) => {
   const gripRef = useRef<SVGSVGElement>(null);
 
   return (
@@ -39,9 +33,10 @@ const GripBtn = ({
 
 type Props = {
   workoutExercises: (Exercise | Break)[];
+  isReversed: boolean;
   setWorkoutExercises: Dispatch<SetStateAction<(Exercise | Break)[]>>;
 };
-const WorkoutList = ({ workoutExercises, setWorkoutExercises }: Props) => {
+const WorkoutList = ({ isReversed, workoutExercises, setWorkoutExercises }: Props) => {
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const router = useRouter();
 
@@ -56,9 +51,11 @@ const WorkoutList = ({ workoutExercises, setWorkoutExercises }: Props) => {
       return [...prevState];
     });
   };
+  const finalExercises = isReversed ? [...workoutExercises].reverse() : workoutExercises;
+
   useDragItem(selectedId, workoutExercises, setWorkoutExercises, setSelectedId);
 
-  return workoutExercises.map((e, i) => {
+  return finalExercises.map((e, i) => {
     if (e.title === 'Break') {
       e = e as Break;
       return (

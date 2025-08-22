@@ -3,14 +3,15 @@ import AddBtn from '@/reusable/components/ui/AddBtn';
 import { Break } from '@/reusable/models/Break';
 import { Exercise } from '@/reusable/models/Exercise';
 import { useRouter } from 'next/navigation';
-import { Dispatch, SetStateAction } from 'react';
+import { Dispatch, SetStateAction, useEffect } from 'react';
 
 type Props = {
+  isReversed: boolean;
   exercises: Exercise[];
   setWorkoutExercises: Dispatch<SetStateAction<(Exercise | Break)[]>>;
 };
 
-const UserExercisesList = ({ exercises, setWorkoutExercises }: Props) => {
+const UserExercisesList = ({ isReversed, exercises, setWorkoutExercises }: Props) => {
   const router = useRouter();
   const handleAdd = (event: React.MouseEvent<SVGSVGElement>, id: string) => {
     event.stopPropagation();
@@ -18,15 +19,11 @@ const UserExercisesList = ({ exercises, setWorkoutExercises }: Props) => {
     if (!exercise) return;
     setWorkoutExercises((prevState) => [...prevState, exercise]);
   };
+  const finalExercises = isReversed ? [...exercises].reverse() : exercises;
 
   return exercises.length > 0 ? (
-    exercises.map((e, i) => (
-      <ListElement
-        title={e.title}
-        subtitle={`${e.bpm}bpm`}
-        actionElement={<AddBtn onMouseDown={(event) => handleAdd(event, e.id)} />}
-        key={i}
-      />
+    finalExercises.map((e, i) => (
+      <ListElement title={e.title} subtitle={`${e.bpm}bpm`} actionElement={<AddBtn onMouseDown={(event) => handleAdd(event, e.id)} />} key={i} />
     ))
   ) : (
     <div className="text-center flex flex-center flex-col gap-4 h-full">
