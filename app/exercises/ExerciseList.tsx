@@ -8,10 +8,13 @@ import { useRouter } from 'next/navigation';
 import { deleteExercise } from '@/reusable/actions/exercises/deleteExercise';
 import EditBtn from '@/reusable/components/ui/EditBtn';
 import DeleteBtn from '@/reusable/components/ui/DeleteBtn';
+import { ArrowUpDown } from 'lucide-react';
 
 const ExerciseList = ({ exercisesProp }: { exercisesProp: Exercise[] }) => {
-  const [exercises, setExercises] = useState<Exercise[]>(exercisesProp);
   const router = useRouter();
+
+  const [exercises, setExercises] = useState<Exercise[]>(exercisesProp);
+  const [isReversed, setIsReversed] = useState(false);
 
   const handleEdit = (e: React.MouseEvent<SVGElement>, id: string) => {
     e.stopPropagation();
@@ -25,18 +28,19 @@ const ExerciseList = ({ exercisesProp }: { exercisesProp: Exercise[] }) => {
       return [...prevState];
     });
   };
+
+  const finalExercises = isReversed ? [...exercises].reverse() : exercises;
+
   return (
     <>
-      <SearchField
-        className="mt-8"
-        placeholder="Search Exercises"
-        ref={undefined}
-        values={exercisesProp}
-        setter={setExercises}
-      />
+      <div className="flex mt-8 gap-3">
+        <SearchField className=" flex-grow" placeholder="Search Exercises" ref={undefined} values={exercisesProp} setter={setExercises} />
+        <ArrowUpDown onClick={() => setIsReversed((prev) => !prev)} className={`stroke-white h-full rounded-full ${isReversed && 'bg-gray'}`} />
+      </div>
+
       <div className="mt-12 element-list">
         {exercises.length > 0 ? (
-          exercises.map(({ title, bpm, id }: Exercise, i: number) => (
+          finalExercises.map(({ title, bpm, id }: Exercise, i: number) => (
             <ListElement
               title={title}
               subtitle={`${bpm}bpm`}

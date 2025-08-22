@@ -25,7 +25,7 @@ const BreakOptions = ({ setData }: { setData: Dispatch<SetStateAction<(Break | E
   return (
     <div className="flex relative mt-12">
       <input
-        className={`transition-all duration-1000 ease-in-out ${showBreakInput ? 'flex-grow mr-3' : 'flex-grow-0 p-0'} w-0`}
+        className={`min-w-[0px] transition-all duration-1000 ease-in-out ${showBreakInput ? 'flex-grow mr-3' : 'flex-grow-0 p-0'} w-0`}
         value={breakTime}
         onChange={(e) => {
           setBreakTime(Number(e.target.value));
@@ -53,11 +53,7 @@ const BreakOptions = ({ setData }: { setData: Dispatch<SetStateAction<(Break | E
         <Plus
           className={`cursor-pointer transition-all duration-1000 ease-in-out text-black w-[20px] h-[20px] stroke-2 delay-300 ${showBreakInput ? 'opacity-100' : 'opacity-0'}`}
         />
-        <span
-          className={`transition-all duration-300 text-white text-sm absolute ${showBreakInput ? 'opacity-0' : 'opacity-100'}`}
-        >
-          Add Break
-        </span>
+        <span className={`transition-all duration-300 text-white text-sm absolute ${showBreakInput ? 'opacity-0' : 'opacity-100'}`}>Add Break</span>
       </button>
     </div>
   );
