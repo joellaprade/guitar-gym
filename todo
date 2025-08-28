@@ -1,13 +1,1 @@
-hacer ui mas new-client friendly
-hacer logout
-
-resetear current beat, meassure onExerciseChange
-
-
-    setCurrentExercise((prev) => {
-      const newExercise = { ...prev, bpm: currentExercise.bpm + count };
-      workoutRef.current.exercises[currentExerciseIndex] = newExercise;
-      return newExercise;
-    });
-
-se me guardaron mal los exercises. Hacer que se vean reversed pero que esten guardados en orden
+agregar caching
