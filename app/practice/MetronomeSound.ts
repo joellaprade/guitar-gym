@@ -1,23 +1,39 @@
 export class MetronomeSound {
+  private signature: number;
   private audioCtx: AudioContext;
-  private nextNoteTime: number = 0;
   private tempo: number;
+  private currentBeat: number = 1;
+
+  private nextNoteTime: number = 0;
   private lookahead = 25.0;
   private scheduleAheadTime = 0.1;
-  private onBeat: () => void;
+
   private timerID: number | null = null;
+  private smallClick: AudioBuffer | null = null;
+  private bigClick: AudioBuffer | null = null;
   private clickBuffer: AudioBuffer | null = null;
 
-  constructor(tempo: number, clickUrl: string, onBeat: () => void) {
+  private onBeat: () => void;
+
+  constructor(tempo: number, signature: number, onBeat: () => void) {
+    this.signature = signature;
     this.audioCtx = new (window.AudioContext || (window as any).webkitAudioContext)();
     this.tempo = tempo;
     this.nextNoteTime = this.audioCtx.currentTime;
     this.onBeat = onBeat;
 
-    fetch(clickUrl)
+    fetch('/sound/smallClick.wav')
       .then((res) => res.arrayBuffer())
       .then((data) => this.audioCtx.decodeAudioData(data))
       .then((decoded) => {
+        this.smallClick = decoded;
+      });
+
+    fetch('/sound/bigClick.wav')
+      .then((res) => res.arrayBuffer())
+      .then((data) => this.audioCtx.decodeAudioData(data))
+      .then((decoded) => {
+        this.bigClick = decoded;
         this.clickBuffer = decoded;
       });
   }
@@ -26,9 +42,21 @@ export class MetronomeSound {
     const secondsPerBeat = 60.0 / this.tempo;
     this.nextNoteTime += secondsPerBeat;
   }
-
+  private setBeat() {
+    if (this.currentBeat === 1) {
+      this.clickBuffer = this.bigClick;
+      this.currentBeat++;
+    } else if (this.currentBeat % this.signature === 0) {
+      this.currentBeat = 1;
+    } else {
+      this.clickBuffer = this.smallClick;
+      this.currentBeat++;
+    }
+  }
   private scheduleClick(time: number) {
     if (!this.clickBuffer) return;
+
+    this.setBeat();
 
     const source = this.audioCtx.createBufferSource();
     source.buffer = this.clickBuffer;
@@ -40,7 +68,6 @@ export class MetronomeSound {
       this.onBeat();
     }, delay);
   }
-
   private scheduler = () => {
     while (this.nextNoteTime < this.audioCtx.currentTime + this.scheduleAheadTime) {
       this.scheduleClick(this.nextNoteTime);
@@ -55,15 +82,14 @@ export class MetronomeSound {
       this.scheduler();
     }
   }
-
   stop() {
     if (this.timerID) {
       clearTimeout(this.timerID);
       this.timerID = null;
     }
   }
-
-  setTempo(newTempo: number) {
-    this.tempo = newTempo;
+  updateMetronome(tempo: number, signature: number) {
+    this.tempo = tempo;
+    this.signature = signature;
   }
 }

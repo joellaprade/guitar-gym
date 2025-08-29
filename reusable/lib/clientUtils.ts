@@ -1,7 +1,6 @@
 import { clsx, type ClassValue } from 'clsx';
 import { twMerge } from 'tailwind-merge';
 import type { Exercise } from '../models/Exercise';
-import { Break } from '../models/Break';
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -45,19 +44,12 @@ export const multiFetch = async <T>(
     return {} as T;
   }
 };
-export const handleSearch = <T extends { title: string; keywords?: string[] }>(
-  search: string,
-  items: T[]
-) => {
+export const handleSearch = <T extends { title: string; keywords?: string[] }>(search: string, items: T[]) => {
   const lSearch = search.toLowerCase();
 
   if (lSearch === '') return items;
 
-  return items.filter(
-    (item) =>
-      item.title.toLowerCase().includes(lSearch) ||
-      item.keywords?.some((kw) => kw.toLowerCase().includes(lSearch))
-  );
+  return items.filter((item) => item.title.toLowerCase().includes(lSearch) || item.keywords?.some((kw) => kw.toLowerCase().includes(lSearch)));
 };
 export const getXYAllDevices = (e: MouseEvent | TouchEvent) => {
   let clientX: number, clientY: number;
@@ -76,14 +68,4 @@ export const getXYAllDevices = (e: MouseEvent | TouchEvent) => {
 };
 export const selectOnFocus = (e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement>) => {
   e.target.select();
-};
-export const formatWorkoutToDB = (workoutExercises: (Exercise | Break)[]) => {
-  let formatedExercises: (string | Break)[] = [];
-
-  formatedExercises = workoutExercises.map((e) => {
-    if (e.isExercise) return e.id as string;
-    else return e as Break;
-  });
-
-  return formatedExercises;
 };

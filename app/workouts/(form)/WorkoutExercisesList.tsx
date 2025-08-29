@@ -3,7 +3,6 @@
 import { Dispatch, SetStateAction, useEffect, useRef, useState } from 'react';
 import { GripVertical } from 'lucide-react';
 import { Exercise } from '@/reusable/models/Exercise';
-import { Break } from '@/reusable/models/Break';
 import ListElement from '@/reusable/components/ListElement';
 import DeleteBtn from '@/reusable/components/ui/DeleteBtn';
 import { useDragItem } from '@/reusable/hooks/useDragItem';
@@ -32,9 +31,9 @@ const GripBtn = ({ id, setSelectedId }: { id: string; setSelectedId: Dispatch<Se
 };
 
 type Props = {
-  workoutExercises: (Exercise | Break)[];
+  workoutExercises: Exercise[];
   isReversed: boolean;
-  setWorkoutExercises: Dispatch<SetStateAction<(Exercise | Break)[]>>;
+  setWorkoutExercises: Dispatch<SetStateAction<Exercise[]>>;
 };
 const WorkoutList = ({ isReversed, workoutExercises, setWorkoutExercises }: Props) => {
   const [selectedId, setSelectedId] = useState<string | null>(null);
@@ -55,40 +54,22 @@ const WorkoutList = ({ isReversed, workoutExercises, setWorkoutExercises }: Prop
 
   useDragItem(selectedId, workoutExercises, setWorkoutExercises, setSelectedId);
 
-  return finalExercises.map((e, i) => {
-    if (e.title === 'Break') {
-      e = e as Break;
-      return (
-        <ListElement
-          title={e.title}
-          subtitle={`${e.duration}s`}
-          actionElement={<GripBtn id={e.id} setSelectedId={setSelectedId} />}
-          deleteElement={<DeleteBtn onMouseDown={(event) => handleDelete(event, i)} />}
-          id={e.id}
-          key={i}
-          className={`${selectedId && e.id !== selectedId && 'opacity-50'}`}
-        />
-      );
-    } else {
-      e = e as Exercise;
-      return (
-        <ListElement
-          title={e.title}
-          subtitle={`${e.bpm}bpm`}
-          actionElement={
-            <>
-              <EditBtn className="mx-5" onMouseDown={(event) => handleEdit(event, e.id)} />
-              <GripBtn id={e.id} setSelectedId={setSelectedId} />
-            </>
-          }
-          deleteElement={<DeleteBtn onMouseDown={(event) => handleDelete(event, i)} />}
-          id={e.id}
-          key={i}
-          className={`${selectedId ? e.id !== selectedId && 'opacity-50' : ''}`}
-        />
-      );
-    }
-  });
+  return finalExercises.map((e, i) => (
+    <ListElement
+      title={e.title}
+      subtitle={`${e.bpm}bpm`}
+      actionElement={
+        <>
+          <EditBtn className="mx-5" onMouseDown={(event) => handleEdit(event, e.id)} />
+          <GripBtn id={e.id} setSelectedId={setSelectedId} />
+        </>
+      }
+      deleteElement={<DeleteBtn onMouseDown={(event) => handleDelete(event, i)} />}
+      id={e.id}
+      key={i}
+      className={`${selectedId ? e.id !== selectedId && 'opacity-50' : ''}`}
+    />
+  ));
 };
 
 export default WorkoutList;

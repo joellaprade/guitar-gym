@@ -38,11 +38,7 @@ export const MetronomeProvider = ({ children }: { children: React.ReactNode }) =
 
   const toggleMetronome = () => {
     if (!metronomeRef.current) {
-      metronomeRef.current = new MetronomeSound(
-        currentExercise.bpm,
-        '/sound/smallClick.wav',
-        runBeat
-      );
+      metronomeRef.current = new MetronomeSound(currentExercise.bpm, currentExercise.timeSignature[0], runBeat);
       metronomeRef.current.start();
       setIsPlaying(true);
     } else {
@@ -50,6 +46,8 @@ export const MetronomeProvider = ({ children }: { children: React.ReactNode }) =
         metronomeRef.current.stop();
         setIsPlaying(false);
       } else {
+        metronomeRef.current.updateMetronome(currentExercise.bpm, currentExercise.timeSignature[0]);
+
         metronomeRef.current.start();
         setIsPlaying(true);
       }
@@ -70,7 +68,7 @@ export const MetronomeProvider = ({ children }: { children: React.ReactNode }) =
     setCurrentExerciseIndex(i);
     setCurrentBeat(null);
     setCurrentMeasure(0);
-    metronomeRef.current?.setTempo(nextExercise.bpm);
+    metronomeRef.current?.updateMetronome(nextExercise.bpm, nextExercise.timeSignature[0]);
 
     if (isPlaying) toggleMetronome();
   };
@@ -80,8 +78,7 @@ export const MetronomeProvider = ({ children }: { children: React.ReactNode }) =
       workoutRef.current.exercises[currentExerciseIndex] = newExercise;
       return newExercise;
     });
-    // agarrar este ejercicio y agregarlo a workout para POST
-    if (isPlaying) metronomeRef.current?.setTempo(currentExercise.bpm + count);
+    if (isPlaying) metronomeRef.current?.updateMetronome(currentExercise.bpm + count, currentExercise.timeSignature[0]);
   };
   const setRandomColor = () => {
     const colors = ['#7FAAEB', '#FF9E66', '#FF73D1'];

@@ -17,7 +17,7 @@ const PracticePage = () => {
   const router = useRouter();
 
   const handleLeave = async () => {
-    await saveWorkout(workoutRef.current);
+    saveWorkout(workoutRef.current);
     router.push('/practice');
   };
 

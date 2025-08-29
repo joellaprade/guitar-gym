@@ -2,7 +2,7 @@ import { Schema, model, models, InferSchemaType, HydratedDocument } from 'mongoo
 
 const workoutSchema = new Schema({
   title: { type: String, required: true },
-  exercises: [{ type: Schema.Types.Mixed }],
+  exercises: [{ type: Object }],
   userId: { type: String, required: true },
 });
 

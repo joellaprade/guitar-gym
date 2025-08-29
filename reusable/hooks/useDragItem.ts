@@ -3,11 +3,10 @@
 import { Dispatch, SetStateAction, useEffect } from 'react';
 import { getXYAllDevices } from '../lib/clientUtils';
 import { Exercise } from '../models/Exercise';
-import { Break } from '@/reusable/models/Break';
 export const useDragItem = (
   selectedId: string | null,
-  workoutExercises: (Exercise | Break)[],
-  setWorkoutExercises: Dispatch<SetStateAction<(Exercise | Break)[]>>,
+  workoutExercises: Exercise[],
+  setWorkoutExercises: Dispatch<SetStateAction<Exercise[]>>,
   setSelectedId: Dispatch<SetStateAction<string | null>>
 ) => {
   const handleDrag = (e: MouseEvent | TouchEvent) => {
@@ -25,12 +24,9 @@ export const useDragItem = (
     const hoveredIndex = workoutExercises.findIndex((w) => w.id == listItemId);
 
     setWorkoutExercises((prevState) => {
-      let newState: (Exercise | Break)[] = [...prevState];
+      let newState: Exercise[] = [...prevState];
 
-      [newState[selectedIndex], newState[hoveredIndex]] = [
-        newState[hoveredIndex],
-        newState[selectedIndex],
-      ];
+      [newState[selectedIndex], newState[hoveredIndex]] = [newState[hoveredIndex], newState[selectedIndex]];
 
       return newState;
     });

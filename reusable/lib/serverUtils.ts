@@ -1,20 +1,15 @@
 import { Query } from 'mongoose';
-import { DBExercise, Exercise } from '../models/Exercise';
 import { DBWorkout, Workout } from '../models/Workout';
 
-export function getFormValues<T extends Record<string, any>>(
-  formData: FormData,
-  stringifiedFields?: string[]
-): T {
+export function getFormValues<T>(formData: FormData, stringifiedFields?: string[] | null, missingValues?: Record<string, any>): T {
   const result: Record<string, any> = {};
 
   for (let [key, value] of formData.entries()) {
     // si tenemos que mandar un array desde el form
     if (key.endsWith('[]')) {
       const cleanKey = key.slice(0, -2);
-      // si hay campos quese deben parse
-      if (stringifiedFields && stringifiedFields.includes(cleanKey))
-        value = JSON.parse(value as string);
+      // si hay campos que se deben parse
+      if (stringifiedFields && stringifiedFields.includes(cleanKey)) value = JSON.parse(value as string);
       if (!result[cleanKey]) {
         result[cleanKey] = [];
       }
@@ -25,7 +20,7 @@ export function getFormValues<T extends Record<string, any>>(
     }
   }
 
-  return result as T;
+  return { ...result, ...missingValues } as T;
 }
 export const docToObj = async <T>(query: Query<any, any, any, any>) => {
   const leanQuery = await query.lean();
@@ -61,22 +56,6 @@ const removeDeletedExercises = async (workout: Workout, exerciseId: string) => {
   workoutDoc.exercises = exercises;
   workout.exercises = exercises;
   await workoutDoc.save();
-
-  return workout;
-};
-export const populateWorkoutExercises = async (workout: Workout) => {
-  const exercises: Exercise[] = workout.exercises;
-  for (let i = 0; i < exercises.length; i++) {
-    const e = exercises[i];
-    if (typeof e !== 'string') continue;
-    const query = DBExercise.findById(e);
-    const exercise = await docToObj<Exercise>(query);
-    if (!exercise) {
-      workout = await removeDeletedExercises(workout, e);
-      continue;
-    }
-    workout.exercises[i] = exercise;
-  }
 
   return workout;
 };

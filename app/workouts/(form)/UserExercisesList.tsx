@@ -1,14 +1,13 @@
 import ListElement from '@/reusable/components/ListElement';
 import AddBtn from '@/reusable/components/ui/AddBtn';
-import { Break } from '@/reusable/models/Break';
 import { Exercise } from '@/reusable/models/Exercise';
 import { useRouter } from 'next/navigation';
-import { Dispatch, SetStateAction, useEffect } from 'react';
+import { Dispatch, SetStateAction } from 'react';
 
 type Props = {
   isReversed: boolean;
   exercises: Exercise[];
-  setWorkoutExercises: Dispatch<SetStateAction<(Exercise | Break)[]>>;
+  setWorkoutExercises: Dispatch<SetStateAction<Exercise[]>>;
 };
 
 const UserExercisesList = ({ isReversed, exercises, setWorkoutExercises }: Props) => {

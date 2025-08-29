@@ -1,6 +1,6 @@
 import { Schema, model, models, InferSchemaType, HydratedDocument } from 'mongoose';
 
-const exerciseSchema = new Schema({
+export const exerciseSchema = new Schema({
   title: { type: String, required: true },
   bpm: { type: Number, required: true },
   timeSignature: [{ type: Number, required: true }],
@@ -8,7 +8,6 @@ const exerciseSchema = new Schema({
   description: { type: String },
   keywords: [{ type: String }],
   userId: { type: String, required: true },
-  isExercise: { type: Boolean, default: true },
 });
 
 export type Exercise = InferSchemaType<typeof exerciseSchema> & { id: string };

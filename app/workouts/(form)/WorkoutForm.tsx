@@ -2,14 +2,11 @@
 
 import SearchField from '@/reusable/components/SearchField';
 import { Exercise } from '@/reusable/models/Exercise';
-import { Break } from '@/reusable/models/Break';
 import { useEffect, useRef, useState } from 'react';
-import BreakOptions from './BreakOptions';
 import ExerciseList from './ExerciseList';
 import useFetchServerAction from '@/reusable/hooks/useFetchServerAction';
 import { saveWorkout } from '@/reusable/actions/workouts/saveWorkout';
 import { useRouter } from 'next/navigation';
-import { formatWorkoutToDB } from '@/reusable/lib/clientUtils';
 import { Workout } from '@/reusable/models/Workout';
 import { updateWorkout } from '@/reusable/actions/workouts/updateWorkout';
 import { ArrowUpDown } from 'lucide-react';
@@ -26,7 +23,7 @@ const WorkoutForm = ({ exercises, workout }: Props) => {
   const { data, loading, runAction } = useFetchServerAction(isEdit ? updateWorkout : saveWorkout);
 
   const [title, setTitle] = useState(workout?.title || '');
-  const [workoutExercises, setWorkoutExercises] = useState<(Exercise | Break)[]>(workout?.exercises || []);
+  const [workoutExercises, setWorkoutExercises] = useState<Exercise[]>(workout?.exercises || []);
   const [userExercises, setUserExercises] = useState<Exercise[]>(exercises);
   const [isFocused, setIsFocused] = useState(false);
   const [isValid, setIsValid] = useState(false);
@@ -35,11 +32,13 @@ const WorkoutForm = ({ exercises, workout }: Props) => {
   const handleSubmitWorkout = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formData = new FormData();
-    const workoutData = formatWorkoutToDB(workoutExercises);
 
     formData.append('title', title);
-    formData.append('exercises', JSON.stringify(workoutData));
-    if (workout) formData.append('id', workout.id);
+    formData.append('exercises', JSON.stringify(workoutExercises));
+    if (workout) {
+      formData.append('userId', workout.userId);
+      formData.append('id', workout.id);
+    }
 
     runAction(formData);
   };
@@ -84,7 +83,6 @@ const WorkoutForm = ({ exercises, workout }: Props) => {
       />
 
       <div className="mb-8">
-        <BreakOptions setData={setWorkoutExercises} />
         <button type={`${isValid && !loading ? 'submit' : 'button'}`} className={`big main mt-4 ${isValid && !loading ? '' : 'opacity-50'}`}>
           {loading ? 'Sending...' : isEdit ? 'Save' : 'Save'}
         </button>

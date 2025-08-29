@@ -1,24 +1,19 @@
 'use server';
 
+import { cookies } from 'next/headers';
 import db from '../../lib/db';
 import { getFormValues } from '../../lib/serverUtils';
-import { DBExercise } from '../../models/Exercise';
-
-type FormValues = {
-  title: string;
-  bpm: number;
-  timeSignature: string;
-  measures: number;
-  description: string;
-  keywords: string[];
-  id: string;
-};
+import { DBExercise, Exercise } from '../../models/Exercise';
 
 export const updateExercise = async (formData: FormData) => {
+  const cookieStore = await cookies();
   try {
     await db();
 
-    const exercise = getFormValues<FormValues>(formData);
+    const userId = cookieStore.get('userId')?.value;
+    if (!userId) return false;
+
+    const exercise = getFormValues<Exercise>(formData, null, { userId });
     await DBExercise.findByIdAndUpdate(exercise.id, exercise);
 
     return true;

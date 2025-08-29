@@ -1,8 +1,7 @@
 'use client';
 
 import { Exercise } from '@/reusable/models/Exercise';
-import { Break } from '@/reusable/models/Break';
-import { Dispatch, RefObject, SetStateAction, useEffect } from 'react';
+import { Dispatch, RefObject, SetStateAction } from 'react';
 import WorkoutList from './WorkoutExercisesList';
 import UserExercisesList from './UserExercisesList';
 
@@ -10,9 +9,9 @@ type Props = {
   exercises: Exercise[];
   searchRef: RefObject<HTMLInputElement | null>;
   isFocused: boolean;
-  workoutExercises: (Exercise | Break)[];
+  workoutExercises: Exercise[];
   isReversed: boolean;
-  setWorkoutExercises: Dispatch<SetStateAction<(Exercise | Break)[]>>;
+  setWorkoutExercises: Dispatch<SetStateAction<Exercise[]>>;
 };
 
 const ExerciseList = ({ exercises, searchRef, isFocused, setWorkoutExercises, workoutExercises, isReversed }: Props) => {

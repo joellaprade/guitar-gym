@@ -78,11 +78,7 @@ const Metronome = () => {
           onPointerDown={() => handleHoldChangeTempo(-1)}
           onPointerUp={() => handleReleaseChangeTempo(-1)}
         />
-        <div
-          onClick={toggleMetronome}
-          className={`play-btn relative transition-colors duration-1000 `}
-          style={{ backgroundColor: color }}
-        >
+        <div onClick={toggleMetronome} className={`play-btn relative transition-colors duration-1000 `} style={{ backgroundColor: color }}>
           {isPlaying ? (
             <div className="flex flex-col items-center justify-center relative z-2">
               <h1 className="text-dark-gray text-7xl font-bold">{currentExercise.bpm}</h1>
@@ -92,10 +88,7 @@ const Metronome = () => {
             <PlayBtn className="w-[35%] h-[35%] relative left-1.5 fill-dark-gray z-2" />
           )}
           <Gradient />
-          <div
-            className={`pulse-effect`}
-            style={{ animation: pulse ? `pulse ${60 / currentExercise.bpm}s ease-out` : '' }}
-          ></div>
+          <div className={`pulse-effect`} style={{ animation: pulse ? `pulse ${60 / currentExercise.bpm}s ease-out` : '' }}></div>
         </div>
         <ChevronRight
           className="stroke-white stroke-2 h-15 w-15 touch-none"
