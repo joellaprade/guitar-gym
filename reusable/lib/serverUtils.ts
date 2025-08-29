@@ -2,7 +2,7 @@ import { Query } from 'mongoose';
 import { DBExercise, Exercise } from '../models/Exercise';
 import { DBWorkout, Workout } from '../models/Workout';
 
-export function getFormValues<T>(formData: FormData, stringifiedFields?: string[], missingValues?: Record<string, any>): T {
+export function getFormValues<T>(formData: FormData, stringifiedFields?: string[] | null, missingValues?: Record<string, any>): T {
   const result: Record<string, any> = {};
 
   for (let [key, value] of formData.entries()) {
