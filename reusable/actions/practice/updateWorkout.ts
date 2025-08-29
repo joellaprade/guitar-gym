@@ -2,7 +2,7 @@
 
 import { DBWorkout, Workout } from '@/reusable/models/Workout';
 
-export default async function saveWorkout(workout: Workout) {
+export default async function updateWorkout(workout: Workout) {
   try {
     const workoutDB: DBWorkout | null = await DBWorkout.findById(workout.id);
     if (!workoutDB) throw new Error('Workout not found');

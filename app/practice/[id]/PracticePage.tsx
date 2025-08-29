@@ -6,9 +6,10 @@ import Playlist from './(ui)/Playlist';
 import { useEffect, useState } from 'react';
 import { usePracticeContext } from '../PracticeContext';
 import { ChevronLeft } from 'lucide-react';
-import saveWorkout from '@/reusable/actions/practice/saveWorkout';
+import updateWorkout from '@/reusable/actions/practice/updateWorkout';
 import { useRouter } from 'next/navigation';
 import ToolTip from '@/reusable/components/ToolTip';
+import { formatWorkoutExercisesToDB } from '@/reusable/lib/clientUtils';
 
 const PracticePage = () => {
   const { workoutRef, currentExercise, currentBeat, currentMeassure } = usePracticeContext();
@@ -17,7 +18,9 @@ const PracticePage = () => {
   const router = useRouter();
 
   const handleLeave = async () => {
-    saveWorkout(workoutRef.current);
+    let dbFormattedWorkout = workoutRef.current as any;
+    dbFormattedWorkout.exercises = formatWorkoutExercisesToDB(workoutRef.current.exercises);
+    updateWorkout(dbFormattedWorkout);
     router.push('/practice');
   };
 

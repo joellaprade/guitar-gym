@@ -69,3 +69,10 @@ export const getXYAllDevices = (e: MouseEvent | TouchEvent) => {
 export const selectOnFocus = (e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement>) => {
   e.target.select();
 };
+export const formatWorkoutExercisesToDB = (workoutExercises: Exercise[]) => {
+  let formatedExercises: { _id: string; bpm: number }[] = [];
+
+  formatedExercises = workoutExercises.map(({ id, bpm }) => ({ _id: id, bpm }));
+
+  return formatedExercises;
+};

@@ -10,6 +10,7 @@ import { useRouter } from 'next/navigation';
 import { Workout } from '@/reusable/models/Workout';
 import { updateWorkout } from '@/reusable/actions/workouts/updateWorkout';
 import { ArrowUpDown } from 'lucide-react';
+import { formatWorkoutExercisesToDB } from '@/reusable/lib/clientUtils';
 
 type Props = {
   exercises: Exercise[];
@@ -34,7 +35,7 @@ const WorkoutForm = ({ exercises, workout }: Props) => {
     const formData = new FormData();
 
     formData.append('title', title);
-    formData.append('exercises', JSON.stringify(workoutExercises));
+    formData.append('exercises', JSON.stringify(formatWorkoutExercisesToDB(workoutExercises)));
     if (workout) {
       formData.append('userId', workout.userId);
       formData.append('id', workout.id);
