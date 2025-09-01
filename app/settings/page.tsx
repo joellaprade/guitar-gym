@@ -9,7 +9,7 @@ import { useEffect, useState } from 'react';
 const Page = () => {
   const router = useRouter();
   const { data, loading, runAction } = useFetchServerAction(logOut);
-  const [isMainBeatActive, setIsMainBeatActive] = useState<boolean>(JSON.parse(localStorage.getItem('isMainBeatActive') ?? '') ?? true);
+  const [isMainBeatActive, setIsMainBeatActive] = useState<boolean>(true);
 
   const toggleMainBeat = () => {
     localStorage.setItem('isMainBeatActive', JSON.stringify(!isMainBeatActive));
@@ -19,6 +19,9 @@ const Page = () => {
   useEffect(() => {
     if (data) router.push('/home');
   }, [data]);
+  useEffect(() => {
+    setIsMainBeatActive(JSON.parse(localStorage.getItem('isMainBeatActive') ?? 'true'));
+  }, []);
 
   return (
     <div className="vertical-container mx-8 mt-24 gap-12">
