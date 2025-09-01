@@ -12,6 +12,7 @@ export class MetronomeSound {
   private smallClick: AudioBuffer | null = null;
   private bigClick: AudioBuffer | null = null;
   private clickBuffer: AudioBuffer | null = null;
+  private useMainBeat: boolean = (JSON.parse(localStorage.getItem('isMainBeatActive') ?? '') as boolean) ?? true;
 
   private onBeat: () => void;
 
@@ -26,16 +27,18 @@ export class MetronomeSound {
       .then((res) => res.arrayBuffer())
       .then((data) => this.audioCtx.decodeAudioData(data))
       .then((decoded) => {
+        if (!this.useMainBeat) this.clickBuffer = decoded;
         this.smallClick = decoded;
       });
 
-    fetch('/sound/bigClick.wav')
-      .then((res) => res.arrayBuffer())
-      .then((data) => this.audioCtx.decodeAudioData(data))
-      .then((decoded) => {
-        this.bigClick = decoded;
-        this.clickBuffer = decoded;
-      });
+    this.useMainBeat &&
+      fetch('/sound/bigClick.wav')
+        .then((res) => res.arrayBuffer())
+        .then((data) => this.audioCtx.decodeAudioData(data))
+        .then((decoded) => {
+          this.bigClick = decoded;
+          this.clickBuffer = decoded;
+        });
   }
 
   private nextNote() {
@@ -43,6 +46,7 @@ export class MetronomeSound {
     this.nextNoteTime += secondsPerBeat;
   }
   private setBeat() {
+    if (!this.useMainBeat) return;
     if (this.currentBeat === 1) {
       this.clickBuffer = this.bigClick;
       this.currentBeat++;

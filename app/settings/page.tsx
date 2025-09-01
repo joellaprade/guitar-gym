@@ -4,11 +4,17 @@ import logOut from '@/reusable/actions/logOut';
 import BackArrow from '@/reusable/components/BackArrow';
 import useFetchServerAction from '@/reusable/hooks/useFetchServerAction';
 import { useRouter } from 'next/navigation';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 const Page = () => {
   const router = useRouter();
   const { data, loading, runAction } = useFetchServerAction(logOut);
+  const [isMainBeatActive, setIsMainBeatActive] = useState<boolean>(JSON.parse(localStorage.getItem('isMainBeatActive') ?? '') ?? true);
+
+  const toggleMainBeat = () => {
+    localStorage.setItem('isMainBeatActive', JSON.stringify(!isMainBeatActive));
+    setIsMainBeatActive((prev) => !prev);
+  };
 
   useEffect(() => {
     if (data) router.push('/home');
@@ -27,6 +33,12 @@ const Page = () => {
           className={`big main ${loading ? 'opacity-50' : ''}`}
         >
           {loading ? 'Logging out...' : 'Log out'}
+        </button>
+      </div>
+      <div className="flex-center w-full flex-col gap-4">
+        <h2 className="w-full text-start">Practice</h2>
+        <button onClick={toggleMainBeat} className={`big main ${loading ? 'opacity-50' : ''}`}>
+          {isMainBeatActive ? 'On' : 'Off'}
         </button>
       </div>
     </div>
