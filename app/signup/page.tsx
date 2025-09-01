@@ -23,14 +23,7 @@ const SignUp = () => {
 
   const validateFData = () => {
     const { name, email, username, password, confirmPassword } = fData;
-    if (
-      !name ||
-      !email ||
-      !username ||
-      !password ||
-      !confirmPassword ||
-      password !== confirmPassword
-    ) {
+    if (!name || !email || !username || !password || !confirmPassword || password !== confirmPassword) {
       setIsValid(false);
       return;
     }
@@ -44,7 +37,7 @@ const SignUp = () => {
   }, [data]);
 
   return (
-    <div className="vertical-container">
+    <div className="vertical-container mx-8">
       <BackArrow link={'/'} />
       <h1 className="mt-24">Create Account</h1>
       <form
@@ -100,10 +93,7 @@ const SignUp = () => {
           placeholder="Confirm Password"
         />
         <span className={`${!error && 'hidden'} error`}>{error}</span>{' '}
-        <button
-          type={`${isValid && !loading ? 'submit' : 'button'}`}
-          className={`big main mt-4 ${isValid && !loading ? '' : 'opacity-50'}`}
-        >
+        <button type={`${isValid && !loading ? 'submit' : 'button'}`} className={`big main mt-4 ${isValid && !loading ? '' : 'opacity-50'}`}>
           {loading ? 'Sending...' : 'Create Account'}
         </button>
       </form>

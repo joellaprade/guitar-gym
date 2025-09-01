@@ -3,7 +3,7 @@
 @plugin "tailwind-scrollbar";
 
 body {
-  @apply bg-dark-gray px-8 h-[100dvh] overflow-hidden;
+  @apply bg-dark-gray h-[100dvh] overflow-hidden;
 
   -webkit-user-select: none; /* iOS Safari */
   -moz-user-select: none;
@@ -23,36 +23,36 @@ body {
 
 @layer base {
   h1 {
-    @apply text-4xl text-white text-center font-semibold font-poppins;
+    @apply font-poppins text-center text-4xl font-semibold text-white;
   }
   h2 {
-    @apply text-xl text-white text-center font-semibold font-poppins;
+    @apply font-poppins text-center text-xl font-semibold text-white;
   }
   h3 {
-    @apply text-sm text-white text-center font-semibold font-poppins;
+    @apply font-poppins text-center text-sm font-semibold text-white;
   }
   span {
-    @apply text-white font-poppins text-[10px];
+    @apply font-poppins text-[10px] text-white;
   }
   p {
   }
   button {
-    @apply font-semibold text-sm text-white rounded-[5px] font-poppins;
+    @apply font-poppins rounded-[5px] text-sm font-semibold text-white;
   }
   form div.form-item {
     @apply flex flex-col gap-1.5;
   }
   label {
-    @apply text-[#ffffff80] font-semibold text-sm;
+    @apply text-sm font-semibold text-[#ffffff80];
   }
   input {
-    @apply bg-[#ffffff0d] text-[16px] text-white rounded-[5px] py-2.5 px-4 placeholder:text-[#ffffff80] font-poppins font-semibold min-w-[44px];
+    @apply font-poppins min-w-[44px] rounded-[5px] bg-[#ffffff0d] px-4 py-2.5 text-[16px] font-semibold text-white placeholder:text-[#ffffff80];
   }
   textarea {
-    @apply bg-[#ffffff0d] text-[16px] text-white rounded-[5px] py-2.5 px-4 placeholder:text-[#ffffff80] font-poppins font-semibold;
+    @apply font-poppins rounded-[5px] bg-[#ffffff0d] px-4 py-2.5 text-[16px] font-semibold text-white placeholder:text-[#ffffff80];
   }
   .subtitle {
-    @apply opacity-50 leading-tight;
+    @apply leading-tight opacity-50;
   }
 }
 
@@ -64,38 +64,47 @@ body {
     @apply p-2.5;
   }
   button.main {
-    @apply bg-white text-dark-gray border-2 border-white;
+    @apply text-dark-gray border-2 border-white bg-white;
   }
   button.secondary {
-    @apply bg-transparent border-2 border-white;
+    @apply border-2 border-white bg-transparent;
   }
   .element-list {
-    @apply overflow-scroll scrollbar-none flex-grow;
+    @apply scrollbar-none flex-grow overflow-scroll;
   }
   .list-element {
-    @apply scroll-smooth border-b-2 border-[#ffffff80] flex justify-between relative w-full overflow-scroll scrollbar-none select-none;
+    @apply scrollbar-none relative flex w-full justify-between overflow-scroll scroll-smooth border-b-2 border-[#ffffff80] pr-6 select-none;
   }
 
   .metronome {
-    @apply flex flex-col items-center gap-4 w-full absolute top-[50%] left-[50%] -translate-[50%];
+    @apply absolute top-[50%] left-[50%] flex w-full -translate-[50%] flex-col items-center gap-4;
   }
   .play-btn {
-    @apply relative flex justify-center items-center  max-w-[225px] w-[85%] aspect-square rounded-full;
+    @apply relative flex aspect-square w-[85%] max-w-[225px] items-center justify-center rounded-full;
   }
   .pulse-effect {
-    @apply absolute inset-0 bg-white rounded-full -z-1;
+    @apply absolute inset-0 -z-1 rounded-full bg-white;
+  }
+  .playlist-header {
+    @apply bg-gray absolute bottom-4 z-2 mx-4 flex h-15.5 w-[calc(100vw-2rem)] items-center justify-between rounded-lg p-4 transition-all duration-300;
+  }
+  .playlist-open {
+    @apply bottom-0 mx-0 h-full w-full p-0;
+  }
+  .playlist {
+    @apply absolute z-2 flex h-full w-full flex-col items-center opacity-0 transition-all duration-300;
   }
 }
 
 @layer utilities {
   .vertical-container {
-    @apply h-full flex flex-col;
+    @apply flex h-full flex-col;
   }
   .absolute-center {
     @apply absolute top-[50%] left-[50%] -translate-[50%];
   }
   .flex-center {
-    @apply flex justify-center items-center;
+    @apply flex items-center justify-center;
   }
   .error {
     @apply text-red-400;

@@ -5,7 +5,7 @@ const Create = () => {
   return (
     <>
       <BackArrow link="/exercises" />
-      <div className="vertical-container">
+      <div className="vertical-container mx-8">
         <h1 className="mt-12 mb-8">Create Exercise</h1>
         <ExerciseForm />
       </div>

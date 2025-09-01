@@ -32,39 +32,24 @@ export default function Page() {
   }, [data]);
 
   return (
-    <div className="vertical-container">
+    <div className="vertical-container mx-8">
       <BackArrow link={'/'} />
       <h1 className="mt-24">Login</h1>
       <form
-        className="vertical-container justify-center gap-4 w-full"
+        className="vertical-container w-full justify-center gap-4"
         onSubmit={(e) => {
           e.preventDefault();
           const formData = new FormData(e.currentTarget);
           runAction(formData);
         }}
       >
-        <input
-          value={username}
-          onChange={(e) => setUsername(e.target.value.toLowerCase())}
-          type="text"
-          placeholder="Username"
-          name="username"
-        />
-        <input
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          type="password"
-          placeholder="Password"
-          name="password"
-        />
+        <input value={username} onChange={(e) => setUsername(e.target.value.toLowerCase())} type="text" placeholder="Username" name="username" />
+        <input value={password} onChange={(e) => setPassword(e.target.value)} type="password" placeholder="Password" name="password" />
         <span className={`${!error && 'hidden'} error`}>{error}</span>{' '}
         <Link className="link text-center" href={'/change-password/request'}>
           Forgot Password?
         </Link>
-        <button
-          type={`${isValid && !loading ? 'submit' : 'button'}`}
-          className={`big main mt-6 ${isValid && !loading ? '' : 'opacity-50'}`}
-        >
+        <button type={`${isValid && !loading ? 'submit' : 'button'}`} className={`big main mt-6 ${isValid && !loading ? '' : 'opacity-50'}`}>
           {loading ? 'Sending...' : 'Login'}
         </button>
       </form>

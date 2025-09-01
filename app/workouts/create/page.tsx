@@ -16,7 +16,7 @@ const Page = () => {
   return (
     <>
       <BackArrow link="/workouts" />
-      <div className="vertical-container">
+      <div className="vertical-container mx-8">
         <Suspense fallback={<ListSkeleton />}>
           <FetchWrapper />
         </Suspense>

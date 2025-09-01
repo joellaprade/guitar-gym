@@ -46,8 +46,6 @@ export const MetronomeProvider = ({ children }: { children: React.ReactNode }) =
         metronomeRef.current.stop();
         setIsPlaying(false);
       } else {
-        metronomeRef.current.updateMetronome(currentExercise.bpm, currentExercise.timeSignature[0]);
-
         metronomeRef.current.start();
         setIsPlaying(true);
       }
@@ -57,20 +55,25 @@ export const MetronomeProvider = ({ children }: { children: React.ReactNode }) =
     setCurrentBeat((prev) => (prev === null ? 0 : prev + 1));
   };
   const changeExercise = (direction: 'next' | 'prev') => {
-    const workout = workoutRef.current;
+    let workout = workoutRef.current;
     const totalExercises = workout.exercises.length;
-    const i = direction === 'next' ? currentExerciseIndex + 1 : currentExerciseIndex - 1;
-    const nextExercise = workout.exercises[i];
+    let i = 0;
+    setCurrentExerciseIndex((prev) => {
+      i = direction === 'next' ? prev + 1 : prev - 1;
 
-    if (i < 0 || i >= totalExercises) return;
+      const nextExercise = workout.exercises[i];
 
-    setCurrentExercise(nextExercise);
-    setCurrentExerciseIndex(i);
-    setCurrentBeat(null);
-    setCurrentMeasure(0);
-    metronomeRef.current?.updateMetronome(nextExercise.bpm, nextExercise.timeSignature[0]);
+      if (i < 0 || i >= totalExercises) return prev;
 
-    if (isPlaying) toggleMetronome();
+      setCurrentExercise(nextExercise);
+      setCurrentBeat(null);
+      setCurrentMeasure(0);
+      metronomeRef.current?.updateMetronome(nextExercise.bpm, nextExercise.timeSignature[0]);
+
+      if (isPlaying) toggleMetronome();
+
+      return i;
+    });
   };
   const changeTempo = (count: 1 | -1) => {
     setCurrentExercise((prev) => {

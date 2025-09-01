@@ -13,15 +13,12 @@ const Page = () => {
   });
 
   return (
-    <div className="vertical-container">
+    <div className="vertical-container mx-8">
       <BackArrow link={'/'} />
       <h2 className="mt-48">Write down the code sent to your email </h2>
-      <form className="vertical-container justify-center w-full flex-grow" action={runAction}>
+      <form className="vertical-container w-full flex-grow justify-center" action={runAction}>
         <input className="my-5" name="code" placeholder="Código" type="text" />
-        <button
-          type={loading ? 'button' : 'submit'}
-          className={`${loading ? 'opacity-50' : ''} big main`}
-        >
+        <button type={loading ? 'button' : 'submit'} className={`${loading ? 'opacity-50' : ''} big main`}>
           {loading ? 'Sending...' : 'Send'}
         </button>
       </form>

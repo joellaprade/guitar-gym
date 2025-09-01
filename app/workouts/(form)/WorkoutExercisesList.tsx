@@ -25,7 +25,7 @@ const GripBtn = ({ id, setSelectedId }: { id: string; setSelectedId: Dispatch<Se
       }}
       onTouchEnd={() => setSelectedId(null)}
       onMouseUp={() => setSelectedId(null)}
-      className="text-white cursor-pointer"
+      className="cursor-pointer text-white"
     />
   );
 };
@@ -35,6 +35,7 @@ type Props = {
   isReversed: boolean;
   setWorkoutExercises: Dispatch<SetStateAction<Exercise[]>>;
 };
+
 const WorkoutList = ({ isReversed, workoutExercises, setWorkoutExercises }: Props) => {
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const router = useRouter();
@@ -52,7 +53,7 @@ const WorkoutList = ({ isReversed, workoutExercises, setWorkoutExercises }: Prop
   };
   const finalExercises = isReversed ? [...workoutExercises].reverse() : workoutExercises;
 
-  useDragItem(selectedId, workoutExercises, setWorkoutExercises, setSelectedId);
+  useDragItem(selectedId, workoutExercises, setSelectedId, setWorkoutExercises);
 
   return finalExercises.map((e, i) => (
     <ListElement

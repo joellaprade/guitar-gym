@@ -8,7 +8,7 @@ import { useMetronomeContext } from '../../MetronomeContext';
 import { Gradient } from '@/reusable/components/Gradient';
 
 const Metronome = () => {
-  const { currentExercise, currentBeat } = usePracticeContext();
+  const { currentExercise, currentBeat, workoutRef, currentExerciseIndex } = usePracticeContext();
   const { color, isPlaying, toggleMetronome, changeExercise, changeTempo } = useMetronomeContext();
   const [pulse, setPulse] = useState(true);
 
@@ -58,6 +58,7 @@ const Metronome = () => {
   }, [currentBeat]);
   useEffect(() => {
     document.addEventListener('keydown', handleKeyDown);
+    console.log(currentExercise, workoutRef.current.exercises, currentExerciseIndex);
 
     return () => document.removeEventListener('keydown', handleKeyDown);
   }, [currentExercise, isPlaying]);
@@ -68,30 +69,30 @@ const Metronome = () => {
         {Array.from({ length: currentExercise.timeSignature[0] }).map((_, index) => (
           <div
             key={index}
-            className={`outline-3 outline-[#ffffff80] w-1.5 h-1.5 rounded-full ${index == getSignatureBeat() && 'bg-[#ffffff80] '}`}
+            className={`h-1.5 w-1.5 rounded-full outline-3 outline-[#ffffff80] ${index == getSignatureBeat() && 'bg-[#ffffff80]'}`}
           ></div>
         ))}
       </div>
-      <div className="flex justify-center items-center w-full">
+      <div className="flex w-full items-center justify-center">
         <ChevronLeft
-          className="stroke-white stroke-2 h-15 w-15 touch-none"
+          className="h-15 w-15 touch-none stroke-white stroke-2"
           onPointerDown={() => handleHoldChangeTempo(-1)}
           onPointerUp={() => handleReleaseChangeTempo(-1)}
         />
-        <div onClick={toggleMetronome} className={`play-btn relative transition-colors duration-1000 `} style={{ backgroundColor: color }}>
+        <div onClick={toggleMetronome} className={`play-btn relative transition-colors duration-1000`} style={{ backgroundColor: color }}>
           {isPlaying ? (
-            <div className="flex flex-col items-center justify-center relative z-2">
+            <div className="relative z-2 flex flex-col items-center justify-center">
               <h1 className="text-dark-gray text-7xl font-bold">{currentExercise.bpm}</h1>
-              <h3 className="text-dark-gray font-bold absolute bottom-0 translate-y-[65%]">bpm</h3>
+              <h3 className="text-dark-gray absolute bottom-0 translate-y-[65%] font-bold">bpm</h3>
             </div>
           ) : (
-            <PlayBtn className="w-[35%] h-[35%] relative left-1.5 fill-dark-gray z-2" />
+            <PlayBtn className="fill-dark-gray relative left-1.5 z-2 h-[35%] w-[35%]" />
           )}
           <Gradient />
           <div className={`pulse-effect`} style={{ animation: pulse ? `pulse ${60 / currentExercise.bpm}s ease-out` : '' }}></div>
         </div>
         <ChevronRight
-          className="stroke-white stroke-2 h-15 w-15 touch-none"
+          className="h-15 w-15 touch-none stroke-white stroke-2"
           onPointerDown={() => handleHoldChangeTempo(1)}
           onPointerUp={() => handleReleaseChangeTempo(1)}
         />

@@ -17,7 +17,7 @@ const Workouts = () => {
   return (
     <>
       <BackArrow link={'/home'} />
-      <div className="vertical-container">
+      <div className="vertical-container mx-8">
         <h1 className="mt-12">Workouts</h1>
         <Suspense fallback={<ListSkeleton />}>
           <FetchWrapper />

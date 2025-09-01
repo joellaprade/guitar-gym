@@ -11,14 +11,7 @@ type Props<T extends { title: string; keywords?: string[] }> = {
   setter: Dispatch<SetStateAction<T[]>>;
 };
 
-const SearchField = <T extends { title: string; keywords?: string[] }>({
-  ref,
-  setIsFocused,
-  className,
-  placeholder,
-  values,
-  setter,
-}: Props<T>) => {
+const SearchField = <T extends { title: string; keywords?: string[] }>({ ref, setIsFocused, className, placeholder, values, setter }: Props<T>) => {
   const [search, setSearch] = useState('');
 
   useEffect(() => setter(handleSearch(search, values)), [search]);
@@ -33,9 +26,10 @@ const SearchField = <T extends { title: string; keywords?: string[] }>({
         placeholder={placeholder}
         onFocus={() => setIsFocused && setIsFocused(true)}
         onBlur={() => setIsFocused && setIsFocused(false)}
+        id="workout-search-exercises-input"
       />
-      <div className="aspect-square h-full absolute top-0 right-0 flex items-center justify-center">
-        <Search className="text-[#919191] w-4 h-4 stroke-3" />
+      <div className="absolute top-0 right-0 flex aspect-square h-full items-center justify-center">
+        <Search className="h-4 w-4 stroke-3 text-[#919191]" />
       </div>
     </div>
   );

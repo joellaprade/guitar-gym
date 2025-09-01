@@ -21,7 +21,7 @@ const Edit = ({ params }: Props) => {
   return (
     <>
       <BackArrow link="/exercises" />
-      <div className="vertical-container">
+      <div className="vertical-container mx-8">
         <h1 className="mt-12 mb-8">Edit Exercise</h1>
         <Suspense fallback={<ListSkeleton />}>
           <FetchWrapper params={params} />

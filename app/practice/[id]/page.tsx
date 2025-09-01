@@ -20,7 +20,7 @@ const FetchWrapper = async ({ params }: { params: Promise<{ id: string }> }) => 
 
 const Page = ({ params }: { params: Promise<{ id: string }> }) => {
   const loading = (
-    <div className="w-full h-full flex-center flex-col gap-4">
+    <div className="flex-center h-full w-full flex-col gap-4">
       <h2>Loading Workout...</h2>
       <Loader className="w-10" />
     </div>

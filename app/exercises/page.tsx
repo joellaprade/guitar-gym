@@ -15,7 +15,7 @@ const FetchWrapper = async () => {
 
 const Exercises = () => {
   return (
-    <div className="vertical-container">
+    <div className="vertical-container mx-8">
       <BackArrow link={'/home'} />
       <h1 className="mt-12">Exercises</h1>
       <Suspense fallback={<ListSkeleton />}>

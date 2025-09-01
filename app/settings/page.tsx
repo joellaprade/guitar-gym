@@ -15,11 +15,11 @@ const Page = () => {
   }, [data]);
 
   return (
-    <div className="vertical-container gap-12 mt-24">
+    <div className="vertical-container mx-8 mt-24 gap-12">
       <BackArrow link={'/home'} />
       <h1>Settings</h1>
-      <div className="flex-center flex-col gap-4 w-full">
-        <h2 className="text-start w-full">Session</h2>
+      <div className="flex-center w-full flex-col gap-4">
+        <h2 className="w-full text-start">Session</h2>
         <button
           onClick={() => {
             runAction();

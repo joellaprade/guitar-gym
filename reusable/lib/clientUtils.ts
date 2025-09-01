@@ -66,8 +66,13 @@ export const getXYAllDevices = (e: MouseEvent | TouchEvent) => {
 
   return { clientX, clientY };
 };
-export const selectOnFocus = (e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-  e.target.select();
+export const selectOnFocus = (e?: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  if (!e) {
+    const input = document.querySelector('#workout-search-exercises-input') as HTMLInputElement;
+    input.select();
+  } else {
+    e.target.select();
+  }
 };
 export const formatWorkoutExercisesToDB = (workoutExercises: Exercise[]) => {
   let formatedExercises: { _id: string; bpm: number }[] = [];

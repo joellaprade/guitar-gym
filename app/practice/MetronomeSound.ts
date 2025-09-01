@@ -91,5 +91,6 @@ export class MetronomeSound {
   updateMetronome(tempo: number, signature: number) {
     this.tempo = tempo;
     this.signature = signature;
+    this.currentBeat = 1;
   }
 }
