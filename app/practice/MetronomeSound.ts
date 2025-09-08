@@ -12,7 +12,7 @@ export class MetronomeSound {
   private smallClick: AudioBuffer | null = null;
   private bigClick: AudioBuffer | null = null;
   private clickBuffer: AudioBuffer | null = null;
-  private useMainBeat: boolean = (JSON.parse(localStorage.getItem('isMainBeatActive') ?? '') as boolean) ?? true;
+  private useMainBeat: boolean = (JSON.parse(localStorage.getItem('isMainBeatActive') ?? 'true') as boolean) ?? true;
 
   private onBeat: () => void;
 

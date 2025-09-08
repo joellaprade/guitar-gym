@@ -1,56 +1,10 @@
-Plan para metronomo:
+vamos a gray out NON-selected items
 
-CONTEXT
-
-workout
-currentExercise, setCurrentExercise
-
+vamos a esperar 1 second hold para activar el drag
+sino, scroll
+hay que desactivar scroll tras 1 sec hold
 
 
+ademas, que yo pueda select un ejercicio haciendole tap en playlist
 
-
-EXERCISE
-
-tomamos workout en page.tsx
-
-en PracticePage.tsx, tenemos currentExercise
-
-de currentExercise, obtenemos la info para el ui
-
-
-
-
-TEMPO
-
-tenemos logica en PracticePage.tsx, 
-dado que ocupamos la cuenta para el contador
-y saber cuando cambiar de ejercicio
-
-tendremos un setInterval en un useEffect 
-
-el intervalTime va a ser (1 / bpm / 60)
-
-si es 4 / 4
-(1 / bpm / 60)
-
-si es 4 / 8
-(1 / bpm / 60 * (4 / 8))
-
-
-
-
-LOGICA DE MOVIMIENTO
-
-cuando currentBeat === exercise.measures
-hacemos opacity-0 duration-700 para todo el ui
-luego setCurrentExercise(*NEXT_EXERCISE*)
-y opacity-100 duration-700 para todo el ui
-
-
-
-
-EXTRAS
-
-poner un input en playlist 
-que tome el numero de barras que el usuario quiere
-antes de empezar el ejercicio
+finalmente, agregar timer en practice

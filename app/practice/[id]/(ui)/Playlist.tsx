@@ -25,14 +25,11 @@ const Playlist = ({
 
   const handlePointerDown = (e: React.MouseEvent<HTMLDivElement>) => (startY.current = e.clientY);
   const handlePointerUp = (e: React.MouseEvent<HTMLDivElement>) => e.clientY - startY.current > 100 && setShowPlaylist(false);
-
   const getIcon = (i: number) => {
     if (i === currentExerciseIndex) return <Loader className="w-8" />;
     else if (i < currentExerciseIndex) return <Check className="h-8 w-8 text-white" />;
     else return <></>;
   };
-
-  useDragItem(selectedId, exercises, setSelectedId, setExercises);
 
   useEffect(() => {
     workoutRef.current.exercises = exercises;
@@ -40,6 +37,8 @@ const Playlist = ({
     if (i < 0) return;
     setCurrentExerciseIndex(i);
   }, [exercises]);
+
+  useDragItem(selectedId, exercises, setSelectedId, setExercises);
 
   return (
     <div onPointerDown={handlePointerDown} onPointerUp={handlePointerUp} className={`playlist ${showPlaylist ? 'opacity-100' : 'opacity-0'}`}>
