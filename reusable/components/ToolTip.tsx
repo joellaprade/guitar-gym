@@ -5,8 +5,6 @@ import { Video } from '../types/Video';
 const ToolTip = ({ showToolTip, text, video }: { showToolTip: boolean; text?: string | null; video: Video | null }) => {
   const playerRef = useRef<any>(null);
 
-  console.log(video?.start, video?.videoId);
-
   const onReady = (event: any) => {
     playerRef.current = event.target;
     playerRef.current.pauseVideo();

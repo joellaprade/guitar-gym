@@ -12,7 +12,6 @@ import { Exercise } from '@/reusable/models/Exercise';
 const ExerciseForm = ({ exercise }: { exercise?: Exercise }) => {
   const formatVideoDataToClient = () => {
     if (!exercise?.video) return;
-    console.log(exercise);
     const start = exercise.video.start;
     let link = 'https://www.youtube.com/watch?v=';
     let startMinute = Math.floor(start / 60);

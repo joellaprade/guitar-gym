@@ -18,7 +18,9 @@ const UserExercisesList = ({ isReversed, exercises, setWorkoutExercises }: Props
     const exercise = exercises.find((e) => e.id === id);
     if (!exercise) return;
     setWorkoutExercises((prevState) => [...prevState, exercise]);
-    selectOnFocus();
+    setTimeout(() => {
+      selectOnFocus();
+    }, 1);
   };
   const finalExercises = isReversed ? [...exercises].reverse() : exercises;
 

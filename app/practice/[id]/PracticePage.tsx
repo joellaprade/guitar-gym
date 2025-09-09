@@ -39,10 +39,6 @@ const PracticePage = () => {
     };
   }, [showToolTip]);
 
-  useEffect(() => {
-    console.log(currentExercise);
-  }, [currentExercise]);
-
   return (
     <div className={`vertical-container transition-opacity duration-700 ${showContainer ? 'opacity-100' : 'opacity-0'}`}>
       <ChevronLeft onClick={handleLeave} className="absolute top-10 left-1 z-1 h-10 w-10 cursor-pointer text-white" />

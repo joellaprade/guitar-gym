@@ -58,7 +58,6 @@ const Metronome = () => {
   }, [currentBeat]);
   useEffect(() => {
     document.addEventListener('keydown', handleKeyDown);
-    console.log(currentExercise, workoutRef.current.exercises, currentExerciseIndex);
 
     return () => document.removeEventListener('keydown', handleKeyDown);
   }, [currentExercise, isPlaying]);
