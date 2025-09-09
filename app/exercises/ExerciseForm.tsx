@@ -10,6 +10,17 @@ import { selectOnFocus } from '@/reusable/lib/clientUtils';
 import { Exercise } from '@/reusable/models/Exercise';
 
 const ExerciseForm = ({ exercise }: { exercise?: Exercise }) => {
+  const formatVideoDataToClient = () => {
+    if (!exercise?.video) return;
+    console.log(exercise);
+    const start = exercise.video.start;
+    let link = 'https://www.youtube.com/watch?v=';
+    let startMinute = Math.floor(start / 60);
+    let startSecond = start - startMinute * 60;
+    link += exercise.video.videoId;
+
+    return { link, startMinute, startSecond };
+  };
   const router = useRouter();
   const isEdit = exercise != undefined;
 
@@ -18,8 +29,16 @@ const ExerciseForm = ({ exercise }: { exercise?: Exercise }) => {
   const [timeSignature, setTimeSignature] = useState(exercise?.timeSignature || [4, 4]);
   const [measures, setMeasures] = useState(exercise?.measures || 32);
   const [description, setDescription] = useState(exercise?.description || '');
+  const [video, setVideo] = useState(formatVideoDataToClient() ?? { link: '', startMinute: 0, startSecond: 0 });
 
   const { data, loading, runAction } = useFetchServerAction(isEdit ? updateExercise : saveExercise);
+
+  const formatVideoDataToServer = () => {
+    const videoId = new URL(video.link).searchParams.get('v');
+    const start = video.startMinute * 60 + video.startSecond;
+
+    return { videoId, start };
+  };
 
   useEffect(() => {
     if (data) router.push('/exercises');
@@ -27,10 +46,11 @@ const ExerciseForm = ({ exercise }: { exercise?: Exercise }) => {
 
   return (
     <form
-      className="flex flex-col flex-grow overflow-y-scroll scrollbar-none px-1 pb-1"
+      className="scrollbar-none flex flex-grow flex-col overflow-y-scroll px-1 pb-1"
       onSubmit={async (e) => {
         e.preventDefault();
         const formData = new FormData(e.currentTarget);
+        formData.append('video', JSON.stringify(formatVideoDataToServer()));
         runAction(formData);
       }}
     >
@@ -40,13 +60,13 @@ const ExerciseForm = ({ exercise }: { exercise?: Exercise }) => {
           <label>Title</label>
           <input name="title" type="text" value={title} onChange={(e) => setTitle(e.target.value)} onFocus={selectOnFocus} />
         </div>
-        <div className=" form-item">
+        <div className="form-item">
           <label>BPM</label>
           <input name="bpm" type="number" value={bpm} onChange={(e) => setBpm(Number(e.target.value))} onFocus={selectOnFocus} />
         </div>
-        <div className=" form-item">
+        <div className="form-item">
           <label>Time Signature</label>
-          <div className="flex gap-3 items-center">
+          <div className="flex items-center gap-3">
             <input
               className="w-12"
               name="timeSignature[]"
@@ -74,15 +94,51 @@ const ExerciseForm = ({ exercise }: { exercise?: Exercise }) => {
             />
           </div>
         </div>
-        <div className=" form-item">
+        <div className="form-item">
           <label>Number of Measures</label>
           <input name="measures" type="number" value={measures} onChange={(e) => setMeasures(Number(e.target.value))} onFocus={selectOnFocus} />
         </div>
-        <div className=" form-item">
+        <div className="form-item">
           <label>Description</label>
           <textarea name="description" value={description} onChange={(e) => setDescription(e.target.value)} onFocus={selectOnFocus} />
         </div>
-        <div className="flex flex-col gap-4 form-item">
+
+        <div className="form-item">
+          <label>Video Link</label>
+          <input
+            name="video{}"
+            type="text"
+            value={video.link}
+            onChange={(e) => setVideo((prev) => ({ ...prev, link: e.target.value }))}
+            onFocus={selectOnFocus}
+          />
+        </div>
+
+        <div className="form-item">
+          <label>Video Start</label>
+          <div className="flex gap-4">
+            <input
+              className="w-16"
+              name="video{}"
+              type="number"
+              value={video.startMinute}
+              onChange={(e) => setVideo((prev) => ({ ...prev, startMinute: Number(e.target.value) }))}
+              onFocus={selectOnFocus}
+            />
+            <span className="text-4xl">:</span>
+
+            <input
+              className="w-16"
+              name="video{}"
+              type="number"
+              value={video.startSecond}
+              onChange={(e) => setVideo((prev) => ({ ...prev, startSecond: Number(e.target.value) }))}
+              onFocus={selectOnFocus}
+            />
+          </div>
+        </div>
+
+        <div className="form-item flex flex-col gap-4">
           <label>Keywords (optional)</label>
           <KeywordsField keywordsProp={exercise?.keywords} />
         </div>

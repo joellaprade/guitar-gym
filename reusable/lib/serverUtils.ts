@@ -15,6 +15,7 @@ export function getFormValues<T>(formData: FormData, stringifiedFields?: string[
         result[cleanKey] = [];
       }
       result[cleanKey].push(value);
+    } else if (key.endsWith('{}')) {
     } else {
       if (stringifiedFields && stringifiedFields.includes(key)) value = JSON.parse(value as string);
       result[key] = value;

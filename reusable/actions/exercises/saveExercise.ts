@@ -13,7 +13,7 @@ export const saveExercise = async (formData: FormData) => {
     const userId = cookieStore.get('userId')?.value;
     if (!userId) return;
 
-    let exercise = getFormValues<Exercise>(formData, null, { userId });
+    let exercise = getFormValues<Exercise>(formData, ['video'], { userId });
     exercise.timeSignature = exercise.timeSignature.map((num) => Number(num));
 
     await DBExercise.create(exercise);

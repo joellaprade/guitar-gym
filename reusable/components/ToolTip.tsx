@@ -1,9 +1,50 @@
-const ToolTip = ({ text }: { text?: string | null | undefined }) => {
+import { useEffect, useRef } from 'react';
+import YouTube from 'react-youtube';
+import { Video } from '../types/Video';
+
+const ToolTip = ({ showToolTip, text, video }: { showToolTip: boolean; text?: string | null; video: Video | null }) => {
+  const playerRef = useRef<any>(null);
+
+  console.log(video?.start, video?.videoId);
+
+  const onReady = (event: any) => {
+    playerRef.current = event.target;
+    playerRef.current.pauseVideo();
+  };
+
+  useEffect(() => {
+    if (showToolTip) playerRef.current.playVideo();
+    else playerRef.current?.pauseVideo();
+  }, [showToolTip]);
+
   return (
-    <div className="w-[400px] min-w-[30vw] max-w-[80vw] p-5 absolute bottom-0 right-[50%] translate-x-[50%] bg-[#323232] translate-y-[100%] color-white text-sm z-10 rounded-2xl max-w-[90vw">
+    <div
+      className={` ${!showToolTip && 'hidden'} color-white text-sm" absolute right-[50%] bottom-0 z-10 flex h-[400px] w-[800px] max-w-[90vw] min-w-[30vw] translate-x-[50%] translate-y-[100%] justify-center rounded-2xl bg-[#323232] p-5`}
+    >
       {text}
+      {video && (
+        <YouTube
+          className="w-[700px]"
+          videoId={video.videoId}
+          opts={{ width: '100%', height: '100%', playerVars: { autoplay: 1, mute: 1, start: video.start }, enablejsapi: 1 }}
+          onReady={onReady}
+        />
+      )}
     </div>
   );
 };
 
 export default ToolTip;
+
+/*
+
+      <iframe
+        width="280"
+        height="157"
+        src="https://www.youtube.com/embed/Sa0sBKUiOvU?autoplay=1&mute=1&start=300"
+        title="YouTube video player"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+        allowFullScreen
+      ></iframe>
+
+      */

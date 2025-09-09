@@ -13,7 +13,7 @@ export const updateExercise = async (formData: FormData) => {
     const userId = cookieStore.get('userId')?.value;
     if (!userId) return false;
 
-    const exercise = getFormValues<Exercise>(formData, null, { userId });
+    const exercise = getFormValues<Exercise>(formData, ['video'], { userId });
     await DBExercise.findByIdAndUpdate(exercise.id, exercise);
 
     return true;

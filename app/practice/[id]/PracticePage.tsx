@@ -49,7 +49,7 @@ const PracticePage = () => {
       <h1 onClick={() => setShowToolTip((prev) => !prev)} className="relative mx-auto mt-24 inline w-fit">
         {currentExercise.title}
         <InfoBtn className="-right-[16px]" />
-        {showToolTip && <ToolTip text={currentExercise.description} />}
+        <ToolTip showToolTip={showToolTip} text={currentExercise.description} video={currentExercise.video} />
       </h1>
       <h3 className="opacity-50">
         {currentBeat !== null ? currentMeassure + 1 : 0} / {currentExercise.measures}

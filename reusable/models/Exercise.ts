@@ -6,6 +6,7 @@ export const exerciseSchema = new Schema({
   timeSignature: [{ type: Number, required: true }],
   measures: { type: Number, required: true },
   description: { type: String },
+  video: { type: Object },
   keywords: [{ type: String }],
   userId: { type: String, required: true },
 });
