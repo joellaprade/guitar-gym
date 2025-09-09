@@ -81,3 +81,23 @@ export const formatWorkoutExercisesToDB = (workoutExercises: Exercise[]) => {
 
   return formatedExercises;
 };
+export const formatTime = (time: number) => {
+  let formattedTime = '';
+  let hours;
+  let minutes = Math.floor(time / 60);
+  let seconds = time - minutes * 60;
+
+  if (minutes >= 60) {
+    hours = Math.floor(minutes / 60);
+    minutes = minutes - hours * 60;
+    formattedTime += `${hours}:`;
+  }
+
+  if (minutes < 10) formattedTime += '0';
+  formattedTime += `${minutes}:`;
+
+  if (seconds < 10) formattedTime += '0';
+  formattedTime += `${seconds}`;
+
+  return formattedTime;
+};

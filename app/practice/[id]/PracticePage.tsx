@@ -20,7 +20,7 @@ const PracticePage = () => {
   const handleLeave = async () => {
     let dbFormattedWorkout = workoutRef.current as any;
     dbFormattedWorkout.exercises = formatWorkoutExercisesToDB(workoutRef.current.exercises);
-    updateWorkout(dbFormattedWorkout);
+    await updateWorkout(dbFormattedWorkout);
     router.push('/practice');
   };
 
