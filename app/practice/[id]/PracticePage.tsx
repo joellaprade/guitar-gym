@@ -9,10 +9,22 @@ import { ChevronLeft } from 'lucide-react';
 import updateWorkout from '@/reusable/actions/practice/updateWorkout';
 import { useRouter } from 'next/navigation';
 import ToolTip from '@/reusable/components/ToolTip';
-import { formatWorkoutExercisesToDB } from '@/reusable/lib/clientUtils';
+import { formatTime, formatWorkoutExercisesToDB } from '@/reusable/lib/clientUtils';
+
+const Counter = () => {
+  const { currentExercise, currentBeat, currentSecond, currentMeassure } = usePracticeContext();
+
+  if (currentExercise.measures)
+    return (
+      <>
+        {currentBeat !== null ? currentMeassure + 1 : 0} / {currentExercise.measures}
+      </>
+    );
+  else return formatTime(currentSecond);
+};
 
 const PracticePage = () => {
-  const { workoutRef, currentExercise, currentBeat, currentMeassure } = usePracticeContext();
+  const { workoutRef, currentExercise } = usePracticeContext();
   const [showContainer, setShowContainer] = useState(false);
   const [showToolTip, setShowToolTip] = useState(false);
   const router = useRouter();
@@ -48,7 +60,7 @@ const PracticePage = () => {
         <ToolTip showToolTip={showToolTip} text={currentExercise.description} video={currentExercise.video} />
       </h1>
       <h3 className="opacity-50">
-        {currentBeat !== null ? currentMeassure + 1 : 0} / {currentExercise.measures}
+        <Counter />
       </h3>
       <Metronome />
       <PlaylistHeader />

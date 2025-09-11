@@ -8,6 +8,7 @@ import { useEffect, useRef, useState } from 'react';
 import { usePracticeContext } from '../../PracticeContext';
 import { useDragItem } from '@/reusable/hooks/useDragItem';
 import { formatTime } from '@/reusable/lib/clientUtils';
+import GripBtn from '@/reusable/components/ui/GripBtn';
 
 const Playlist = ({
   workoutRef,
@@ -26,11 +27,6 @@ const Playlist = ({
 
   const handlePointerDown = (e: React.MouseEvent<HTMLDivElement>) => (startY.current = e.clientY);
   const handlePointerUp = (e: React.MouseEvent<HTMLDivElement>) => e.clientY - startY.current > 100 && setShowPlaylist(false);
-  const getIcon = (i: number) => {
-    if (i === currentExerciseIndex) return <Loader className="w-8" />;
-    else if (i < currentExerciseIndex) return <Check className="h-8 w-8 text-white" />;
-    else return <></>;
-  };
 
   useEffect(() => {
     workoutRef.current.exercises = exercises;
@@ -45,24 +41,17 @@ const Playlist = ({
     <div onPointerDown={handlePointerDown} onPointerUp={handlePointerUp} className={`playlist ${showPlaylist ? 'opacity-100' : 'opacity-0'}`}>
       <X className="absolute top-8 left-8 h-8 w-8 cursor-pointer text-white" onClick={(e) => setShowPlaylist(false)} />
       <Settings className="absolute top-8 right-8 h-8 w-8 cursor-pointer text-white" onClick={(e) => router.push('/settings')} />
-      <h1 className="mt-24">Workout</h1>
+      <h1 className="mt-24">{workoutRef.current.title}</h1>
       <h3 className="secondary opacity-50">{formatTime(elapsedTime)}</h3>
 
       <div className="element-list z-1 mt-12 mb-12 w-full px-8" onPointerDown={(e) => e.stopPropagation()} onPointerUp={(e) => e.stopPropagation()}>
         {exercises.map(({ title, bpm, id }: Exercise, i: number) => (
           <ListElement
+            className={`${i < currentExerciseIndex && 'opacity-50'}`}
             title={title}
             subtitle={`${bpm}bpm`}
-            actionElement={getIcon(i)}
+            actionElement={<GripBtn id={id} setSelectedId={setSelectedId} />}
             key={i}
-            onMouseDown={(e) => {
-              e.stopPropagation();
-              setSelectedId(id);
-            }}
-            onMouseUp={(e) => {
-              e.stopPropagation();
-              setSelectedId(null);
-            }}
             id={id}
           />
         ))}

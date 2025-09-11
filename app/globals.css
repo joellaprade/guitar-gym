@@ -5,13 +5,13 @@
 body {
   @apply bg-dark-gray h-[100dvh] overflow-hidden;
 
-  -webkit-user-select: none; /* iOS Safari */
+  -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
 
-  -webkit-tap-highlight-color: transparent; /* remove tap highlight */
-  touch-action: none; /* disable scrolling gestures on touch */
+  -webkit-tap-highlight-color: transparent;
+  touch-action: none;
 }
 
 @theme {
@@ -40,7 +40,7 @@ body {
     @apply font-poppins rounded-[5px] text-sm font-semibold text-white;
   }
   form div.form-item {
-    @apply flex flex-col gap-1.5;
+    @apply mb-4 flex flex-col gap-1.5;
   }
   label {
     @apply text-sm font-semibold text-[#ffffff80];

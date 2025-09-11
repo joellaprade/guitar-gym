@@ -24,9 +24,11 @@ const ExerciseForm = ({ exercise }: { exercise?: Exercise }) => {
   const isEdit = exercise != undefined;
 
   const [title, setTitle] = useState(exercise?.title || 'Exercise');
-  const [bpm, setBpm] = useState(exercise?.bpm || 120);
+  const [bpm, setBpm] = useState(exercise?.bpm || 60);
   const [timeSignature, setTimeSignature] = useState(exercise?.timeSignature || [4, 4]);
   const [measures, setMeasures] = useState(exercise?.measures || 32);
+  const [seconds, setSeconds] = useState(exercise?.seconds || 30);
+  const [isTimeSelected, setIsTimeSelected] = useState(false);
   const [description, setDescription] = useState(exercise?.description || '');
   const [video, setVideo] = useState(formatVideoDataToClient() ?? { link: '', startMinute: 0, startSecond: 0 });
 
@@ -49,7 +51,7 @@ const ExerciseForm = ({ exercise }: { exercise?: Exercise }) => {
       onSubmit={async (e) => {
         e.preventDefault();
         const formData = new FormData(e.currentTarget);
-        formData.append('video', JSON.stringify(formatVideoDataToServer()));
+        video.link !== '' && formData.append('video', JSON.stringify(formatVideoDataToServer()));
         runAction(formData);
       }}
     >
@@ -93,10 +95,21 @@ const ExerciseForm = ({ exercise }: { exercise?: Exercise }) => {
             />
           </div>
         </div>
-        <div className="form-item">
-          <label>Number of Measures</label>
-          <input name="measures" type="number" value={measures} onChange={(e) => setMeasures(Number(e.target.value))} onFocus={selectOnFocus} />
+        <div className="form-item items-start">
+          <label>Use Time (instead of meassures)</label>
+          <input checked={isTimeSelected} onChange={(e) => setIsTimeSelected(e.currentTarget.checked)} className="min-w-[0px]" type="checkbox" />
         </div>
+        {isTimeSelected ? (
+          <div className="form-item">
+            <label>Number of Seconds</label>
+            <input name="seconds" type="number" value={seconds} onChange={(e) => setSeconds(Number(e.target.value))} onFocus={selectOnFocus} />
+          </div>
+        ) : (
+          <div className="form-item">
+            <label>Number of Measures</label>
+            <input name="measures" type="number" value={measures} onChange={(e) => setMeasures(Number(e.target.value))} onFocus={selectOnFocus} />
+          </div>
+        )}
         <div className="form-item">
           <label>Description</label>
           <textarea name="description" value={description} onChange={(e) => setDescription(e.target.value)} onFocus={selectOnFocus} />

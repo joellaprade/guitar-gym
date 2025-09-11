@@ -2,7 +2,7 @@
 
 import PlayBtn from '@/reusable/components/ui/PlayBtn';
 import { usePracticeContext } from '../../PracticeContext';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useMetronomeContext } from '../../MetronomeContext';
 import Playlist from './Playlist';
 
@@ -12,18 +12,26 @@ const PlaylistHeader = () => {
   const [showPlaylist, setShowPlaylist] = useState(false);
   const startX = useRef(0);
 
-  const handlePointerDown = (e: React.MouseEvent<HTMLDivElement>) => (startX.current = e.clientX);
-  const handlePointerUp = (e: React.MouseEvent<HTMLDivElement>) => {
+  const handlePointerDown = (e: PointerEvent) => (startX.current = e.clientX);
+  const handlePointerUp = (e: PointerEvent) => {
     const diffX = e.clientX - startX.current;
     if (Math.abs(diffX) > 100) {
       changeExercise(diffX > 0 ? 'prev' : 'next');
-    } else {
-      !showPlaylist && setShowPlaylist((prev) => !prev);
     }
   };
 
+  useEffect(() => {
+    document.addEventListener('pointerdown', handlePointerDown);
+    document.addEventListener('pointerup', handlePointerUp);
+
+    return () => {
+      document.removeEventListener('pointerdown', handlePointerDown);
+      document.removeEventListener('pointerup', handlePointerUp);
+    };
+  }, [showPlaylist]);
+
   return (
-    <div onPointerDown={handlePointerDown} onPointerUp={handlePointerUp} className={`playlist-header ${showPlaylist ? 'playlist-open' : ''}`}>
+    <div onPointerUp={() => !showPlaylist && setShowPlaylist((prev) => !prev)} className={`playlist-header ${showPlaylist ? 'playlist-open' : ''}`}>
       <Playlist workoutRef={workoutRef} showPlaylist={showPlaylist} setShowPlaylist={setShowPlaylist} />
       <div className={`${showPlaylist ? 'opacity-0' : 'opacity-100'} transition-opacity duration-300`}>
         <div className="flex flex-col items-start">

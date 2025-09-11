@@ -13,6 +13,7 @@ export class MetronomeSound {
   private bigClick: AudioBuffer | null = null;
   private clickBuffer: AudioBuffer | null = null;
   private useMainBeat: boolean = (JSON.parse(localStorage.getItem('isMainBeatActive') ?? 'true') as boolean) ?? true;
+  private gainNode: GainNode;
 
   private onBeat: () => void;
 
@@ -22,6 +23,12 @@ export class MetronomeSound {
     this.tempo = tempo;
     this.nextNoteTime = this.audioCtx.currentTime;
     this.onBeat = onBeat;
+
+    this.gainNode = this.audioCtx.createGain();
+    const storedVolume = parseFloat(localStorage.getItem('metronomeVolume') ?? '1');
+    this.gainNode.gain.value = isNaN(storedVolume) ? 1 : storedVolume;
+    console.log(isNaN(storedVolume), storedVolume);
+    this.gainNode.connect(this.audioCtx.destination);
 
     fetch('/sound/smallClick.wav')
       .then((res) => res.arrayBuffer())
@@ -64,7 +71,7 @@ export class MetronomeSound {
 
     const source = this.audioCtx.createBufferSource();
     source.buffer = this.clickBuffer;
-    source.connect(this.audioCtx.destination);
+    source.connect(this.gainNode);
     source.start(time);
 
     const delay = (time - this.audioCtx.currentTime) * 1000;

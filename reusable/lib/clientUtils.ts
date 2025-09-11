@@ -69,7 +69,6 @@ export const getXYAllDevices = (e: MouseEvent | TouchEvent) => {
 export const selectOnFocus = (e?: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement>) => {
   if (!e) {
     const input = document.querySelector('#workout-search-exercises-input') as HTMLInputElement;
-    console.log(input);
     if (input) {
       input.focus();
       input.select();

@@ -24,11 +24,14 @@ export const MetronomeProvider = ({ children }: { children: React.ReactNode }) =
   const {
     workoutRef,
     currentMeassure,
+    currentSecond,
     currentExercise,
     currentExerciseIndex,
+    exerciseInterval,
     setCurrentBeat,
     setCurrentExercise,
     setCurrentMeasure,
+    setCurrentSecond,
     setCurrentExerciseIndex,
   } = usePracticeContext();
 
@@ -68,6 +71,7 @@ export const MetronomeProvider = ({ children }: { children: React.ReactNode }) =
       setCurrentExercise(nextExercise);
       setCurrentBeat(null);
       setCurrentMeasure(0);
+      setCurrentSecond(0);
       metronomeRef.current?.updateMetronome(nextExercise.bpm, nextExercise.timeSignature[0]);
 
       if (isPlaying) toggleMetronome();
@@ -90,7 +94,17 @@ export const MetronomeProvider = ({ children }: { children: React.ReactNode }) =
   };
 
   useEffect(setRandomColor, [currentMeassure]);
+  useEffect(() => {
+    if (isPlaying) {
+      exerciseInterval.current = setInterval(() => setCurrentSecond((prev) => ++prev), 1000);
+    } else {
+      exerciseInterval.current && clearInterval(exerciseInterval.current);
+    }
 
+    return () => {
+      exerciseInterval.current && clearInterval(exerciseInterval.current);
+    };
+  }, [isPlaying]);
   useEffect(() => {
     return () => {
       metronomeRef.current?.stop();

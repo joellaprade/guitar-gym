@@ -10,6 +10,8 @@ type Props = {
   className?: string;
   onMouseDown?: (e: React.MouseEvent<HTMLDivElement>) => void;
   onMouseUp?: (e: React.MouseEvent<HTMLDivElement>) => void;
+  onPointerDown?: (e: React.PointerEvent<HTMLDivElement>) => void;
+  onPointerUp?: (e: React.PointerEvent<HTMLDivElement>) => void;
 };
 
 const ListElement = ({ title, subtitle, actionElement, deleteElement, id, i, className, onMouseDown, onMouseUp }: Props) => {
