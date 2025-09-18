@@ -22,3 +22,4 @@ export const sendMail = async (to: string, subject: string, text: string) => {
     console.error(e);
   }
 };
+//eo
