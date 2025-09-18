@@ -6,11 +6,13 @@ const ToolTip = ({ showToolTip, text, video }: { showToolTip: boolean; text?: st
   const playerRef = useRef<any>(null);
 
   const onReady = (event: any) => {
+    if (!event.target) return;
     playerRef.current = event.target;
     playerRef.current.pauseVideo();
   };
 
   useEffect(() => {
+    if (!playerRef.current) return;
     if (showToolTip) playerRef.current.playVideo();
     else playerRef.current?.pauseVideo();
   }, [showToolTip]);

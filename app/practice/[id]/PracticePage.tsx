@@ -20,7 +20,7 @@ const Counter = () => {
         {currentBeat !== null ? currentMeassure + 1 : 0} / {currentExercise.measures}
       </>
     );
-  else return formatTime(currentSecond);
+  else if (currentExercise.seconds) return formatTime(currentExercise.seconds - currentSecond);
 };
 
 const PracticePage = () => {
