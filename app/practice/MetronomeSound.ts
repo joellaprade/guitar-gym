@@ -25,9 +25,9 @@ export class MetronomeSound {
     this.onBeat = onBeat;
 
     this.gainNode = this.audioCtx.createGain();
-    const storedVolume = parseFloat(localStorage.getItem('metronomeVolume') ?? '1');
+    const storedVolume = parseFloat(localStorage.getItem('metronomeVolume') ?? '100') / 100;
+
     this.gainNode.gain.value = isNaN(storedVolume) ? 1 : storedVolume;
-    console.log(isNaN(storedVolume), storedVolume);
     this.gainNode.connect(this.audioCtx.destination);
 
     fetch('/sound/smallClick.wav')
