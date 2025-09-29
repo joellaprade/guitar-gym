@@ -27,7 +27,7 @@ const ExerciseForm = ({ exercise }: { exercise?: Exercise }) => {
   const [bpm, setBpm] = useState(exercise?.bpm || 60);
   const [timeSignature, setTimeSignature] = useState(exercise?.timeSignature || [4, 4]);
   const [measures, setMeasures] = useState(exercise?.measures || 32);
-  const [seconds, setSeconds] = useState(exercise?.seconds || 30);
+  const [seconds, setSeconds] = useState(exercise?.seconds || 45);
   const [isTimeSelected, setIsTimeSelected] = useState(exercise?.isTimeSelected || false);
   const [description, setDescription] = useState(exercise?.description || '');
   const [video, setVideo] = useState(formatVideoDataToClient() ?? { link: '', startMinute: 0, startSecond: 0 });
