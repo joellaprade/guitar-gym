@@ -39,7 +39,7 @@ const MetronomeCircle = () => {
       {isPlaying ? (
         <>
           {currentExercise.isTimeSelected ? (
-            <h1 className="text-dark-gray text-8xl font-bold">{formatTime(currentSecond)}</h1>
+            <h1 className="text-dark-gray text-7xl font-bold">{formatTime(currentSecond)}</h1>
           ) : (
             <div className="relative z-2 flex flex-col items-center justify-center">
               <h1 className="text-dark-gray text-8xl font-bold">{currentExercise.bpm}</h1>
