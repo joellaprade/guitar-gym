@@ -80,7 +80,7 @@ body {
     @apply absolute top-[50%] left-[50%] flex w-full -translate-[50%] flex-col items-center gap-4;
   }
   .play-btn {
-    @apply relative flex aspect-square w-[85%] max-w-[225px] items-center justify-center rounded-full;
+    @apply relative flex aspect-square w-[85%] max-w-[300px] items-center justify-center rounded-full;
   }
   .pulse-effect {
     @apply absolute inset-0 -z-1 rounded-full bg-white;
