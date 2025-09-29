@@ -6,11 +6,21 @@ import { Gradient } from '@/reusable/components/Gradient';
 import { useEffect, useRef, useState } from 'react';
 
 const MetronomeCircle = () => {
-  const { currentExercise, currentSecond, currentBeat } = usePracticeContext();
+  const { currentExercise, currentSecond, currentBeat, setCurrentSecond } = usePracticeContext();
   const { isPlaying, color, toggleMetronome } = useMetronomeContext();
   const [pulse, setPulse] = useState(true);
   const audio = useRef<HTMLAudioElement | null>(null);
 
+  const stopTimer = () => {
+    if (audio.current && currentSecond === currentExercise.seconds) {
+      setCurrentSecond(0);
+      toggleMetronome();
+
+      audio.current.play().catch((err) => console.error('Failed to play sound', err));
+    }
+  };
+
+  useEffect(stopTimer, [currentSecond]);
   useEffect(() => {
     const delay = 60000 / currentExercise.bpm - 100;
     setPulse(true);
@@ -19,13 +29,6 @@ const MetronomeCircle = () => {
       setPulse(false);
     }, delay);
   }, [currentBeat]);
-  useEffect(() => {
-    if (audio.current && currentSecond === currentExercise.seconds) {
-      toggleMetronome();
-
-      audio.current.play().catch((err) => console.error('Failed to play sound', err));
-    }
-  }, [currentSecond]);
   useEffect(() => {
     audio.current = new Audio('/sound/bigClick.wav');
     audio.current.load();
