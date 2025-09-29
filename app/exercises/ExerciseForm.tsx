@@ -28,7 +28,7 @@ const ExerciseForm = ({ exercise }: { exercise?: Exercise }) => {
   const [timeSignature, setTimeSignature] = useState(exercise?.timeSignature || [4, 4]);
   const [measures, setMeasures] = useState(exercise?.measures || 32);
   const [seconds, setSeconds] = useState(exercise?.seconds || 30);
-  const [isTimeSelected, setIsTimeSelected] = useState(exercise?.measures === undefined || exercise?.measures === null);
+  const [isTimeSelected, setIsTimeSelected] = useState(exercise?.isTimeSelected || false);
   const [description, setDescription] = useState(exercise?.description || '');
   const [video, setVideo] = useState(formatVideoDataToClient() ?? { link: '', startMinute: 0, startSecond: 0 });
 
@@ -40,21 +40,22 @@ const ExerciseForm = ({ exercise }: { exercise?: Exercise }) => {
 
     return { videoId, start };
   };
+  const handleSubmit = async (e: any) => {
+    e.preventDefault();
+
+    const formData = new FormData(e.currentTarget);
+    video.link !== '' && formData.append('video', JSON.stringify(formatVideoDataToServer()));
+    formData.append('isTimeSelected', JSON.stringify(isTimeSelected));
+
+    runAction(formData);
+  };
 
   useEffect(() => {
     if (data) router.push('/exercises');
   }, [data]);
 
   return (
-    <form
-      className="scrollbar-none flex flex-grow flex-col overflow-y-scroll px-1 pb-1"
-      onSubmit={async (e) => {
-        e.preventDefault();
-        const formData = new FormData(e.currentTarget);
-        video.link !== '' && formData.append('video', JSON.stringify(formatVideoDataToServer()));
-        runAction(formData);
-      }}
-    >
+    <form className="scrollbar-none flex flex-grow flex-col overflow-y-scroll px-1 pb-1" onSubmit={handleSubmit}>
       <input readOnly className="hidden" type="text" name="id" value={exercise?.id} />
       <div className="my-auto flex flex-col gap-1.5">
         <div className="form-item">

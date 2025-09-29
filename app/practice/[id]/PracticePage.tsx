@@ -14,13 +14,15 @@ import { formatTime, formatWorkoutExercisesToDB } from '@/reusable/lib/clientUti
 const Counter = () => {
   const { currentExercise, currentBeat, currentSecond, currentMeassure } = usePracticeContext();
 
-  if (currentExercise.measures)
+  if (currentExercise.isTimeSelected) {
+    return currentExercise.seconds && formatTime(currentExercise.seconds - currentSecond);
+  } else {
     return (
       <>
         {currentBeat !== null ? currentMeassure + 1 : 0} / {currentExercise.measures}
       </>
     );
-  else if (currentExercise.seconds) return formatTime(currentExercise.seconds - currentSecond);
+  }
 };
 
 const PracticePage = () => {

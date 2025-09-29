@@ -24,7 +24,6 @@ export const MetronomeProvider = ({ children }: { children: React.ReactNode }) =
   const {
     workoutRef,
     currentMeassure,
-    currentSecond,
     currentExercise,
     currentExerciseIndex,
     exerciseInterval,
@@ -73,8 +72,6 @@ export const MetronomeProvider = ({ children }: { children: React.ReactNode }) =
       setCurrentMeasure(0);
       setCurrentSecond(0);
       metronomeRef.current?.updateMetronome(nextExercise.bpm, nextExercise.timeSignature[0]);
-
-      if (isPlaying) toggleMetronome();
 
       return i;
     });
