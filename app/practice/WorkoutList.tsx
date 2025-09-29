@@ -3,6 +3,7 @@
 import ListElement from '@/reusable/components/ListElement';
 import PlayBtn from '@/reusable/components/ui/PlayBtn';
 import { Workout } from '@/reusable/models/Workout';
+import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 
 type Props = {
@@ -13,24 +14,21 @@ const WorkoutList = ({ workouts }: Props) => {
   const router = useRouter();
   return workouts.length > 0 ? (
     workouts.map((workout) => {
-      const isValid = workout.exercises.length > 0;
-
       return (
-        <ListElement
-          key={workout.id}
-          title={workout.title}
-          subtitle={`${workout.exercises.length} exercises`}
-          onMouseDown={() => isValid && router.push(`practice/${workout.id}`)}
-          actionElement={
-            <PlayBtn
-              className={`text-white stroke-2 fill-white w-5 h-5 ${isValid ? '' : 'opacity-50'}`}
+        workout.exercises.length > 0 && (
+          <Link href={`/practice/${workout.id}`} key={workout.id}>
+            <ListElement
+              key={workout.id}
+              title={workout.title}
+              subtitle={`${workout.exercises.length} exercises`}
+              actionElement={<PlayBtn className={`h-5 w-5 fill-white stroke-2 text-white`} />}
             />
-          }
-        />
+          </Link>
+        )
       );
     })
   ) : (
-    <div className="text-center flex flex-center flex-col gap-4 h-full">
+    <div className="flex-center flex h-full flex-col gap-4 text-center">
       <h3>You have not created a workout yet!</h3>
       <button className="small main" onClick={() => router.push('/workouts/create')}>
         Create Workout

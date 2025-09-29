@@ -3,12 +3,13 @@ import { usePracticeContext } from '../../PracticeContext';
 import { useMetronomeContext } from '../../MetronomeContext';
 import PlayBtn from '@/reusable/components/ui/PlayBtn';
 import { Gradient } from '@/reusable/components/Gradient';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 const MetronomeCircle = () => {
   const { currentExercise, currentSecond, currentBeat } = usePracticeContext();
   const { isPlaying, color, toggleMetronome } = useMetronomeContext();
   const [pulse, setPulse] = useState(true);
+  const audio = useRef<HTMLAudioElement | null>(null);
 
   useEffect(() => {
     const delay = 60000 / currentExercise.bpm - 100;
@@ -18,6 +19,17 @@ const MetronomeCircle = () => {
       setPulse(false);
     }, delay);
   }, [currentBeat]);
+  useEffect(() => {
+    if (audio.current && currentSecond === currentExercise.seconds) {
+      toggleMetronome();
+
+      audio.current.play().catch((err) => console.error('Failed to play sound', err));
+    }
+  }, [currentSecond]);
+  useEffect(() => {
+    audio.current = new Audio('/sound/bigClick.wav');
+    audio.current.load();
+  }, []);
 
   return (
     <div onClick={toggleMetronome} className={`play-btn relative transition-colors duration-1000`} style={{ backgroundColor: color }}>
