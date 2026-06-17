@@ -1,10 +1,9 @@
 import type { NextConfig } from 'next';
 
 const nextConfig: NextConfig = {
-  experimental: {
-    ppr: 'incremental',
-  },
+  cacheComponents: true,
   reactStrictMode: false,
+  allowedDevOrigins: ['10.45.1.122'],
 };
 
 export default nextConfig;

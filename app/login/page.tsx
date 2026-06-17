@@ -9,20 +9,8 @@ import BackArrow from '@/reusable/components/BackArrow';
 export default function Page() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [isValid, setIsValid] = useState(false);
-
+  const isValid = username.length > 0 && password.length > 0;
   const { data, loading, error, runAction, setError } = useFetchServerAction(login);
-
-  const checkIsValid = () => {
-    if (!username || !password) {
-      setIsValid(false);
-      return;
-    }
-
-    setIsValid(true);
-  };
-
-  useEffect(checkIsValid, [username, password]);
   useEffect(() => {
     if (typeof data === 'string') {
       setError(data);

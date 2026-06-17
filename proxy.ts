@@ -1,16 +1,9 @@
 import { NextResponse, NextRequest } from 'next/server';
 
-export async function middleware(req: NextRequest) {
+export async function proxy(req: NextRequest) {
   const cookie = req.headers.get('cookie');
   const { pathname } = req.nextUrl;
-  const unprotectedRoutes = [
-    '/',
-    '/login',
-    '/signup',
-    '/verify-account',
-    '/change-password',
-    '/change-password/request',
-  ];
+  const unprotectedRoutes = ['/', '/login', '/signup', '/verify-account', '/change-password', '/change-password/request'];
   const isProtectedRoute = !unprotectedRoutes.includes(pathname);
 
   if (!cookie && isProtectedRoute) return NextResponse.redirect(new URL('/', req.url));
