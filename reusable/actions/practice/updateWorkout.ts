@@ -11,7 +11,8 @@ export default async function updateWorkout(workout: Workout) {
     if (!workoutDB) throw new Error('Workout not found');
 
     workoutDB.exercises = workout.exercises;
-    workoutDB.save();
+    await workoutDB.save();
+    console.log('done');
   } catch (e) {
     console.error(e);
   }

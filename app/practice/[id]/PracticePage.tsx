@@ -6,7 +6,7 @@ import PlaylistHeader from './(ui)/PlaylistHeader';
 import { useEffect, useState } from 'react';
 import { usePracticeContext } from '../PracticeContext';
 import { ChevronLeft } from 'lucide-react';
-import updateWorkout from '@/reusable/actions/practice/updateWorkout';
+import { useWorkoutCache } from '@/reusable/contexts/WorkoutCacheContext';
 import { useRouter } from 'next/navigation';
 import ToolTip from '@/reusable/components/ToolTip';
 import { formatTime, formatWorkoutExercisesToDB } from '@/reusable/lib/clientUtils';
@@ -30,11 +30,23 @@ const PracticePage = () => {
   const [showContainer, setShowContainer] = useState(false);
   const [showToolTip, setShowToolTip] = useState(false);
   const router = useRouter();
+  const { invalidate } = useWorkoutCache();
 
-  const handleLeave = async () => {
-    let dbFormattedWorkout = workoutRef.current as any;
+  const handleLeave = () => {
+    const dbFormattedWorkout = workoutRef.current as any;
     dbFormattedWorkout.exercises = formatWorkoutExercisesToDB(workoutRef.current.exercises);
-    updateWorkout(dbFormattedWorkout);
+
+    // Use fetch with keepalive instead of a server action — server actions are
+    // tied to React transitions which block router.push until they resolve.
+    // keepalive ensures the request completes even after navigation.
+    fetch('/api/update-workout', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(dbFormattedWorkout),
+      keepalive: true,
+    });
+
+    invalidate();
     router.push('/practice');
   };
 

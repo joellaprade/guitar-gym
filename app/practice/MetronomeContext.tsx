@@ -104,7 +104,8 @@ export const MetronomeProvider = ({ children }: { children: React.ReactNode }) =
   }, [isPlaying]);
   useEffect(() => {
     return () => {
-      metronomeRef.current?.stop();
+      metronomeRef.current?.dispose();
+      metronomeRef.current = null;
     };
   }, []);
 

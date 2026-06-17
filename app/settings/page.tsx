@@ -9,8 +9,8 @@ import { useEffect, useState } from 'react';
 const Page = () => {
   const router = useRouter();
   const { data, loading, runAction } = useFetchServerAction(logOut);
-  const [isMainBeatActive, setIsMainBeatActive] = useState<boolean>(JSON.parse(localStorage.getItem('isMainBeatActive') || '') || true);
-  const [metronomeVolume, setMetronomeVolume] = useState(JSON.parse(localStorage.getItem('metronomeVolume') || '') || 1);
+  const [isMainBeatActive, setIsMainBeatActive] = useState<boolean>(true);
+  const [metronomeVolume, setMetronomeVolume] = useState(1);
 
   const toggleMainBeat = () => {
     localStorage.setItem('isMainBeatActive', JSON.stringify(!isMainBeatActive));

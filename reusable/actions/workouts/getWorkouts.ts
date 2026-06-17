@@ -20,12 +20,8 @@ export const getWorkouts = async (id?: string) => {
     } else {
       const userId = cookieStore.get('userId')?.value;
       const query = DBWorkout.find({ userId });
-      workouts = (await docToObj<Workout[]>(query)) ?? [];
-      for (let i = 0; i < workouts.length; i++) {
-        let w = workouts[i];
-        w = await populateWorkoutExercises(w);
-        workouts[i] = w;
-      }
+      const rawWorkouts = (await docToObj<Workout[]>(query)) ?? [];
+      workouts = await populateWorkoutExercises<Workout[]>(rawWorkouts);
     }
 
     if (!workouts) throw new Error('No se pudieron obtener las rutinas');
