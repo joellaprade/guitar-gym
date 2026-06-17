@@ -5,8 +5,6 @@ import { getExercises } from '@/reusable/actions/exercises/getExercises';
 import ExerciseList from './ExerciseList';
 import ListSkeleton from '@/reusable/components/ListSkeleton';
 
-export const experimental_ppr = true;
-
 const FetchWrapper = async () => {
   const exercises = (await getExercises()) || [];
 

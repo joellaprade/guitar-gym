@@ -7,7 +7,9 @@ import { PracticeProvider } from '../PracticeContext';
 import { MetronomeProvider } from '../MetronomeContext';
 import { useWorkoutCache } from '@/reusable/contexts/WorkoutCacheContext';
 
-const Page = () => {
+import { Suspense } from 'react';
+
+const PageContent = () => {
   const { id } = useParams<{ id: string }>();
   const { workouts, isLoading } = useWorkoutCache();
 
@@ -36,6 +38,14 @@ const Page = () => {
         <PracticePage />
       </MetronomeProvider>
     </PracticeProvider>
+  );
+};
+
+const Page = () => {
+  return (
+    <Suspense fallback={<div className="flex-center h-full w-full flex-col gap-4"><h2>Loading Workout...</h2><Loader className="w-10" /></div>}>
+      <PageContent />
+    </Suspense>
   );
 };
 
